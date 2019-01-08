@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-from .models import Guide
+from guides.models import Guide
 
 
 class GuideTestCase(TestCase):

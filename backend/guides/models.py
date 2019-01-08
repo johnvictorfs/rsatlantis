@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from .utils import get_unique_slug
+from guides.utils import get_unique_slug
 
 
 class Guide(models.Model):
