@@ -31,7 +31,7 @@ class CreateGuideTestCase(APITestCase):
     def test_create_guide_no_auth(self):
         self.client.logout()
         response = self.client.post(reverse('guide-list'), data=self.guide_data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_guide_active_auth(self):
         self.client.login(username='activeuser', password='activepassword')
@@ -41,7 +41,7 @@ class CreateGuideTestCase(APITestCase):
     def test_create_guide_inactive_auth(self):
         self.client.login(username='inactiveuser', password='inactivepassword')
         response = self.client.post(reverse('guide-list'), data=self.guide_data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class ReadGuideListTestCase(APITestCase):
@@ -136,7 +136,7 @@ class UpdateGuideTestCase(APITestCase):
     def test_update_guide_no_auth(self):
         self.client.logout()
         response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertNotEqual(response.data.get('title'), self.new_guide_data.get('title'))
 
     def test_update_guide_not_author_auth(self):
@@ -192,7 +192,7 @@ class DeleteGuideTestCase(APITestCase):
     def test_destroy_guide_no_auth(self):
         self.client.logout()
         response = self.client.delete(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_destroy_guide_not_author_auth(self):
         self.client.login(username='testusername2', password='testpassword2')
@@ -220,6 +220,7 @@ class ApproveGuideTestCase(APITestCase):
         Authenticated and author: 200 OK but 'approved' field is unchanged, only other fields can be updated
         Authenticated and admin: 200 OK
     """
+
     def setUp(self):
         self.guide_data = {
             'title': 'Test Title',
@@ -241,24 +242,28 @@ class ApproveGuideTestCase(APITestCase):
 
     def test_approve_guide_no_auth(self):
         self.client.logout()
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertFalse(response.data.get('approved'))
+        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        guide = Guide.objects.get(pk=self.guide.pk)
+        self.assertFalse(guide.approved)
 
     def test_approve_guide_not_author_auth(self):
         self.client.login(username='testusername2', password='testpassword2')
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
+        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertFalse(response.data.get('approved'))
+        guide = Guide.objects.get(pk=self.guide.pk)
+        self.assertFalse(guide.approved)
 
     def test_approve_guide_author_auth(self):
         self.client.login(username='testusername', password='testpassword')
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertFalse(response.data.get('approved'))
+        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        guide = Guide.objects.get(pk=self.guide.pk)
+        self.assertFalse(guide.approved)
 
     def test_approve_guide_admin_auth(self):
         self.client.login(username='admin', password='adminpassword')
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
+        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(response.data.get('approved'))
+        guide = Guide.objects.get(pk=self.guide.pk)
+        self.assertTrue(guide.approved)

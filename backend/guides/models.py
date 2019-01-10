@@ -12,7 +12,7 @@ class Guide(models.Model):
         ('other', 'Outros')
     )
 
-    author = models.ForeignKey(verbose_name='Autor', to=User, on_delete=models.CASCADE)
+    author = models.ForeignKey(verbose_name='Autor', to=User, related_name='guides', on_delete=models.CASCADE)
     title = models.TextField(verbose_name='Título', max_length=25)
     slug = models.SlugField(max_length=35, unique=True)
     category = models.TextField(verbose_name='Categoria', max_length=30, choices=category_choices)

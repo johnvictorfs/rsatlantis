@@ -41,7 +41,7 @@ class ReadUserListTestCase(APITestCase):
 
     def test_get_users_no_auth(self):
         response = self.client.get(reverse('user-list'))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_users_regular_auth(self):
         self.client.login(username='testuser', password='testpassword')
@@ -73,7 +73,7 @@ class ReadUserDetailTestCase(APITestCase):
     def test_get_user_no_auth(self):
         self.client.logout()
         response = self.client.get(reverse('user-detail', kwargs={'pk': self.superuser.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_user_different_auth(self):
         self.client.login(username='testuser1', password='testpassword1')
@@ -111,7 +111,7 @@ class UpdateUserTestCase(APITestCase):
     def test_put_user_no_auth(self):
         self.client.logout()
         response = self.client.put(reverse('user-detail', kwargs={'pk': self.user1.pk}), data=self.data)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_put_user_different_auth(self):
         self.client.login(username='testuser2', password='testpassword2')
@@ -148,7 +148,7 @@ class DeleteUserTestCase(APITestCase):
     def test_destroy_user_no_auth(self):
         self.client.logout()
         response = self.client.delete(reverse('user-detail', kwargs={'pk': self.user1.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_destroy_user_different_auth(self):
         self.client.login(username='testuser2', password='testpassword2')

@@ -3,6 +3,8 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    guides = serializers.HyperlinkedIdentityField(view_name='user-guides')
+
     class Meta:
         model = User
-        fields = ('url', 'username', 'groups')
+        fields = ('url', 'guides', 'username', 'groups')
