@@ -5,6 +5,8 @@ python:
   - "3.7"
 install:
   - 'pip install pipenv'
-  - 'cd backend && pipenv sync'
+  - 'cd backend'
+  - 'pipenv sync'
 script:
-  - 'cd backend && python manage.py test'
+  - 'cd backend/'
+  - 'python manage.py test'
