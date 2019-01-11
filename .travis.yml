@@ -8,6 +8,6 @@ before_install:
 install:
   - 'pipenv sync'
 before_script:
-  - 'cd backend/'
+  - 'chmod a+x tests.sh'
 script:
-  - 'python manage.py test'
+  - './tests.sh'
