@@ -29,7 +29,6 @@ router.register(r'guides', guide_views.GuideViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/auth/', include('rest_auth.urls')),
-    # re_path(r'^.*$(|/)', TemplateView.as_view(template_name='index.html'))
+    re_path(r'^.*$(|/)', TemplateView.as_view(template_name='index.html'))
 ]

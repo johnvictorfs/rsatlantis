@@ -92,13 +92,15 @@ class ReadGuideDetailTestCase(APITestCase):
 
     def test_get_guide_no_auth(self):
         self.client.logout()
-        response = self.client.get(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), self.guide_data.get('title'))
 
     def test_get_guides_auth(self):
         self.client.login(username='testusername', password='testpassword')
-        response = self.client.get(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), self.guide_data.get('title'))
 
@@ -135,26 +137,30 @@ class UpdateGuideTestCase(APITestCase):
 
     def test_update_guide_no_auth(self):
         self.client.logout()
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.patch(url, data=self.new_guide_data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertNotEqual(response.data.get('title'), self.new_guide_data.get('title'))
 
     def test_update_guide_not_author_auth(self):
         self.client.login(username='testusername2', password='testpassword2')
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.patch(url, data=self.new_guide_data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertNotEqual(response.data.get('title'), self.new_guide_data.get('title'))
 
     def test_update_guide_author_auth(self):
         self.client.login(username='testusername', password='testpassword')
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=self.new_guide_data)
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.patch(url, data=self.new_guide_data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), self.new_guide_data.get('title'))
 
     def test_update_guide_admin_auth(self):
         self.client.login(username='admin', password='adminpassword')
         new_guide_data_admin = {'title': 'Updated Title by Admin'}
-        response = self.client.patch(reverse('guide-detail', kwargs={'pk': self.guide.pk}), data=new_guide_data_admin)
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.patch(url, data=new_guide_data_admin)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get('title'), new_guide_data_admin.get('title'))
 
@@ -191,22 +197,26 @@ class DeleteGuideTestCase(APITestCase):
 
     def test_destroy_guide_no_auth(self):
         self.client.logout()
-        response = self.client.delete(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_destroy_guide_not_author_auth(self):
         self.client.login(username='testusername2', password='testpassword2')
-        response = self.client.delete(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_destroy_guide_author_auth(self):
         self.client.login(username='testusername', password='testpassword')
-        response = self.client.delete(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_destroy_guide_admin_auth(self):
         self.client.login(username='admin', password='adminpassword')
-        response = self.client.delete(reverse('guide-detail', kwargs={'pk': self.guide.pk}))
+        url = reverse('guide-detail', kwargs={'slug': self.guide.slug})
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
@@ -242,28 +252,28 @@ class ApproveGuideTestCase(APITestCase):
 
     def test_approve_guide_no_auth(self):
         self.client.logout()
-        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        response = self.client.post(reverse('guide-approve', kwargs={'slug': self.guide.slug}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         guide = Guide.objects.get(pk=self.guide.pk)
         self.assertFalse(guide.approved)
 
     def test_approve_guide_not_author_auth(self):
         self.client.login(username='testusername2', password='testpassword2')
-        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        response = self.client.post(reverse('guide-approve', kwargs={'slug': self.guide.slug}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         guide = Guide.objects.get(pk=self.guide.pk)
         self.assertFalse(guide.approved)
 
     def test_approve_guide_author_auth(self):
         self.client.login(username='testusername', password='testpassword')
-        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        response = self.client.post(reverse('guide-approve', kwargs={'slug': self.guide.slug}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         guide = Guide.objects.get(pk=self.guide.pk)
         self.assertFalse(guide.approved)
 
     def test_approve_guide_admin_auth(self):
         self.client.login(username='admin', password='adminpassword')
-        response = self.client.post(reverse('guide-approve', kwargs={'pk': self.guide.pk}))
+        response = self.client.post(reverse('guide-approve', kwargs={'slug': self.guide.slug}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         guide = Guide.objects.get(pk=self.guide.pk)
         self.assertTrue(guide.approved)
