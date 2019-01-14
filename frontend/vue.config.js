@@ -4,6 +4,7 @@ module.exports = {
       poll: true
     }
   },
+  productionSourceMap: false
 };
 
 if (process.env.NODE_ENV === 'production') {

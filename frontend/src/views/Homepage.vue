@@ -1,6 +1,6 @@
 <template>
-  <v-layout>
-    <v-img src="http://rsatlantis.com/images/photos/atl_banner_pedim.jpg"></v-img>
+  <v-layout justify-center align-center>
+    <img src="../assets/home_image_1.jpg" alt="home_image"/>
   </v-layout>
 </template>
 
@@ -9,7 +9,3 @@
     name: "Homepage"
   }
 </script>
-
-<style scoped>
-
-</style>

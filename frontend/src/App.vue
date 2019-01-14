@@ -1,7 +1,9 @@
 <template>
-  <v-app dark>
+  <v-app :dark="darkTheme">
     <Toolbar></Toolbar>
-    <router-view></router-view>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
     <Footer></Footer>
   </v-app>
 </template>
@@ -15,6 +17,11 @@
     components: {
       Footer,
       Toolbar
+    },
+    computed: {
+      darkTheme() {
+        return this.$store.getters.isDarkTheme
+      }
     }
   }
 </script>

@@ -4,8 +4,8 @@
       <v-flex xs12 sm8 lg5 md5>
         <v-card class="elevation-12">
 
-          <v-toolbar dark color="green">
-            <v-toolbar-title>Entre na sua Conta</v-toolbar-title>
+          <v-toolbar dark color="blue">
+            <v-toolbar-title>Crie sua conta</v-toolbar-title>
           </v-toolbar>
 
           <v-layout row fill-height justify-center align-center v-if="loading">
@@ -14,7 +14,7 @@
 
           <v-container fluid grid-list-md>
 
-            <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="login">
+            <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="register">
 
               <v-text-field v-model="credentials.username" prepend-icon="person" :rules="rules.username" :counter="20"
                             type="text"
@@ -23,7 +23,13 @@
                             maxlength="20"
                             required
               ></v-text-field>
-
+              <v-text-field v-model="credentials.password" prepend-icon="email" counter
+                            type="email"
+                            label="Email"
+                            name="email"
+                            maxlength="70"
+                            required
+              ></v-text-field>
               <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter
                             type="password"
                             label="Senha"
@@ -31,17 +37,24 @@
                             maxlength="70"
                             required
               ></v-text-field>
+              <v-text-field v-model="credentials.password2" prepend-icon="lock" :rules="rules.password2" counter
+                            :error-messages='passwordMissmatch()'
+                            type="password"
+                            label="Confirmar Senha"
+                            name="password2"
+                            maxlength="70"
+                            required
+              ></v-text-field>
 
               <div class="text-xs-center mt-3">
-                <v-btn :disabled="!valid" @click="login" color="green">Entrar</v-btn>
+                <v-btn :disabled="!valid" @click="register" color="green">Registrar</v-btn>
               </div>
 
               <v-divider></v-divider>
 
               <div class="text-xs-center mt-3">
-                <v-btn color="red" small :to="{name: 'register'}">Não tenho uma Conta</v-btn>
+                <v-btn color="orange" small :to="{name: 'login'}">Já tenho uma conta</v-btn>
               </div>
-
             </v-form>
           </v-container>
         </v-card>
@@ -51,8 +64,9 @@
 </template>
 
 <script>
+
   export default {
-    name: 'Login',
+    name: 'Register',
     data: () => ({
       credentials: {},
       valid: true,
@@ -66,25 +80,19 @@
         password: [
           v => !!v || "Campo de senha é obrigatório",
           v => (v && v.length > 7) || "Senha precisa ter pelo menos 8 caracteres",
+        ],
+        password2: [
+          v => !!v || "Confirmação de senha é obrigatório",
         ]
       },
     }),
+
     methods: {
-      clearFields() {
-        this.$refs.form.reset();
+      register() {
+        if (this.$refs.form.validate()) {}
       },
-      login() {
-        this.loading = true;
-        this.$store.dispatch('login', this.credentials).then(() => {
-          this.$router.push({name: 'home'});
-          this.$toasted.global.success('Você entrou na sua conta com sucesso!');
-        }).catch(error => {
-          this.loading = false;
-          this.clearFields();
-          // Gets the first error message from the returned data
-          let errorMessage = Object.values(error.response.data)[0];
-          this.$toasted.global.error(errorMessage);
-        });
+      passwordMissmatch() {
+        return (this.credentials.password === this.credentials.password2) ? '' : 'Senhas precisam ser iguais'
       }
     }
   }
