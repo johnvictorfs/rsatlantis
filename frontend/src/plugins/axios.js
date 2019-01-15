@@ -8,13 +8,10 @@ import axios from "axios";
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-const CSRF_COOKIE_NAME = 'csrftoken';
-const CSRF_HEADER_NAME = 'X-CSRFToken';
-
 let config = {
   baseURL: process.env.baseURL || process.env.apiUrl || process.env.VUE_APP_API_URL || "",
-  xsrfCookieName: CSRF_COOKIE_NAME,
-  xsrfHeaderName: CSRF_HEADER_NAME,
+  xsrfCookieName: 'csrftoken',
+  xsrfHeaderName: 'X-CSRFToken'
   // timeout: 60 * 1000, // Timeout
   // withCredentials: true, // Check cross-site Access-Control
 };
@@ -62,5 +59,9 @@ Plugin.install = function(Vue) {
 };
 
 Vue.use(Plugin);
+
+if (localStorage.getItem('TOKEN')) {
+  Vue.axios.defaults.headers.common['Authorization'] = `Token ${localStorage.getItem('TOKEN')}`;
+}
 
 export default Plugin;

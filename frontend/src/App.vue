@@ -26,6 +26,11 @@
     data: () => ({
       prevHeight: 0,
     }),
+    created() {
+      if (this.$store.getters.isAuthenticated) {
+        this.$store.dispatch('accountDetails').then()
+      }
+    },
     computed: {
       darkTheme() {
         return this.$store.getters.isDarkTheme

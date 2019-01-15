@@ -8,13 +8,14 @@ export default new Vuex.Store({
   state: {
     loading: false,
     theme: localStorage.getItem('THEME') || 'dark',
-    token: localStorage.getItem('TOKEN_STORAGE_KEY') || null,
+    token: localStorage.getItem('TOKEN') || null,
     username: localStorage.getItem('USERNAME') || '',
+    ingameName: localStorage.getItem('INGAME_NAME') || '',
     email: localStorage.getItem('USER_EMAIL') | '',
     isAdmin: localStorage.getItem('IS_STAFF') | false,
     isSuperUser: localStorage.getItem('IS_SUPERUSER') | false,
-    user_url: localStorage.getItem('USER_URL') | '',
-    user_guides: localStorage.getItem('USER_GUIDES') | '',
+    userUrl: localStorage.getItem('USER_URL') | '',
+    userGuides: localStorage.getItem('USER_GUIDES') | '',
   },
   mutations: {
     SET_LOADING(state) {
@@ -27,48 +28,53 @@ export default new Vuex.Store({
       state.theme = theme;
     },
     SET_TOKEN(state, token) {
-      localStorage.setItem('TOKEN_STORAGE_KEY', token);
-      Vue.axios.defaults.headers.Authorization = `Token ${token}`;
+      localStorage.setItem('TOKEN', token);
+      Vue.axios.defaults.headers.common['Authorization'] = `Token ${token}`;
       state.token = token;
     },
     REMOVE_TOKEN(state) {
-      localStorage.removeItem('TOKEN_STORAGE_KEY');
-      delete Vue.axios.defaults.headers.Authorization;
+      localStorage.removeItem('TOKEN');
+      delete Vue.axios.defaults.headers.common['Authorization'];
       state.token = null;
     },
     SET_ACCOUNT_DETAILS(state, details) {
       /** @namespace details.username **/
+      /** @namespace details.ingame_name **/
       /** @namespace details.email **/
       /** @namespace details.is_staff **/
       /** @namespace details.is_superuser **/
       /** @namespace details.url **/
       /** @namespace details.guides **/
       localStorage.setItem('USERNAME', details.username);
+      localStorage.setItem('INGAME_NAME', details.ingame_name);
       localStorage.setItem('USER_EMAIL', details.email);
       localStorage.setItem('IS_STAFF', details.is_staff);
       localStorage.setItem('IS_SUPERUSER', details.is_superuser);
       localStorage.setItem('USER_URL', details.url);
       localStorage.setItem('USER_GUIDES', details.guides);
       state.username = details.username;
+      state.ingameName = details.ingame_name;
       state.email = details.email;
       state.isAdmin = details.is_staff;
       state.isSuperUser = details.is_superuser;
-      state.user_url = details.url;
-      state.user_guides = details.guides;
+      state.userUrl = details.url;
+      state.userGuides = details.guides;
     },
     CLEAR_ACCOUNT_DETAILS(state) {
       localStorage.removeItem('USERNAME');
+      localStorage.removeItem('INGAME_NAME');
       localStorage.removeItem('USER_EMAIL');
       localStorage.removeItem('IS_STAFF');
       localStorage.removeItem('IS_SUPERUSER');
       localStorage.removeItem('USER_URL');
       localStorage.removeItem('USER_GUIDES');
       state.username = '';
+      state.ingameName = '';
       state.email = '';
       state.isAdmin = false;
       state.isSuperUser = false;
-      state.user_url = '';
-      state.user_guides = '';
+      state.userUrl = '';
+      state.userGuides = '';
     }
   },
   actions: {
