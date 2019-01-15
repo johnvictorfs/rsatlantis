@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    loading: false,
     theme: localStorage.getItem('THEME') || 'dark',
     token: localStorage.getItem('TOKEN_STORAGE_KEY') || null,
     username: localStorage.getItem('USERNAME') || '',
@@ -16,6 +17,12 @@ export default new Vuex.Store({
     user_guides: localStorage.getItem('USER_GUIDES') | '',
   },
   mutations: {
+    SET_LOADING(state) {
+      state.loading = true;
+    },
+    REMOVE_LOADING(state) {
+      state.loading = false;
+    },
     SET_THEME(state, theme) {
       state.theme = theme;
     },
@@ -70,20 +77,25 @@ export default new Vuex.Store({
       commit('SET_THEME', theme);
     },
     login({commit, dispatch}, credentials) {
+      commit('SET_LOADING');
       return new Promise((resolve, reject) => {
         auth.login(credentials.username, credentials.password).then(response => {
           commit('SET_TOKEN', response.data.key);
           dispatch('accountDetails');
+          commit('REMOVE_LOADING');
           resolve(response);
         }).catch(error => {
+          commit('REMOVE_LOADING');
           reject(error);
         })
       });
     },
     logout({commit}) {
+      commit('SET_LOADING');
       commit('REMOVE_TOKEN');
       commit('CLEAR_ACCOUNT_DETAILS');
       auth.logout();
+      commit('REMOVE_LOADING');
     },
     accountDetails({commit}) {
       return new Promise((resolve, reject) => {
@@ -91,6 +103,18 @@ export default new Vuex.Store({
           commit('SET_ACCOUNT_DETAILS', response.data);
           resolve(response);
         }).catch(error => {
+          reject(error);
+        })
+      })
+    },
+    createAccount({commit}, credentials) {
+      commit('SET_LOADING');
+      return new Promise((resolve, reject) => {
+        auth.createAccount(credentials.username, credentials.password1, credentials.email, credentials.ingame_name).then(response => {
+          commit('REMOVE_LOADING');
+          resolve(response);
+        }).catch(error => {
+          commit('REMOVE_LOADING');
           reject(error);
         })
       })

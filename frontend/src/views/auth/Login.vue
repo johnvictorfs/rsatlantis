@@ -1,62 +1,58 @@
 <template>
-  <v-container fluid>
-    <v-layout justify-center>
-      <v-flex xs12 sm8 lg5 md5>
-        <v-card class="elevation-12">
+  <Centered>
+    <v-card class="elevation-12">
 
-          <v-toolbar dark color="green">
-            <v-toolbar-title>Entre na sua Conta</v-toolbar-title>
-          </v-toolbar>
+      <v-toolbar dark color="green">
+        <v-toolbar-title>Entre na sua Conta</v-toolbar-title>
+      </v-toolbar>
 
-          <v-layout row fill-height justify-center align-center v-if="loading">
-            <v-progress-circular :size="50" color="primary" indeterminate/>
-          </v-layout>
+      <v-container fluid grid-list-md>
 
-          <v-container fluid grid-list-md>
+        <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="login">
 
-            <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="login">
+          <v-text-field v-model="credentials.username" prepend-icon="person" :rules="rules.username" :counter="20"
+                        type="text"
+                        label="Usuário"
+                        name="username"
+                        maxlength="20"
+                        required
+          ></v-text-field>
 
-              <v-text-field v-model="credentials.username" prepend-icon="person" :rules="rules.username" :counter="20"
-                            type="text"
-                            label="Usuário"
-                            name="username"
-                            maxlength="20"
-                            required
-              ></v-text-field>
+          <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter
+                        type="password"
+                        label="Senha"
+                        name="password"
+                        maxlength="70"
+                        required
+          ></v-text-field>
 
-              <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter
-                            type="password"
-                            label="Senha"
-                            name="password"
-                            maxlength="70"
-                            required
-              ></v-text-field>
+          <div class="text-xs-center mt-3">
+            <v-btn :disabled="!valid" @click="login" color="success">Entrar</v-btn>
+          </div>
 
-              <div class="text-xs-center mt-3">
-                <v-btn :disabled="!valid" @click="login" color="green">Entrar</v-btn>
-              </div>
+          <v-divider></v-divider>
 
-              <v-divider></v-divider>
+          <div class="text-xs-center mt-3">
+            <v-btn color="error" small :to="{name: 'register'}">Não tenho uma Conta</v-btn>
+          </div>
 
-              <div class="text-xs-center mt-3">
-                <v-btn color="red" small :to="{name: 'register'}">Não tenho uma Conta</v-btn>
-              </div>
-
-            </v-form>
-          </v-container>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+        </v-form>
+      </v-container>
+    </v-card>
+  </Centered>
 </template>
 
 <script>
+  import Centered from '../../components/Centered'
+
   export default {
     name: 'Login',
+    components: {
+      Centered
+    },
     data: () => ({
       credentials: {},
       valid: true,
-      loading: false,
       rules: {
         username: [
           v => !!v || "Campo de usuário é obrigatório",
@@ -70,20 +66,25 @@
       },
     }),
     methods: {
-      clearFields() {
-        this.$refs.form.reset();
+      translateError(error) {
+        if (error === 'Error: Network Error') {
+          return 'Erro: Falha de Conexão'
+        }
+        return error;
       },
       login() {
-        this.loading = true;
         this.$store.dispatch('login', this.credentials).then(() => {
           this.$router.push({name: 'home'});
           this.$toasted.global.success('Você entrou na sua conta com sucesso!');
         }).catch(error => {
-          this.loading = false;
-          this.clearFields();
           // Gets the first error message from the returned data
-          let errorMessage = Object.values(error.response.data)[0];
-          this.$toasted.global.error(errorMessage);
+          let errorMessage = 'Erro inesperado :(';
+          if (error.response !== undefined) {
+            errorMessage = Object.values(error.response.data)[0];
+          } else {
+            errorMessage = error.toString();
+          }
+          this.$toasted.global.error(this.translateError(errorMessage));
         });
       }
     }

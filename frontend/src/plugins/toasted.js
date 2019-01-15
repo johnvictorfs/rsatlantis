@@ -18,7 +18,7 @@ Vue.toasted.register('error',
     position: 'top-center',
     type: 'error',
     icon: 'error_outline',
-    duration: 2200
+    duration: 2800
   }
 );
 
@@ -33,6 +33,6 @@ Vue.toasted.register('success',
     position: 'top-center',
     type: 'success',
     icon: 'check_circle_outline',
-    duration: 2200
+    duration: 2800
   }
 );
