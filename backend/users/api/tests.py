@@ -2,11 +2,11 @@
 Example inspiration:
 https://github.com/erkarl/django-rest-framework-oauth2-provider-example/blob/master/apps/users/tests.py
 """
-
-from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from ..models import User
 
 
 class CreateUserTestCase(APITestCase):
