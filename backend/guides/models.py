@@ -29,7 +29,7 @@ class Guide(models.Model):
     title = models.TextField(verbose_name='Título', max_length=25)
     slug = models.SlugField(max_length=35, unique=True)
     category = models.TextField(verbose_name='Categoria', max_length=30, choices=category_choices)
-    description = models.TextField(verbose_name='Descrição', max_length=50)
+    description = models.TextField(verbose_name='Descrição', max_length=40)
     content = models.TextField(verbose_name='Conteúdo', max_length=5000)
     approved = models.BooleanField(verbose_name='Aprovado', default=False)
     date_posted = models.DateTimeField(verbose_name="Data", default=timezone.now)

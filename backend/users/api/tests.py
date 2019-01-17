@@ -18,7 +18,12 @@ class CreateUserTestCase(APITestCase):
     """
 
     def setUp(self):
-        self.data = {'username': 'testusername', 'password': 'testpassword'}
+        self.data = {
+            'username': 'testusername',
+            'password': 'testpassword',
+            'email': 'test@email.com',
+            'ingame_name': 'test'
+        }
 
     def test_create_user(self):
         response = self.client.post(reverse('user-list'), self.data)
@@ -59,10 +64,7 @@ class ReadUserDetailTestCase(APITestCase):
     Tests if one can get the details of a User with different types of authentication
 
     Expected:
-        No authentication: 403 Forbidden
-        Different user authentication: 403 Forbidden
-        Same user being request authentication: 200 OK
-        Admin authentication: 200 OK
+        Any: 200 OK
     """
 
     def setUp(self):
@@ -73,12 +75,12 @@ class ReadUserDetailTestCase(APITestCase):
     def test_get_user_no_auth(self):
         self.client.logout()
         response = self.client.get(reverse('user-detail', kwargs={'pk': self.superuser.pk}))
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_different_auth(self):
         self.client.login(username='testuser1', password='testpassword1')
         response = self.client.get(reverse('user-detail', kwargs={'pk': self.superuser.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_user_same_auth(self):
         self.client.login(username='testuser1', password='testpassword1')
