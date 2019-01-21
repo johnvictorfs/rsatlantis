@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth from './api/auth';
+import auth from './api/auth'
+import guide from './api/guide'
 
 Vue.use(Vuex);
 
@@ -9,13 +10,13 @@ export default new Vuex.Store({
     loading: false,
     theme: localStorage.getItem('THEME') || 'dark',
     token: localStorage.getItem('TOKEN') || null,
-    username: localStorage.getItem('USERNAME') || '',
-    ingameName: localStorage.getItem('INGAME_NAME') || '',
-    email: localStorage.getItem('USER_EMAIL') | '',
-    isAdmin: localStorage.getItem('IS_STAFF') | false,
-    isSuperUser: localStorage.getItem('IS_SUPERUSER') | false,
-    userUrl: localStorage.getItem('USER_URL') | '',
-    userGuides: localStorage.getItem('USER_GUIDES') | '',
+    username: '',
+    ingameName: '',
+    email: '',
+    isAdmin: false,
+    isSuperUser: false,
+    userUrl: '',
+    userGuides: '',
   },
   mutations: {
     SET_LOADING(state) {
@@ -45,13 +46,6 @@ export default new Vuex.Store({
       /** @namespace details.is_superuser **/
       /** @namespace details.url **/
       /** @namespace details.guides **/
-      localStorage.setItem('USERNAME', details.username);
-      localStorage.setItem('INGAME_NAME', details.ingame_name);
-      localStorage.setItem('USER_EMAIL', details.email);
-      localStorage.setItem('IS_STAFF', details.is_staff);
-      localStorage.setItem('IS_SUPERUSER', details.is_superuser);
-      localStorage.setItem('USER_URL', details.url);
-      localStorage.setItem('USER_GUIDES', details.guides);
       state.username = details.username;
       state.ingameName = details.ingame_name;
       state.email = details.email;
@@ -61,13 +55,6 @@ export default new Vuex.Store({
       state.userGuides = details.guides;
     },
     CLEAR_ACCOUNT_DETAILS(state) {
-      localStorage.removeItem('USERNAME');
-      localStorage.removeItem('INGAME_NAME');
-      localStorage.removeItem('USER_EMAIL');
-      localStorage.removeItem('IS_STAFF');
-      localStorage.removeItem('IS_SUPERUSER');
-      localStorage.removeItem('USER_URL');
-      localStorage.removeItem('USER_GUIDES');
       state.username = '';
       state.ingameName = '';
       state.email = '';
@@ -116,12 +103,48 @@ export default new Vuex.Store({
     createAccount({commit}, credentials) {
       commit('SET_LOADING');
       return new Promise((resolve, reject) => {
-        auth.createAccount(credentials.username, credentials.password1, credentials.email, credentials.ingame_name).then(response => {
-          commit('REMOVE_LOADING');
+        auth.createAccount(credentials).then(response => {
           resolve(response);
         }).catch(error => {
-          commit('REMOVE_LOADING');
           reject(error);
+        }).finally(() => {
+          commit('REMOVE_LOADING');
+        })
+      })
+    },
+    publishGuide({commit}, guideDetails) {
+      commit('SET_LOADING');
+      return new Promise((resolve, reject) => {
+        guide.publishGuide(guideDetails).then(response => {
+          resolve(response);
+        }).catch(error => {
+          reject(error);
+        }).finally(() => {
+          commit('REMOVE_LOADING');
+        })
+      })
+    },
+    guideList({commit}) {
+      commit('SET_LOADING');
+      return new Promise((resolve, reject) => {
+        guide.guideList().then(response => {
+          resolve(response);
+        }).catch(error => {
+          reject(error);
+        }).finally(() => {
+          commit('REMOVE_LOADING');
+        })
+      })
+    },
+    guideDetails({commit}, slug) {
+      commit('SET_LOADING');
+      return new Promise((resolve, reject) => {
+        guide.guideDetails(slug).then(response => {
+          resolve(response);
+        }).catch(error => {
+          reject(error);
+        }).finally(() => {
+          commit('REMOVE_LOADING');
         })
       })
     }

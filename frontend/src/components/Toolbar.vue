@@ -14,11 +14,15 @@
 
     <v-toolbar-items class="hidden-sm-and-down">
       <v-chip label color="indigo" text-color="white" :value="isAuthenticated">
-        <v-avatar>
+        <v-avatar class="indigo darken-2">
           <v-icon small>{{ userIcon }}</v-icon>
         </v-avatar>
         {{ username }}
       </v-chip>
+      <v-btn flat v-for="item in authItems('any')" :key="item.text" :to="item.path">
+        <v-icon left :color="item.color">{{ item.icon }}</v-icon>
+        {{ item.text }}
+      </v-btn>
       <v-btn flat v-for="item in authItems(isAuthenticated)" :key="item.text" :to="item.path">
         <v-icon left :color="item.color">{{ item.icon }}</v-icon>
         {{ item.text }}
@@ -35,6 +39,7 @@
     data: () => ({
       items:
         [
+          {text: 'Guias', path: {name: 'guide-list'}, color: 'orange', auth: 'any', icon: 'fa-list'},
           {text: 'Entrar', path: {name: 'login'}, color: 'success', auth: false, icon: 'fa-sign-in-alt'},
           {text: 'Cadastro', path: {name: 'register'}, color: 'primary', auth: false, icon: 'fa-user-plus'},
           {text: 'Novo Guia', path: {name: 'guide-new'}, color: 'success', auth: true, icon: 'fa-plus-square'},

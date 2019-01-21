@@ -26,16 +26,21 @@
                         required
           ></v-text-field>
 
-          <div class="text-xs-center mt-3">
-            <v-btn :disabled="!valid" @click="login" color="success">Entrar</v-btn>
-          </div>
+          <br/>
+          <v-toolbar>
+            <v-btn color="primary" flat small :to="{name: 'register'}">
+              Criar Conta
+              <v-icon right>fa-user-plus</v-icon>
+            </v-btn>
 
-          <v-divider></v-divider>
+            <v-spacer></v-spacer>
 
-          <div class="text-xs-center mt-3">
-            <v-btn color="error" small :to="{name: 'register'}">Não tenho uma Conta</v-btn>
-          </div>
+            <v-btn color="success" small :disabled="!valid" @click="login">
+              Entrar
+              <v-icon right>check</v-icon>
+            </v-btn>
 
+          </v-toolbar>
         </v-form>
       </v-container>
     </v-card>
@@ -44,6 +49,7 @@
 
 <script>
   import Centered from '../../components/Centered'
+  import {formatError} from "../../helpers/errors";
 
   export default {
     name: 'Login',
@@ -73,19 +79,17 @@
         return error;
       },
       login() {
-        this.$store.dispatch('login', this.credentials).then(() => {
-          this.$router.push({name: 'home'});
-          this.$toasted.global.success('Você entrou na sua conta com sucesso!');
-        }).catch(error => {
-          // Gets the first error message from the returned data
-          let errorMessage = 'Erro inesperado :(';
-          if (error.response !== undefined) {
-            errorMessage = Object.values(error.response.data)[0];
-          } else {
-            errorMessage = error.toString();
-          }
-          this.$toasted.global.error(this.translateError(errorMessage));
-        });
+        if (this.$refs.form.validate()) {
+          this.$store.dispatch('login', this.credentials).then(() => {
+            this.$router.push({name: 'home'});
+            this.$toasted.global.success('Você entrou na sua conta com sucesso!');
+            if (this.$route.query.next) {
+              this.$router.push(this.$route.query.next);
+            }
+          }).catch(error => {
+            this.$toasted.global.error(formatError(error));
+          });
+        }
       }
     }
   }

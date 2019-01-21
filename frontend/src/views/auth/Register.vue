@@ -25,6 +25,7 @@
             <v-form ref="form" v-model="userFormValid" @keydown.native.enter="secondPage">
 
               <v-text-field v-model="credentials.username" prepend-icon="person" :rules="rules.username"
+                            box
                             :counter="20"
                             type="text"
                             label="Usuário"
@@ -33,6 +34,7 @@
                             required
               ></v-text-field>
               <v-text-field v-model="credentials.email" prepend-icon="email" :rules="rules.email" counter
+                            box
                             type="email"
                             label="Email"
                             name="email"
@@ -40,6 +42,7 @@
                             required
               ></v-text-field>
               <v-text-field v-model="credentials.password1" prepend-icon="lock" :rules="rules.password" counter
+                            box
                             type="password"
                             label="Senha"
                             name="password"
@@ -47,6 +50,7 @@
                             required
               ></v-text-field>
               <v-text-field v-model="credentials.password2" prepend-icon="lock" :rules="rules.password2" counter
+                            box
                             :error-messages='passwordMissmatch'
                             type="password"
                             label="Confirmar Senha"
@@ -58,11 +62,11 @@
             <br/>
             <v-toolbar>
               <v-btn color="primary" flat small :to="{name: 'login'}">
-                Já tenho uma conta
+                Entrar
                 <v-icon right>fa-sign-in-alt</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="primary" :disabled="!userFormValid" @click="secondPage">
+              <v-btn color="primary" small :disabled="!userFormValid" @click="secondPage">
                 Continuar
                 <v-icon right>arrow_right</v-icon>
               </v-btn>
@@ -75,6 +79,7 @@
             <v-form ref="form2" v-model="ingameFormValid" @submit.prevent="register">
 
               <v-text-field v-model="credentials.ingame_name" prepend-icon="person" :rules="rules.ingame_name"
+                            box
                             :counter="12"
                             type="text"
                             label="Nome no jogo"
@@ -87,14 +92,14 @@
             <br/>
             <v-toolbar>
 
-              <v-btn flat @click="registerStep = 1">
+              <v-btn flat small @click="registerStep = 1">
                 <v-icon left>arrow_left</v-icon>
                 Voltar
               </v-btn>
 
               <v-spacer></v-spacer>
 
-              <v-btn :disabled="!validForms" @click="register" color="success">
+              <v-btn :disabled="!validForms" small @click="register" color="success">
                 Registrar
                 <v-icon right>check</v-icon>
               </v-btn>
@@ -115,6 +120,8 @@
   /** @namespace this.credentials.email **/
   /** @namespace this.credentials.ingame_name **/
   import Centered from '../../components/Centered'
+  import {isInClan} from "../../helpers/runescape";
+  import {formatError} from "../../helpers/errors";
 
   export default {
     name: 'Register',
@@ -150,12 +157,6 @@
     }),
 
     methods: {
-      translateError(error) {
-        if (error === 'Error: Network Error') {
-          return 'Erro: Falha de Conexão'
-        }
-        return error
-      },
       secondPage() {
         if (this.$refs.form.validate()) {
           this.registerStep = 2;
@@ -163,19 +164,22 @@
       },
       register() {
         if (this.$refs.form.validate() && this.$refs.form2.validate()) {
-          this.$store.dispatch('createAccount', this.credentials).then(() => {
-            this.$router.push({name: 'login'});
-            this.$toasted.global.success('Conta criada com sucesso, entre agora!')
-          }).catch(error => {
-            this.registerStep = 1;
-            let errorMessage = 'Erro inesperado :(';
-            if (error.response !== undefined) {
-              errorMessage = Object.values(error.response.data)[0];
+          isInClan(this.credentials.ingame_name).then(isInClan => {
+            if (isInClan) {
+              this.$store.dispatch('createAccount', this.credentials).then(() => {
+                this.$router.push({name: 'login'});
+                this.$toasted.global.success('Conta criada com sucesso, entre agora!')
+              }).catch(error => {
+                this.registerStep = 1;
+                this.$toasted.global.error(formatError(error));
+              })
             } else {
-              errorMessage = error.toString();
+              this.$toasted.global.error('Você precisa estar no Clã Atlantis para criar uma conta')
             }
-            this.$toasted.global.error(this.translateError(errorMessage));
-          })
+          }).catch(() => {
+            this.$toasted.global.error('Erro ao acessar a API do RuneScape. Tente novamente mais tarde');
+          });
+
         } else if (!this.$refs.form.validate()) {
           // Go back to first page of form if it failed to validate, else stay on the same page
           this.registerStep = 1;
