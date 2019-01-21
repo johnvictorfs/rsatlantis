@@ -6,16 +6,22 @@ from guides.utils import get_unique_slug
 from users.models import User
 
 ALLOWED_TAGS = [
-    'a', 'img', 'br', 'abbr', 'acronym', 'b', 'blockquote',
+    'a', 'img', 'br', 'abbr', 'acronym', 'b', 'blockquote', 'span',
     'code', 'em', 'i', 'li', 'ol', 'strong', 'ul', 'table',
-    'h1', 'h2', 'h3', 'dl', 'dt', 'p', 'sup', 'strike', 'hr'
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6' 'dl', 'dt', 'p', 'sup', 'strike', 'hr',
+
 ]
 ALLOWED_ATTRIBUTES = {
     'a': ['href', 'title'],
     'abbr': ['title'],
     'acronym': ['title'],
-    'img': ['src', 'width', 'height', 'alt', 'title']
+    'img': ['src', 'width', 'height', 'alt', 'title'],
+    '*': ['style']
 }
+ALLOWED_STYLES = [
+    'color', 'font-weight', 'text-align', 'text-decoration', 'font-size',
+    'padding-right', 'padding-left', 'background-color'
+]
 
 
 class Guide(models.Model):
@@ -30,7 +36,7 @@ class Guide(models.Model):
     slug = models.SlugField(max_length=35, unique=True)
     category = models.TextField(verbose_name='Categoria', max_length=30, choices=category_choices)
     description = models.TextField(verbose_name='Descrição', max_length=40)
-    content = models.TextField(verbose_name='Conteúdo', max_length=5000)
+    content = models.TextField(verbose_name='Conteúdo')
     approved = models.BooleanField(verbose_name='Aprovado', default=False)
     date_posted = models.DateTimeField(verbose_name="Data", default=timezone.now)
 
@@ -44,9 +50,8 @@ class Guide(models.Model):
             # Creating a unique slug for the Guide
             self.slug = get_unique_slug(self, 'title', 'slug')
 
-        # Cleaning content field to check for unsafe html,
-        # any tags or attributes not listed below will be escaped/stripped
-        self.content = clean(self.content, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+        # Cleaning content field to remove unsafe html, any tags/attributes/etc not whitelisted will be escaped/stripped
+        self.content = clean(self.content, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES, styles=ALLOWED_STYLES)
         super().save(*args, **kwargs)
 
     def __str__(self):
