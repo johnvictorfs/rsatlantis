@@ -21,13 +21,12 @@
         {{ guide.description }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn right small color="primary" v-if="detailsButton" :to="{name: 'guide-detail', params: {slug: guide.slug}}">
+      <v-btn right small color="primary" v-if="detailsButton" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
         Ver Guia
       </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-card-text class="headline" v-if="content">
-      <div v-html="guide.content"></div>
+    <v-card-text class="headline" v-if="content" v-html="guide.content">
     </v-card-text>
   </v-card>
 </template>

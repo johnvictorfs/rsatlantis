@@ -1,6 +1,6 @@
 <template>
   <v-app :dark="darkTheme">
-    <Toolbar></Toolbar>
+    <Toolbar :items="filteredToolbarItems"></Toolbar>
     <v-content>
       <Loading></Loading>
       <transition name="fade" mode="out-in" @beforeLeave="beforeLeave">
@@ -25,6 +25,14 @@
     },
     data: () => ({
       prevHeight: 0,
+      toolbarItems: [
+        {text: 'Guias', path: {name: 'guides.list'}, color: 'orange', auth: 'any', icon: 'fa-list'},
+        {text: 'Entrar', path: {name: 'login'}, color: 'success', auth: false, icon: 'fa-sign-in-alt'},
+        {text: 'Cadastro', path: {name: 'register'}, color: 'primary', auth: false, icon: 'fa-user-plus'},
+        {text: 'Novo Guia', path: {name: 'guides.new'}, color: 'success', auth: true, icon: 'fa-plus-square'},
+        {text: 'Sair', path: {name: 'logout'}, color: 'error', auth: true, icon: 'fa-sign-out-alt'},
+      ],
+
     }),
     created() {
       if (this.$store.getters.isAuthenticated) {
@@ -34,6 +42,17 @@
     computed: {
       darkTheme() {
         return this.$store.getters.isDarkTheme
+      },
+      filteredToolbarItems: function () {
+        let items = [];
+        for (let i = 0; i < this.toolbarItems.length; i++) {
+          if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
+            items.push(this.toolbarItems[i])
+          } else if (this.toolbarItems[i].auth === 'any') {
+            items.push(this.toolbarItems[i]);
+          }
+        }
+        return items;
       }
     },
     methods: {

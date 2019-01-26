@@ -33,21 +33,21 @@ const router = new Router({
       component: () => import('./views/auth/Register')
     },
     {
-      path: '/guia/novo/',
-      name: 'guide-new',
+      path: '/guias',
+      name: 'guides.list',
+      component: () => import('./views/guides/GuideList'),
+    },
+    {
+      path: '/guias/novo',
+      name: 'guides.new',
       meta: {auth: true},
       component: () => import('./views/guides/NewGuide')
     },
     {
-      path: '/guia/detalhes/:slug/',
-      name: 'guide-detail',
+      path: '/guias/atl/:slug',
+      name: 'guides.detail',
       props: true,
       component: () => import('./views/guides/GuideDetail')
-    },
-    {
-      path: '/guia/lista/',
-      name: 'guide-list',
-      component: () => import('./views/guides/GuideList')
     },
     {
       path: '/404',

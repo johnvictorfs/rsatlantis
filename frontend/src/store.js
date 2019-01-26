@@ -7,6 +7,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    sidebar: false,
     loading: false,
     theme: localStorage.getItem('THEME') || 'dark',
     token: localStorage.getItem('TOKEN') || null,
@@ -62,6 +63,12 @@ export default new Vuex.Store({
       state.isSuperUser = false;
       state.userUrl = '';
       state.userGuides = '';
+    },
+    TOGGLE_SIDEBAR_ON(state) {
+      state.sidebar = true;
+    },
+    TOGGLE_SIDEBAR_OFF(state) {
+      state.sidebar = false;
     }
   },
   actions: {
@@ -147,6 +154,12 @@ export default new Vuex.Store({
           commit('REMOVE_LOADING');
         })
       })
+    },
+    toggleSideBarOff({commit}) {
+      commit('TOGGLE_SIDEBAR_OFF')
+    },
+    toggleSideBarOn({commit}) {
+      commit('TOGGLE_SIDEBAR_ON')
     }
   },
   getters: {
