@@ -3,4 +3,5 @@
 # Script to run all tests of the project
 
 cd backend/
-pipenv run python manage.py test
+poetry install
+poetry run python manage.py test

@@ -5,7 +5,8 @@ python:
   - "3.7"
 before_install:
   - 'cd backend/'
+  - 'pip install poetry'
 install:
-  - 'pipenv sync'
+  - 'poetry install'
 script:
-  - 'python manage.py test'
+  - 'poetry run python manage.py test'

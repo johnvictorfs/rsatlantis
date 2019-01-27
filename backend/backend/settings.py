@@ -37,14 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'guides',
     'users',
+    'runescape',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    'corsheaders'
+    'corsheaders',
+    'debug_toolbar',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,6 +129,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -134,6 +141,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Loading local_settings.py to separate production and development settings
 try:
