@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
     'guides',
     'users',
     'runescape',
@@ -43,7 +44,9 @@ INSTALLED_APPS = [
     'rest_auth',
     'corsheaders',
     'debug_toolbar',
-    'django_extensions'
+    'django_extensions',
+    'dynamic_preferences',
+    'dynamic_preferences.users.apps.UserPreferencesConfig'
 ]
 
 MIDDLEWARE = [

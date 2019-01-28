@@ -20,3 +20,9 @@ class ClanMemberTestCase(TestCase):
         member: ClanMember = ClanMember.objects.first()
         self.assertEqual(member.parse_player_details(details), parsed)
         self.assertEqual(member.parse_player_details(details).get('clan'), 'Atlantis')
+
+    def test_outdated_rank(self):
+        member = ClanMember(name='NRiver', exp=1200_000_000, rank='Sergeant')
+        self.assertTrue(member.outdated_rank())
+        member.exp = 10_000_000
+        self.assertFalse(member.outdated_rank())
