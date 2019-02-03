@@ -2,10 +2,8 @@
   <v-container app>
     <br/>
     <ul>
-      <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4>
+      <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4  class="pt-5">
         <Guide :guide="guide" :content="false" :details-button="true"></Guide>
-        <br/>
-        <br/>
       </v-flex>
       <v-layout justify-center>
         <v-pagination v-model="page" :length="pageLength" circle></v-pagination>

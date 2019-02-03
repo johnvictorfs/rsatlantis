@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from './store'
+import store from './store/index'
 
 Vue.use(Router);
 
@@ -48,6 +48,11 @@ const router = new Router({
       name: 'guides.detail',
       props: true,
       component: () => import('./views/guides/GuideDetail')
+    },
+    {
+      path: '/docs/api',
+      name: 'api-docs',
+      component: () => import('./views/Api')
     },
     {
       path: '/404',

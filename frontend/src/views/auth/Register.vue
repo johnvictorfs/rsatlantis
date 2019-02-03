@@ -119,9 +119,10 @@
   /** @namespace this.credentials.password2 **/
   /** @namespace this.credentials.email **/
   /** @namespace this.credentials.ingame_name **/
-  import Centered from '../../components/Centered'
-  import {isInClan} from "../../helpers/runescape";
-  import {formatError} from "../../helpers/errors";
+
+  const Centered = () => import('../../components/Centered');
+  const isInClan = () => import('../../helpers/runescape');
+  const formatError = () => import('../../helpers/errors');
 
   export default {
     name: 'Register',

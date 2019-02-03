@@ -12,9 +12,10 @@
 </template>
 
 <script>
-  import Toolbar from './components/Toolbar'
-  import Footer from './components/Footer'
-  import Loading from './components/Loading'
+
+  const Toolbar = () => import('./components/Toolbar');
+  const Footer = () => import('./components/Footer');
+  const Loading = () => import('./components/Loading');
 
   export default {
     name: 'App',
@@ -44,6 +45,11 @@
         return this.$store.getters.isDarkTheme
       },
       filteredToolbarItems: function () {
+        /*
+        Filters items based on if they are shown to authenticated users or not, according to if the user is
+        authenticated or not.
+        */
+
         let items = [];
         for (let i = 0; i < this.toolbarItems.length; i++) {
           if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {

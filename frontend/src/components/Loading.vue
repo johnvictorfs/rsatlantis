@@ -9,7 +9,7 @@
     name: "Loading",
     computed: {
       loading() {
-        return this.$store.state.loading;
+        return this.$store.state.loading.loading;
       }
     }
   }

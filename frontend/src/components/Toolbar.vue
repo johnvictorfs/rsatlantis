@@ -1,36 +1,38 @@
 <template>
   <v-layout>
     <v-navigation-drawer v-model="sidebar" fixed clipped app>
-    <v-list class="pt-0" dense>
-      <v-list-tile avatar class="pa-2">
-        <router-link :to="{name: 'home'}">
-          <img class="logo logo--desktop" src="../assets/atlantis_logo.png" alt="logo"/>
-        </router-link>
-      </v-list-tile>
-      <v-divider></v-divider>
-      <v-list-tile avatar tag="div">
-        <v-list-tile-avatar>
-          <v-icon small>{{ userIcon }}</v-icon>
-        </v-list-tile-avatar>
+      <v-list class="pt-0" dense>
+        <v-list-tile avatar class="pa-2">
+          <router-link :to="{name: 'home'}">
+            <img class="logo logo--desktop" src="../assets/atlantis_logo.png" alt="logo"/>
+          </router-link>
+        </v-list-tile>
 
-        <v-list-tile-content>
-          <v-list-tile-title>{{ username }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-divider></v-divider>
 
-      <v-divider light></v-divider>
+        <v-list-tile avatar tag="div" v-if="isAuthenticated">
+          <v-list-tile-avatar>
+            <v-icon small>{{ userIcon }}</v-icon>
+          </v-list-tile-avatar>
 
-      <v-list-tile dense v-for="item in items" :key="item.text" :to="item.path">
-        <v-list-tile-action>
-          <v-icon :color="item.color">{{ item.icon }}</v-icon>
-        </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ username }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
+        <v-divider light></v-divider>
+
+        <v-list-tile dense v-for="item in items" :key="item.text" :to="item.path">
+          <v-list-tile-action>
+            <v-icon :color="item.color">{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-toolbar app dark fixed clipped-left align-center>
       <v-toolbar-side-icon class="hidden-md-and-up" @click="toggleSideBar"></v-toolbar-side-icon>
