@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-clipboard="">
   <v-container>
     <v-sheet class="pa-5" elevation="6">
       <h1 class="pb-3">Documentação da API</h1>
@@ -17,6 +17,13 @@
                   <li v-for="endpoint in tab.endpoints" :key="endpoint.url" class="pb-4">
                     <p class="subheading grey--text">
                       {{ endpoint.url }}
+                      <v-btn v-clipboard:copy="endpoint.url"
+                             v-clipboard:error="copyError"
+                             v-clipboard:success="copySuccess"
+                             icon
+                      >
+                        <v-icon>fa-copy</v-icon>
+                      </v-btn>
                     </p>
                     <ul>
                       <li v-for="method in endpoint.methods" :key="method.text" class="mb-2">
@@ -56,7 +63,7 @@
           title: 'Guias',
           endpoints: [
             {
-              url: '/api/guides/',
+              url: process.env.VUE_APP_API_URL + '/api/guides/',
               methods: [
                 {
                   method: 'GET',
@@ -81,7 +88,7 @@
               ],
             },
             {
-              url: '/api/guides/{slug}/',
+              url: process.env.VUE_APP_API_URL + '/api/guides/<slug>/',
               methods: [
                 {
                   method: 'GET',
@@ -107,7 +114,7 @@
               ]
             },
             {
-              url: '/api/guides/{slug}/approve/',
+              url: process.env.VUE_APP_API_URL + '/api/guides/<slug>/approve/',
               methods: [{method: 'POST', text: 'Aprovar Guia (Mod+)'}],
             },
           ]
@@ -115,7 +122,7 @@
         {
           title: 'Usuários', endpoints: [
             {
-              url: '/api/guides/',
+              url: process.env.VUE_APP_API_URL + '/api/guides/',
               methods: [
                 {method: 'GET', text: 'Listar Guias', response: {title: 'String'}},
                 {
@@ -126,7 +133,7 @@
               ],
             },
             {
-              url: '/api/guides/{slug}/approve/',
+              url: process.env.VUE_APP_API_URL + '/api/guides/<slug>/approve/',
               methods: [
                 {
                   method: 'POST',
@@ -139,12 +146,11 @@
       ]
     }),
     methods: {
-      ltrim(str) {
-        /*
-        Removes white-space from beggining of string
-        */
-        if (str == null) return str;
-        return str.replace(/^\s+/g, '');
+      copySuccess() {
+        this.$toasted.global.success('URL Copiada com sucesso');
+      },
+      copyError() {
+        this.$toasted.global.error('Erro ao tentar copiar URL');
       }
     }
   }

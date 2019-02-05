@@ -1,3 +1,5 @@
+"use strict";
+
 import Vue from 'vue';
 
 import Toasted from 'vue-toasted';
