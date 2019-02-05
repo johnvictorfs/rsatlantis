@@ -3,8 +3,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from guides.models import Guide
-from .serializers import GuideSerializer
-from .permissions import GuidePermission
+from guides.api.serializers import GuideSerializer
+from guides.api.permissions import GuidePermission
 
 
 class GuideViewSet(viewsets.ModelViewSet):

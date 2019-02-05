@@ -17,5 +17,5 @@ class GuideSerializer(serializers.HyperlinkedModelSerializer):
             'approved',
             'date_posted'
         )
-        extra_kwargs = {'url': {'lookup_field': 'slug'}}
         read_only_fields = ('url', 'author', 'slug', 'date_posted', 'approved')
+        extra_kwargs = {'url': {'lookup_field': 'slug'}}

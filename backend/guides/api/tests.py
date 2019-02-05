@@ -11,8 +11,8 @@ class CreateGuideTestCase(APITestCase):
     Tests if a User can create a guide or not with different types of authentication
 
     Expected:
-        No authentication: 403 Forbidden
-        Authenticated, but inactive: 403 Forbidden
+        No authentication: 401 Unauthorized
+        Authenticated, but inactive: 401 Unauthorized
         Authenticated and active: 201 Created
     """
 
@@ -110,7 +110,7 @@ class UpdateGuideTestCase(APITestCase):
     Tests if a User can update a Guide with different types of authentication
 
     Expected:
-        Not Authenticated: 403 Forbidden
+        Not Authenticated: 401 Unauthorized
         Authenticated, but not author or admin: 403 Forbidden
         Authenticated and author: 200 OK
         Authenticated and admin: 200 OK

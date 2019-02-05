@@ -22,10 +22,12 @@ from django.urls import path, re_path
 
 from users.api import views as user_views
 from guides.api import views as guide_views
+from runescape.api import views as runescape_views
 
 router = routers.DefaultRouter()
 router.register(r'users', user_views.UserViewSet)
 router.register(r'guides', guide_views.GuideViewSet)
+router.register(r'player', runescape_views.ClanMemberViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
