@@ -1,9 +1,11 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from django.contrib.auth import get_user_model
 
-from users.models import User
 from runescape.models import ClanMember
+
+User = get_user_model()
 
 
 class CreateClanMemberTestCase(APITestCase):

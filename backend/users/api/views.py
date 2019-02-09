@@ -1,12 +1,14 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer
-from .permissions import UserPermission
-from ..models import User
+from users.api.serializers import UserSerializer
+from users.api.permissions import UserPermission
 from guides.models import Guide
 from guides.api.serializers import GuideSerializer
+
+User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):

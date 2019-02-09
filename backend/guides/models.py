@@ -1,9 +1,11 @@
+from bleach import clean
 from django.db import models
 from django.utils import timezone
-from bleach import clean
+from django.contrib.auth import get_user_model
 
 from guides.utils import get_unique_slug
-from users.models import User
+
+User = get_user_model()
 
 ALLOWED_TAGS = [
     'a', 'img', 'br', 'abbr', 'acronym', 'b', 'blockquote', 'span',
