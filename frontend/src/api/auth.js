@@ -8,7 +8,12 @@ export default {
     return Vue.axios.post('/api/auth/logout/', {});
   },
   createAccount(credentials) {
-    return Vue.axios.post('/api/users/', {credentials});
+    return Vue.axios.post('/api/users/', {
+      username: credentials.username,
+      password: credentials.password,
+      email: credentials.email,
+      ingame_name: credentials.ingame_name
+    });
   },
   changeAccountPassword(password1, password2) {
     return Vue.axios.post('/api/auth/password/change/', {password1, password2});
