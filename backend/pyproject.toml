@@ -17,8 +17,12 @@ django-debug-toolbar = "^1.11"
 requests = "^2.21"
 django-extensions = "^2.1"
 django-dynamic-preferences = "^1.7"
+gunicorn = "^19.9"
+psycopg2-binary = "^2.7"
 
 [tool.poetry.dev-dependencies]
+ipython = "^7.2"
+jupyter = "^1.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
