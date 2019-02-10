@@ -27,7 +27,7 @@ from runescape.api import views as runescape_views
 router = routers.DefaultRouter()
 router.register(r'users', user_views.UserViewSet)
 router.register(r'guides', guide_views.GuideViewSet)
-router.register(r'player', runescape_views.ClanMemberViewSet)
+router.register(r'players', runescape_views.ClanMemberViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
