@@ -12,10 +12,10 @@ class AppUserAdmin(UserAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        return self.request.user.is_superuser
+        return request.user.is_superuser
 
     def has_delete_permission(self, request, obj=None):
-        return self.request.user.is_superuser
+        return request.user.is_superuser
 
 
 admin.site.register(User, AppUserAdmin)
