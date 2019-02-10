@@ -1,13 +1,29 @@
 language: python
+
 sudo: required
+
 dist: xenial
+
+services:
+  - postgresql
+
 python:
-  - "3.7"
+  - 3.7
+
+env:
+  - DJANGO=2.1.5
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
 before_install:
-  - 'cd backend/'
-  - 'curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python'
+  - export DJANGO_SETTINGS_MODULE=backend.settings
+  - cd backend/
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+
 install:
-  - 'source $HOME/.poetry/env'
-  - 'poetry install'
+  - source $HOME/.poetry/env
+  - poetry install
+
 script:
-  - 'poetry run python manage.py test'
+  - poetry run python manage.py test
