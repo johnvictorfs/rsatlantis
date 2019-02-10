@@ -2,29 +2,10 @@
   <v-layout>
     <v-navigation-drawer v-model="sidebar" fixed clipped app>
       <v-list class="pt-0" dense>
-        <v-list-tile avatar class="pa-2">
-          <router-link :to="{name: 'home'}">
-            <img class="logo logo--desktop" src="../assets/atlantis_logo.png" alt="logo"/>
-          </router-link>
-        </v-list-tile>
 
-        <v-divider></v-divider>
-
-        <v-list-tile avatar tag="div" v-if="isAuthenticated">
-          <v-list-tile-avatar>
-            <v-icon small>{{ userIcon }}</v-icon>
-          </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{ username }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-divider light></v-divider>
-
-        <v-list-tile dense v-for="item in items" :key="item.text" :to="item.path">
+        <v-list-tile dense v-for="item in sidebarItems" :key="item.text" :to="item.path">
           <v-list-tile-action>
-            <v-icon :color="item.color">{{ item.icon }}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
 
           <v-list-tile-content>
@@ -54,7 +35,7 @@
           </v-avatar>
           {{ username }}
         </v-chip>
-        <v-btn flat v-for="item in items" :key="item.text" :to="item.path">
+        <v-btn flat v-for="item in toolbarItems" :key="item.text" :to="item.path">
           <v-icon left :color="item.color">{{ item.icon }}</v-icon>
           {{ item.text }}
         </v-btn>
@@ -69,10 +50,11 @@
   export default {
     name: "Toolbar",
     props: {
-      'items': Array
+      'sidebarItems': Array,
+      'toolbarItems': Array
     },
     data: () => ({
-      sidebar: false
+      sidebar: true
     }),
     methods: {
       toggleTheme() {
@@ -94,10 +76,10 @@
         return this.$store.getters.isDarkTheme
       },
       isAdmin() {
-        return this.$store.state.isAdmin
+        return this.$store.state.auth.isAdmin
       },
       username() {
-        return this.$store.state.username
+        return this.$store.state.auth.username
       },
       userIcon() {
         if (this.isAdmin) {

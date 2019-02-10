@@ -41,7 +41,7 @@
                             maxlength="70"
                             required
               ></v-text-field>
-              <v-text-field v-model="credentials.password1" prepend-icon="lock" :rules="rules.password" counter
+              <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter
                             box
                             type="password"
                             label="Senha"
@@ -115,7 +115,7 @@
 
 <script>
   /** @namespace this.credentials.username **/
-  /** @namespace this.credentials.password1 **/
+  /** @namespace this.credentials.password **/
   /** @namespace this.credentials.password2 **/
   /** @namespace this.credentials.email **/
   /** @namespace this.credentials.ingame_name **/
@@ -189,7 +189,7 @@
     },
     computed: {
       passwordMissmatch() {
-        return (this.credentials.password1 === this.credentials.password2) ? [] : ['Senhas precisam ser iguais']
+        return (this.credentials.password === this.credentials.password2) ? [] : ['Senhas precisam ser iguais']
       },
       validForms() {
         return this.userFormValid && this.ingameFormValid;
