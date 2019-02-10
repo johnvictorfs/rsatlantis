@@ -5,8 +5,9 @@ python:
   - "3.7"
 before_install:
   - 'cd backend/'
-  - 'pip install poetry'
+  - 'curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python'
 install:
+  - 'source $HOME/.poetry/env'
   - 'poetry install'
 script:
   - 'poetry run python manage.py test'
