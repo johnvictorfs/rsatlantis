@@ -11,7 +11,6 @@ cd ..
 cd backend/
 
 poetry install || exit 1 "Could not install pyproject.toml dependencies"
-poetry shell|| exit 1 "Could not load shell with python venv using Poetry"
-python manage.py migrate || exit 1 "Could not migrate DB changes correctly"
-python manage.py test || exit 1 "Failure when running tests"
-python manage.py collectstatic --noinput || exit 1 "Could not run collectstatic management command"
+poetry run python manage.py migrate || exit 1 "Could not migrate DB changes correctly"
+poetry run python manage.py test || exit 1 "Failure when running tests"
+poetry run python manage.py collectstatic --noinput || exit 1 "Could not run collectstatic management command"
