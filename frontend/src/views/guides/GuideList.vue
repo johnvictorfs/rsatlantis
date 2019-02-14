@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import Guide from '../../components/Guide'
+  const Guide = () => import('../../components/Guide');
 
   export default {
     name: "GuideList",

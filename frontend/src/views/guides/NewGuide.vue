@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import Centered from '../../components/Centered'
+  const Centered = () => import('../../components/Centered');
   import {formatError} from "../../helpers/errors";
 
   export default {

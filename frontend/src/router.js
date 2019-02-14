@@ -55,6 +55,11 @@ const router = new Router({
       component: () => import('./views/Api')
     },
     {
+      path: '/clan/list',
+      name: 'clan-list',
+      component: () => import('./views/ClanList')
+    },
+    {
       path: '/404',
       alias: '*',
       name: 'notfound',

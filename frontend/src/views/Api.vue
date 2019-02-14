@@ -61,7 +61,7 @@
 </template>
 
 <script>
-  import CodeDialog from '../components/CodeDialog'
+  const CodeDialog = () => import('../components/CodeDialog');
 
   export default {
     name: "Api",

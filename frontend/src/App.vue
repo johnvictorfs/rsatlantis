@@ -2,9 +2,9 @@
   <v-app :dark="darkTheme">
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
     <v-content>
-      <Loading></Loading>
       <transition name="fade" mode="out-in" @beforeLeave="beforeLeave">
         <v-container fluid>
+          <Loading></Loading>
           <router-view></router-view>
         </v-container>
       </transition>
@@ -36,6 +36,7 @@
       sidebarItems: [
         {text: 'Novo Guia', path: {name: 'guides.new'}, color: 'success', auth: true, icon: 'fa-plus-square'},
         {text: 'Guias', path: {name: 'guides.list'}, color: 'orange', auth: 'any', icon: 'fa-list'},
+        {text: 'Membros do Clã', path: {name: 'clan-list'}, color: 'primary', auth: 'any', icon: 'fa-users'}
       ]
     }),
     created() {

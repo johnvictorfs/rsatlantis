@@ -11,8 +11,18 @@ const mutations = {
   },
 };
 
+const actions = {
+  setLoading({commit}) {
+    commit('SET_LOADING');
+  },
+  removeLoading({commit}) {
+    commit('REMOVE_LOADING');
+  }
+};
+
 export default {
   // namespaced: true,
   state,
   mutations,
+  actions,
 };
