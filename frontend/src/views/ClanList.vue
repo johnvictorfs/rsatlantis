@@ -1,7 +1,8 @@
 <template>
   <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md6>
-      <v-alert slot="apiError" :value="apiError" color="error" icon="warning" transition="scale-transition">
+    <v-flex xs12 sm8 md5>
+      <v-alert slot="apiError" :value="apiError" color="error" icon="warning" transition="scale-transition"
+               class="mb-3">
         Não foi possível acessar o Banco de Dados de Membros do Clã. Tente novamente mais tarde :(
       </v-alert>
 
@@ -36,7 +37,10 @@
                         class="elevation-1">
             <template slot="items" slot-scope="props">
               <td class="text-xs-center">{{ props.item.name }}</td>
-              <td class="text-xs-center">{{ props.item.translated_rank }}</td>
+              <td class="text-xs-center">
+                <img :src="require(`../assets/clan_ranks/${props.item.rank}.png`)" :alt="'rank_' + props.item.rank">
+                {{ props.item.translated_rank }}
+              </td>
               <td class="text-xs-center">{{ props.item.exp | commaSeparatedVal }}</td>
             </template>
             <v-alert slot="no-results" :value="true" color="error">
@@ -44,7 +48,8 @@
             </v-alert>
           </v-data-table>
           <div class="text-xs-center pt-2 light-grey-background">
-            <v-pagination v-model="pagination.page" :length="pages" color="grey darken-4"></v-pagination>
+            <v-pagination v-model="pagination.page" :length="pages" color="grey darken-4"
+                          :total-visible="9"></v-pagination>
           </div>
         </div>
       </v-card>
@@ -62,7 +67,7 @@
       selected: [],
       apiError: false,
       search: '',
-      rows_per_page: [10, 20, {"text": "$vuetify.dataIterator.rowsPerPageAll", "value": -1}],
+      rows_per_page: [15, 20, {"text": "$vuetify.dataIterator.rowsPerPageAll", "value": -1}],
       headers: [
         {text: 'Nome', value: 'name', align: 'center'},
         {text: 'Rank', value: 'translated_rank', align: 'center'},
