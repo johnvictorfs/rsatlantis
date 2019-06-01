@@ -26,21 +26,16 @@
                         required
           ></v-text-field>
 
-          <br/>
-          <v-toolbar>
-            <v-btn color="primary" flat small :to="{name: 'register'}">
-              Criar Conta
-              <v-icon right>fa-user-plus</v-icon>
+          <v-btn class="atl-btn atl-login-btn mt-4 mb-3" block color="success" :disabled="!valid" @click="login">
+            Entrar
+            <v-icon right>check</v-icon>
+          </v-btn>
+          <v-flex xs12 offset-xs7>
+            <v-btn class="atl-btn" color="primary" flat small :to="{name: 'register'}">
+              Não tenho uma Conta
+              <v-icon right small>fa-user-plus</v-icon>
             </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn color="success" small :disabled="!valid" @click="login">
-              Entrar
-              <v-icon right>check</v-icon>
-            </v-btn>
-
-          </v-toolbar>
+          </v-flex>
         </v-form>
       </v-container>
     </v-card>
@@ -76,7 +71,7 @@
         if (error === 'Error: Network Error') {
           return 'Erro: Falha de Conexão'
         }
-        return error;
+        return 'Erro Inesperado, tente novamente mais tarde';
       },
       login() {
         if (this.$refs.form.validate()) {
@@ -94,3 +89,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .atl-login-btn {
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+</style>

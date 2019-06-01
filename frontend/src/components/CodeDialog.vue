@@ -1,8 +1,5 @@
 <template>
-  <div>
-
     <v-dialog v-model="dialog" width="500">
-
       <v-btn icon ripple slot="activator">
         <v-icon color="grey lighten-1">{{ activatorIcon }}</v-icon>
       </v-btn>
@@ -27,7 +24,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
 </template>
 
 <script>

@@ -1,33 +1,28 @@
 <template>
-  <v-card class="elevation-12" light>
-    <v-toolbar dark color="primary">
-      <v-btn round absolute top left :color="authorColor">
+  <v-card class="elevation-12 mb-2" color="grey darken-3">
+    <v-card-title primary-title>
+      <v-btn round absolute top left>
         <v-icon small left>{{ authorIcon }}</v-icon>
         {{ guide.author.name }}
       </v-btn>
-      <v-toolbar-title>
-        {{ guide.title }}
-      </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-chip>
+      <v-btn small round absolute top right color="grey darken-1">
         {{ guide.category }}
-      </v-chip>
+      </v-btn>
+      <div>
+        <div class="headline guide-title">
+          {{ guide.title }} asdasd asdasdasd asdasdasd asdasdasd
+        </div>
+        <span>
+          {{ guide.description }}
+        </span>
+      </div>
+    </v-card-title>
 
-    </v-toolbar>
-    <v-toolbar light>
-      <v-toolbar-title>
-        {{ guide.description }}
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn right small color="primary" v-if="detailsButton" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
+    <v-card-actions class="guide-actions">
+      <v-btn class="atl-btn mb-1"  small color="primary" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
         Ver Guia
       </v-btn>
-    </v-toolbar>
-    <v-divider></v-divider>
-    <v-card-text class="headline" v-if="content" v-html="guide.content">
-    </v-card-text>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -35,8 +30,6 @@
   export default {
     name: "Guide",
     props: {
-      detailsButton: Boolean,
-      content: Boolean,
       guide: Object,
     },
     computed: {
@@ -61,3 +54,14 @@
     }
   }
 </script>
+
+<style scoped>
+  .guide-title {
+    font-size: 32px !important;
+    margin-bottom: 10px;
+  }
+
+  .guide-actions {
+    justify-content: center;
+  }
+</style>

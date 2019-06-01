@@ -7,13 +7,13 @@
             <v-toolbar-title>
               <strong>
                 <v-icon left>warning</v-icon>
-                404
+                404 - Nada interessante acontece
               </strong>
             </v-toolbar-title>
           </v-toolbar>
           <v-layout justify-center class="text-xs-center">
             <v-container fluid grid-list-md>
-              <h3>Página não encontrada :(</h3>
+              <h3 class="mb-2">Página não encontrada :(</h3>
               <v-btn color="light-blue" to="/" right>
                 <v-icon left dark>fa-home</v-icon>
                 Ínicio
@@ -31,7 +31,3 @@
     name: "NotFound"
   }
 </script>
-
-<style scoped>
-
-</style>

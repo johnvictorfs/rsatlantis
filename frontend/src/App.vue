@@ -1,8 +1,8 @@
 <template>
-  <v-app :dark="darkTheme">
+  <v-app dark>
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
     <v-content>
-      <transition name="fade" mode="out-in" @beforeLeave="beforeLeave">
+      <transition name="fade">
         <v-container fluid>
           <Loading></Loading>
           <router-view></router-view>
@@ -36,24 +36,20 @@
       sidebarItems: [
         {text: 'Novo Guia', path: {name: 'guides.new'}, color: 'success', auth: true, icon: 'fa-plus-square'},
         {text: 'Guias', path: {name: 'guides.list'}, color: 'orange', auth: 'any', icon: 'fa-list'},
-        {text: 'Membros do Clã', path: {name: 'clan-list'}, color: 'primary', auth: 'any', icon: 'fa-users'}
+        {text: 'Membros', path: {name: 'clan-list'}, color: 'primary', auth: 'any', icon: 'fa-users'}
       ]
     }),
-    created() {
+    async created() {
       if (this.$store.getters.isAuthenticated) {
-        this.$store.dispatch('accountDetails').then()
+        await this.$store.dispatch('accountDetails');
       }
     },
     computed: {
-      darkTheme() {
-        return this.$store.getters.isDarkTheme
-      },
-      filteredToolbarItems: function () {
-        /*
-        Filters items based on if they are shown to authenticated users or not, according to if the user is
-        authenticated or not.
-        */
-
+      filteredToolbarItems() {
+        /**
+         * Filters items based on if they are shown to authenticated users or not, according to if the user is
+         * authenticated or not.
+         */
         let items = [];
         for (let i = 0; i < this.toolbarItems.length; i++) {
           if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
@@ -64,11 +60,11 @@
         }
         return items;
       },
-      filteredSidebarItems: function () {
-        /*
-        Filters items based on if they are shown to authenticated users or not, according to if the user is
-        authenticated or not.
-        */
+      filteredSidebarItems() {
+        /**
+         * Filters items based on if they are shown to authenticated users or not, according to if the user is
+         * authenticated or not.
+         */
         let items = [];
         for (let i = 0; i < this.sidebarItems.length; i++) {
           if (this.sidebarItems[i].auth === this.$store.getters.isAuthenticated) {
@@ -79,23 +75,6 @@
         }
         return items;
       }
-    },
-    methods: {
-      beforeLeave(element) {
-        this.prevHeight = getComputedStyle(element).height;
-      },
-      enter(element) {
-        const {height} = getComputedStyle(element);
-
-        element.style.height = this.prevHeight;
-
-        setTimeout(() => {
-          element.style.height = height;
-        });
-      },
-      afterEnter(element) {
-        element.style.height = 'auto';
-      },
     },
   }
 </script>
@@ -116,15 +95,13 @@
     sans-serif;
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition-duration: 0.3s;
-    transition-property: opacity;
-    transition-timing-function: ease;
+  .atl-btn {
+    border-radius: 8px;
   }
 
-  .fade-enter,
-  .fade-leave-active {
-    opacity: 0
+  .atl-round-btn {
+    margin-left: 8px !important;
+    height: 38px !important;
+    border-width: 3px;
   }
 </style>

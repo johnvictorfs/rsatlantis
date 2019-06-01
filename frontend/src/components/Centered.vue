@@ -13,7 +13,3 @@
     name: "Centered"
   }
 </script>
-
-<style scoped>
-
-</style>

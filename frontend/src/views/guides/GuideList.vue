@@ -1,14 +1,11 @@
 <template>
   <v-container app>
-    <br/>
-    <ul>
-      <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4  class="pt-5">
-        <Guide :guide="guide" :content="false" :details-button="true"></Guide>
-      </v-flex>
-      <v-layout justify-center>
-        <v-pagination v-model="page" :length="pageLength" circle></v-pagination>
-      </v-layout>
-    </ul>
+    <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">
+      <Guide :guide="guide" :content="false" :details-button="true"></Guide>
+    </v-flex>
+    <v-layout justify-center>
+      <v-pagination v-if="visibleGuides.length > 5" v-model="page" :length="pageLength" circle></v-pagination>
+    </v-layout>
   </v-container>
 </template>
 
@@ -26,40 +23,49 @@
       page: 1,
       pageSize: 5
     }),
-    created() {
-      this.$store.dispatch('guideList', this.$route.params.slug).then(response => {
-        for (const guide of response.data) {
-          if (guide.category === 'pvm') {
-            guide.category = 'PvM'
-          } else if (guide.category === 'skilling') {
-            guide.category = 'Habilidades'
-          } else {
-            guide.category = 'Outros'
+    async created() {
+      try {
+        const {data: guides} = await this.$store.dispatch('guideList', this.$route.params.slug);
+        console.log(guides);
+        for (const guide of guides) {
+
+          switch (guide.category) {
+            case 'pvm':
+              guide.category = 'PvM';
+              break;
+            case 'skilling':
+              guide.category = 'Habilidades';
+              break;
+            default:
+              guide.category = 'Outros'
           }
 
-          this.$axios.get(guide.author).then(author => {
+          try {
+
+            const {data: author} = await this.$axios.get(guide.author);
             guide.author = {
-              name: author.data.username,
-              isAdmin: author.data.is_staff,
-              isSuperUser: author.data.is_superuser
+              name: author.username,
+              isAdmin: author.is_staff,
+              isSuperUser: author.is_superuser
             };
-          }).catch(() => {
+          } catch (error) {
             guide.author = {
               name: 'N/A',
               isAdmin: false,
               isSuperUser: false
             };
-          });
+          }
+          this.guides = guides;
         }
-        this.guides = response.data;
-      }).catch(() => {
+      } catch (error) {
         this.notFound = true;
-      })
+      }
     },
     computed: {
       visibleGuides() {
         return this.guides.slice(((this.page - 1) * this.pageSize), (this.page * this.pageSize));
-      },
+      }
+      ,
       pageLength() {
         return Math.ceil(this.guides.length / this.pageSize);
       }

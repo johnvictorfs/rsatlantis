@@ -1,42 +1,35 @@
 <template>
-  <Centered>
-    <v-card class="elevation-12">
+  <v-card class="elevation-12">
 
-      <v-toolbar dark color="green">
-        <v-toolbar-title>Criar um Novo Guia</v-toolbar-title>
-      </v-toolbar>
+    <v-toolbar dark color="green">
+      <v-toolbar-title>Criar um Novo Guia</v-toolbar-title>
+    </v-toolbar>
 
-      <v-container fluid grid-list-md>
+    <v-container fluid grid-list-md>
 
-        <v-card-text>
-          <v-form ref="form" v-model="valid">
-            <v-text-field box required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
+      <v-card-text>
+        <v-form ref="form" v-model="valid">
+          <v-text-field box required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
 
-            <v-text-field box required label="Descrição" v-model="guide.description" :counter="40"
-                          maxlength="40"></v-text-field>
+          <v-text-field box required label="Descrição" v-model="guide.description" :counter="40"
+                        maxlength="40"></v-text-field>
 
-            <v-select box required label="Categoria" :items="categories"></v-select>
-          </v-form>
+          <v-select box required label="Categoria" :items="categories"></v-select>
+        </v-form>
 
-          <tinymce id="d1" v-model="guide.content" :other_options="tinymce" :plugins="tinymce.plugins"></tinymce>
+        <tinymce id="d1" v-model="guide.content" :other_options="tinymce" :plugins="tinymce.plugins"></tinymce>
 
-          <v-divider class="my-2"></v-divider>
+        <v-divider class="my-2"></v-divider>
 
-        </v-card-text>
+      </v-card-text>
 
-        <v-toolbar>
-          <v-spacer></v-spacer>
+      <v-btn outline round block color="success" :disabled="!valid" @click="submit">
+        Enviar
+        <v-icon right>check</v-icon>
+      </v-btn>
 
-          <v-btn color="success" :disabled="!valid" @click="submit">
-            Enviar
-            <v-icon right>check</v-icon>
-          </v-btn>
-
-        </v-toolbar>
-
-      </v-container>
-    </v-card>
-  </Centered>
+    </v-container>
+  </v-card>
 </template>
 
 <script>

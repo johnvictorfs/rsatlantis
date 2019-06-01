@@ -14,10 +14,9 @@
       <v-btn icon>
         <a href="http://services.runescape.com/m=clan-home/clan/Atlantis" target="_blank"
            style="text-decoration: none;">
-          <RunescapeIcon></RunescapeIcon>
+          <RunescapeIcon />
         </a>
       </v-btn>
-
 
       <v-flex primary py-1 text-xs-center white--text xs12>
         &copy;{{ new Date().getFullYear() }} —
