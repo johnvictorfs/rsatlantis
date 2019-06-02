@@ -2,8 +2,8 @@ import Vue from 'vue';
 import auth from '../api/auth';
 import { AxiosResponse } from 'axios';
 
-type state = {
-  token: string;
+type State = {
+  token: string | null;
   username: string;
   ingameName: string;
   email: string;
@@ -13,7 +13,7 @@ type state = {
   userGuides: string;
 };
 
-const storeState: state = {
+const storeState: State = {
   token: localStorage.getItem('TOKEN') || '',
   username: '',
   ingameName: '',
@@ -25,17 +25,17 @@ const storeState: state = {
 };
 
 const mutations = {
-  SET_TOKEN(state: state, token: string) {
+  SET_TOKEN(state: State, token: string) {
     localStorage.setItem('TOKEN', token);
     Vue.axios.defaults.headers.common.Authorization = `Token ${token}`;
     state.token = token;
   },
-  REMOVE_TOKEN(state: state) {
+  REMOVE_TOKEN(state: State) {
     localStorage.removeItem('TOKEN');
     delete Vue.axios.defaults.headers.common.Authorization;
     state.token = null;
   },
-  SET_ACCOUNT_DETAILS(state: state, details) {
+  SET_ACCOUNT_DETAILS(state: State, details) {
     state.username = details.username;
     state.ingameName = details.ingame_name;
     state.email = details.email;
@@ -44,7 +44,7 @@ const mutations = {
     state.userUrl = details.url;
     state.userGuides = details.guides;
   },
-  CLEAR_ACCOUNT_DETAILS(state: state) {
+  CLEAR_ACCOUNT_DETAILS(state: State) {
     state.username = '';
     state.ingameName = '';
     state.email = '';
@@ -58,19 +58,17 @@ const mutations = {
 const actions = {
   login({ commit, dispatch }, credentials) {
     commit('SET_LOADING');
-    return new Promise((resolve, reject) => {
-      auth
-        .login(credentials.username, credentials.password)
-        .then(response => {
-          commit('SET_TOKEN', response.data.key);
-          dispatch('accountDetails');
-          commit('REMOVE_LOADING');
-          resolve(response);
-        })
-        .catch((error: Error) => {
-          commit('REMOVE_LOADING');
-          reject(error);
-        });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await auth.login(credentials.username, credentials.password);
+        commit('SET_TOKEN', response.data.key);
+        dispatch('accountDetails');
+        commit('REMOVE_LOADING');
+        resolve(response);
+      } catch (error) {
+        commit('REMOVE_LOADING');
+        reject(error);
+      }
     });
   },
   logout({ commit }) {
@@ -81,38 +79,33 @@ const actions = {
     commit('REMOVE_LOADING');
   },
   accountDetails({ commit }) {
-    return new Promise((resolve, reject) => {
-      auth
-        .getAccountDetails()
-        .then(response => {
-          commit('SET_ACCOUNT_DETAILS', response.data);
-          resolve(response);
-        })
-        .catch((error: Error) => {
-          reject(error);
-        });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await auth.getAccountDetails();
+        commit('SET_ACCOUNT_DETAILS', response.data);
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
     });
   },
   createAccount({ commit }, credentials) {
     commit('SET_LOADING');
-    return new Promise((resolve, reject) => {
-      auth
-        .createAccount(credentials)
-        .then((response: AxiosResponse) => {
-          resolve(response);
-        })
-        .catch((error: Error) => {
-          reject(error);
-        })
-        .finally(() => {
-          commit('REMOVE_LOADING');
-        });
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await auth.createAccount(credentials);
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      } finally {
+        commit('REMOVE_LOADING');
+      }
     });
   }
 };
 
 const getters = {
-  isAuthenticated: (state: state) => !!state.token
+  isAuthenticated: (state: State) => (state.token ? true : false)
 };
 
 export default {

@@ -7,6 +7,7 @@ import './plugins/vuetify';
 import './plugins/toasted';
 
 import 'vuetify/dist/vuetify.min.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 import App from './App.vue';
 import router from './router';

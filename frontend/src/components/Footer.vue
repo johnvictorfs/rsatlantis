@@ -22,7 +22,7 @@
       <v-flex primary py-1 text-xs-center white--text xs12>
         &copy;{{ new Date().getFullYear() }} —
         <strong>
-          John Victor
+          Atlantis
           <v-btn icon>
             <a
               href="https://github.com/johnvictorfs/"
