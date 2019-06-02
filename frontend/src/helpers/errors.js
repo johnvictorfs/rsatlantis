@@ -6,7 +6,7 @@ export function formatError(error) {
     errorMessage = error.toString();
   }
   if (errorMessage === 'Error: Network Error') {
-    return 'Erro: Falha de Conexão'
+    return 'Erro: Falha de Conexão';
   }
-  return errorMessage
+  return errorMessage;
 }

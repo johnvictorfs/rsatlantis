@@ -1,22 +1,21 @@
-"use strict";
-
 import Vue from 'vue';
 
 import Toasted from 'vue-toasted';
 
 Vue.use(Toasted);
 
-// register the toast with the custom message
-Vue.toasted.register('error',
-  (message) => {
+Vue.toasted.register(
+  'error',
+  message => {
     // if there is no message passed show default message
     if (!message) {
-      return "Erro Inesperado :("
+      return 'Erro Inesperado :(';
     }
     // if there is a message show it with the message
     return message;
   },
   {
+    theme: 'bubble',
     position: 'top-center',
     type: 'error',
     icon: 'error_outline',
@@ -24,14 +23,16 @@ Vue.toasted.register('error',
   }
 );
 
-Vue.toasted.register('success',
-  (message) => {
+Vue.toasted.register(
+  'success',
+  message => {
     if (!message) {
-      return "Sucesso :)"
+      return 'Sucesso :)';
     }
     return message;
   },
   {
+    theme: 'bubble',
     position: 'top-center',
     type: 'success',
     icon: 'check_circle_outline',

@@ -10,65 +10,62 @@
 </template>
 
 <script>
-  const Guide = () => import('../../components/Guide');
+const Guide = () => import('../../components/Guide');
 
-  export default {
-    name: "GuideList",
-    components: {
-      Guide
-    },
-    data: () => ({
-      notFound: false,
-      guides: [],
-      page: 1,
-      pageSize: 5
-    }),
-    async created() {
-      try {
-        const {data: guides} = await this.$store.dispatch('guideList', this.$route.params.slug);
-        console.log(guides);
-        for (const guide of guides) {
-
-          switch (guide.category) {
-            case 'pvm':
-              guide.category = 'PvM';
-              break;
-            case 'skilling':
-              guide.category = 'Habilidades';
-              break;
-            default:
-              guide.category = 'Outros'
-          }
-
-          try {
-
-            const {data: author} = await this.$axios.get(guide.author);
-            guide.author = {
-              name: author.username,
-              isAdmin: author.is_staff,
-              isSuperUser: author.is_superuser
-            };
-          } catch (error) {
-            guide.author = {
-              name: 'N/A',
-              isAdmin: false,
-              isSuperUser: false
-            };
-          }
-          this.guides = guides;
+export default {
+  name: 'GuideList',
+  components: {
+    Guide,
+  },
+  data: () => ({
+    notFound: false,
+    guides: [],
+    page: 1,
+    pageSize: 5,
+  }),
+  async created() {
+    try {
+      const { data: guides } = await this.$store.dispatch('guideList', this.$route.params.slug);
+      console.log(guides);
+      for (const guide of guides) {
+        switch (guide.category) {
+          case 'pvm':
+            guide.category = 'PvM';
+            break;
+          case 'skilling':
+            guide.category = 'Habilidades';
+            break;
+          default:
+            guide.category = 'Outros';
         }
-      } catch (error) {
-        this.notFound = true;
+
+        try {
+          const { data: author } = await this.$axios.get(guide.author);
+          guide.author = {
+            name: author.username,
+            isAdmin: author.is_staff,
+            isSuperUser: author.is_superuser,
+          };
+        } catch (error) {
+          guide.author = {
+            name: 'N/A',
+            isAdmin: false,
+            isSuperUser: false,
+          };
+        }
+        this.guides = guides;
       }
-    },
-    computed: {
-      visibleGuides() {
-        return this.guides.slice(((this.page - 1) * this.pageSize), (this.page * this.pageSize));
-      }
-      ,
-      pageLength() {
-        return Math.ceil(this.guides.length / this.pageSize);
-      }
+    } catch (error) {
+      this.notFound = true;
     }
-  }
+  },
+  computed: {
+    visibleGuides() {
+      return this.guides.slice(((this.page - 1) * this.pageSize), (this.page * this.pageSize));
+    },
+    pageLength() {
+      return Math.ceil(this.guides.length / this.pageSize);
+    },
+  },
+};
 </script>

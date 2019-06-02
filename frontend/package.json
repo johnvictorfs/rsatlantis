@@ -3,59 +3,51 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "cross-env NODE_ENV=development vue-cli-service serve --port 8080",
-    "build": "cross-env NODE_ENV=production vue-cli-service build",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@tinymce/tinymce-vue": "^1.1.2",
-    "axios": "^0.18.0",
-    "vue": "^2.6.6",
-    "vue-clipboard2": "^0.2.1",
-    "vue-router": "^3.0.2",
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
+    "vue-clipboard2": "^0.3.0",
+    "vue-router": "^3.0.3",
     "vue-tinymce-editor": "^1.6.2",
-    "vue-toasted": "^1.1.26",
-    "vuetify": "^1.5.1",
-    "vuex": "^3.1.0"
+    "vue-toasted": "^1.1.27",
+    "vuetify": "^1.5.5",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-plugin-eslint": "^3.1.5",
-    "@vue/cli-service": "^3.1.4",
+    "@fortawesome/fontawesome-free": "^5.8.2",
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-plugin-typescript": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "@vue/eslint-config-typescript": "^4.0.0",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.8.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-es-beautifier": "^1.0.1",
     "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^8.1.5",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "vue-cli-plugin-axios": "0.0.4",
-    "vue-cli-plugin-vuetify": "^0.4.6",
-    "vue-template-compiler": "^2.6.6",
-    "vuetify-loader": "^1.2.1"
+    "typescript": "^3.4.3",
+    "vue-cli-plugin-axios": "^0.0.4",
+    "vue-cli-plugin-vuetify": "^0.5.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.0.5"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

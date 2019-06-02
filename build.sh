@@ -3,8 +3,8 @@
 # Front-end Build #
 cd frontend/
 
-npm install || exit 1 "Could not install npm dependencies"
-npm run build || exit 1 "Could not build Vue Bundle"
+yarn install || exit 1 "Could not install npm dependencies"
+build || exit 1 "Could not build Vue Bundle"
 cd ..
 
 # Back-end Build

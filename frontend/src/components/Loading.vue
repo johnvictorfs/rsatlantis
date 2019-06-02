@@ -1,5 +1,5 @@
 <template>
-  <v-dialog hide-overlay persistent width="80" v-model="$store.state.loading.loading">
+  <v-dialog v-model="$store.state.loading.loading" hide-overlay persistent width="80">
     <v-card>
       <v-card-text>
         <v-progress-circular :size="50" color="primary" indeterminate class="mb-0"/>
@@ -12,12 +12,12 @@
 </template>
 
 <script>
-  export default {
-    name: "Loading",
-    computed: {
-      loading() {
-        return this.$store.state.loading.loading;
-      }
+export default {
+  name: "Loading",
+  computed: {
+    loading() {
+      return this.$store.state.loading.loading;
     }
   }
+};
 </script>

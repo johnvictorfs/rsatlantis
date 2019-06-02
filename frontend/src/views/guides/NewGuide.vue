@@ -33,45 +33,46 @@
 </template>
 
 <script>
-  const Centered = () => import('../../components/Centered');
-  import {formatError} from "../../helpers/errors";
+import { formatError } from '../../helpers/errors';
 
-  export default {
-    name: "NewGuide",
-    components: {Centered,},
-    data: () => ({
-      valid: true,
-      tinymce: {
-        language_url: 'https://cdn.jsdelivr.net/npm/tinymce-i18n@18.12.25/langs/pt_BR.js',
-        height: 500,
-        plugins: [
-          'advlist autolink lists link image charmap preview hr anchor pagebreak',
-          'searchreplace visualblocks visualchars code',
-          'insertdatetime media nonbreaking save table contextmenu directionality',
-          'template paste textcolor colorpicker textpattern imagetools toc emoticons hr codesample'
-        ]
-      },
-      categories: ['PvM', 'Habilidades', 'Outros'],
-      guide: {
-        title: '',
-        description: '',
-        category: '',
-        content: ''
+const Centered = () => import('../../components/Centered');
+
+export default {
+  name: 'NewGuide',
+  components: { Centered },
+  data: () => ({
+    valid: true,
+    tinymce: {
+      language_url: 'https://cdn.jsdelivr.net/npm/tinymce-i18n@18.12.25/langs/pt_BR.js',
+      height: 500,
+      plugins: [
+        'advlist autolink lists link image charmap preview hr anchor pagebreak',
+        'searchreplace visualblocks visualchars code',
+        'insertdatetime media nonbreaking save table contextmenu directionality',
+        'template paste textcolor colorpicker textpattern imagetools toc emoticons hr codesample',
+      ],
+    },
+    categories: ['PvM', 'Habilidades', 'Outros'],
+    guide: {
+      title: '',
+      description: '',
+      category: '',
+      content: '',
+    },
+  }),
+  methods: {
+    submit() {
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('publishGuide', this.guide).then(() => {
+          this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado');
+          this.$router.push({ name: 'home' });
+        }).catch((error) => {
+          this.$toasted.global.error(formatError(error));
+        });
       }
-    }),
-    methods: {
-      submit() {
-        if (this.$refs.form.validate()) {
-          this.$store.dispatch('publishGuide', this.guide).then(() => {
-            this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado');
-            this.$router.push({name: 'home'});
-          }).catch(error => {
-            this.$toasted.global.error(formatError(error));
-          })
-        }
-      }
-    }
-  }
+    },
+  },
+};
 </script>
 
 <style scoped>

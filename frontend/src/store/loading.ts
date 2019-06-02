@@ -1,5 +1,5 @@
 const state = {
-  loading: false,
+  loading: false
 };
 
 const mutations = {
@@ -8,14 +8,14 @@ const mutations = {
   },
   REMOVE_LOADING(state) {
     state.loading = false;
-  },
+  }
 };
 
 const actions = {
-  setLoading({commit}) {
+  setLoading({ commit }) {
     commit('SET_LOADING');
   },
-  removeLoading({commit}) {
+  removeLoading({ commit }) {
     commit('REMOVE_LOADING');
   }
 };
@@ -24,5 +24,5 @@ export default {
   // namespaced: true,
   state,
   mutations,
-  actions,
+  actions
 };
