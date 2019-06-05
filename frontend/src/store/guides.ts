@@ -1,7 +1,7 @@
 import guide from '../api/guide';
 
 const actions = {
-  publishGuide({ commit }, guideDetails) {
+  publishGuide({ commit }: { commit: any }, guideDetails: any) {
     commit('SET_LOADING');
     return new Promise((resolve, reject) => {
       guide
@@ -17,7 +17,7 @@ const actions = {
         });
     });
   },
-  guideList({ commit }) {
+  guideList({ commit }: { commit: any }) {
     commit('SET_LOADING');
     return new Promise((resolve, reject) => {
       guide
@@ -33,7 +33,7 @@ const actions = {
         });
     });
   },
-  guideDetails({ commit }, slug) {
+  guideDetails({ commit }: { commit: any }, slug: string) {
     commit('SET_LOADING');
     return new Promise((resolve, reject) => {
       guide

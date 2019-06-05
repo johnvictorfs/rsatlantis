@@ -1,6 +1,5 @@
-import Vue from 'vue';
 import auth from '../api/auth';
-import { AxiosResponse } from 'axios';
+import api from '../api';
 
 type State = {
   token: string | null;
@@ -13,29 +12,18 @@ type State = {
   userGuides: string;
 };
 
-const storeState: State = {
-  token: localStorage.getItem('TOKEN') || '',
-  username: '',
-  ingameName: '',
-  email: '',
-  isAdmin: false,
-  isSuperUser: false,
-  userUrl: '',
-  userGuides: ''
-};
-
 const mutations = {
   SET_TOKEN(state: State, token: string) {
     localStorage.setItem('TOKEN', token);
-    Vue.axios.defaults.headers.common.Authorization = `Token ${token}`;
+    api.defaults.headers.common.Authorization = `Token ${token}`;
     state.token = token;
   },
   REMOVE_TOKEN(state: State) {
     localStorage.removeItem('TOKEN');
-    delete Vue.axios.defaults.headers.common.Authorization;
+    delete api.defaults.headers.common.Authorization;
     state.token = null;
   },
-  SET_ACCOUNT_DETAILS(state: State, details) {
+  SET_ACCOUNT_DETAILS(state: State, details: any) {
     state.username = details.username;
     state.ingameName = details.ingame_name;
     state.email = details.email;
@@ -56,7 +44,7 @@ const mutations = {
 };
 
 const actions = {
-  login({ commit, dispatch }, credentials) {
+  login({ commit, dispatch }: { commit: any; dispatch: any }, credentials: any) {
     commit('SET_LOADING');
     return new Promise(async (resolve, reject) => {
       try {
@@ -71,14 +59,14 @@ const actions = {
       }
     });
   },
-  logout({ commit }) {
+  logout({ commit }: { commit: any }) {
     commit('SET_LOADING');
     commit('REMOVE_TOKEN');
     commit('CLEAR_ACCOUNT_DETAILS');
     auth.logout();
     commit('REMOVE_LOADING');
   },
-  accountDetails({ commit }) {
+  accountDetails({ commit }: { commit: any }) {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await auth.getAccountDetails();
@@ -89,7 +77,7 @@ const actions = {
       }
     });
   },
-  createAccount({ commit }, credentials) {
+  createAccount({ commit }: { commit: any }, credentials: any) {
     commit('SET_LOADING');
     return new Promise(async (resolve, reject) => {
       try {
@@ -105,11 +93,23 @@ const actions = {
 };
 
 const getters = {
-  isAuthenticated: (state: State) => (state.token ? true : false)
+  isAuthenticated(state: State): boolean {
+    console.log(state);
+    return !!state.token;
+  }
 };
 
 export default {
-  storeState,
+  store: {
+    token: localStorage.getItem('TOKEN') || '',
+    username: '',
+    ingameName: '',
+    email: '',
+    isAdmin: false,
+    isSuperUser: false,
+    userUrl: '',
+    userGuides: ''
+  },
   mutations,
   actions,
   getters

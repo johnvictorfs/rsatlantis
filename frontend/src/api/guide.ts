@@ -1,7 +1,7 @@
-import Vue from 'vue';
+import api from '.';
 
 export default {
-  publishGuide(post) {
+  publishGuide(post: any) {
     if (post.category === 'PvM') {
       post.category = 'pvm';
     } else if (post.category === 'Habilidades') {
@@ -9,12 +9,12 @@ export default {
     } else {
       post.category = 'other';
     }
-    return Vue.axios.post('/api/guides/', post);
+    return api.post('/api/guides/', post);
   },
   guideList() {
-    return Vue.axios.get('/api/guides/');
+    return api.get('/api/guides/');
   },
-  guideDetails(slug) {
-    return Vue.axios.get(`/api/guides/${slug}/`);
+  guideDetails(slug: string) {
+    return api.get(`/api/guides/${slug}/`);
   }
 };

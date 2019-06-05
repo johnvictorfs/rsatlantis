@@ -15,22 +15,14 @@
 
 
 <script lang="ts">
-import Component from "vue-class-component";
-import Vue from "vue";
+import Component from 'vue-class-component';
+import Vue from 'vue';
 
-const Toolbar = () => import("./components/Toolbar.vue");
-const Footer = () => import("./components/Footer.vue");
-const Loading = () => import("./components/Loading.vue");
+import { ToolbarItem } from '../types';
 
-declare type RouterPath = { name: string };
-
-declare type ToolbarItem = {
-  text: string;
-  path: RouterPath;
-  color: string;
-  auth: boolean | "any";
-  icon: string;
-};
+const Toolbar = () => import('./components/Toolbar.vue');
+const Footer = () => import('./components/Footer.vue');
+const Loading = () => import('./components/Loading.vue');
 
 @Component({
   components: { Footer, Toolbar, Loading }
@@ -38,56 +30,19 @@ declare type ToolbarItem = {
 export default class App extends Vue {
   prevHeight: number = 0;
   toolbarItems: Array<ToolbarItem> = [
-    {
-      text: "Entrar",
-      path: { name: "login" },
-      color: "success",
-      auth: false,
-      icon: "fa-sign-in-alt"
-    },
-    {
-      text: "Cadastro",
-      path: { name: "register" },
-      color: "primary",
-      auth: false,
-      icon: "fa-user-plus"
-    },
-    {
-      text: "Sair",
-      path: { name: "logout" },
-      color: "error",
-      auth: true,
-      icon: "fa-sign-out-alt"
-    }
+    { text: 'Entrar', path: { name: 'login' }, color: 'success', auth: false, icon: 'fa-sign-in-alt' },
+    { text: 'Cadastro', path: { name: 'register' }, color: 'primary', auth: false, icon: 'fa-user-plus' },
+    { text: 'Sair', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
   ];
   sidebarItems: Array<ToolbarItem> = [
-    {
-      text: "Novo Guia",
-      path: { name: "guides.new" },
-      color: "success",
-      auth: true,
-      icon: "fa-plus-square"
-    },
-    {
-      text: "Guias",
-      path: { name: "guides.list" },
-      color: "orange",
-      auth: "any",
-      icon: "fa-list"
-    },
-    {
-      text: "Membros",
-      path: { name: "clan-list" },
-      color: "primary",
-      auth: "any",
-      icon: "fa-users"
-    }
+    { text: 'Novo Guia', path: { name: 'guides.new' }, color: 'success', auth: true, icon: 'fa-plus-square' },
+    { text: 'Guias', path: { name: 'guides.list' }, color: 'orange', auth: 'any', icon: 'fa-list' },
+    { text: 'Membros', path: { name: 'clan-list' }, color: 'primary', auth: 'any', icon: 'fa-users' }
   ];
 
   async created() {
-    console.log(this.$store.getters.isAuthenticated);
     if (this.$store.getters.isAuthenticated) {
-      await this.$store.dispatch("accountDetails");
+      await this.$store.dispatch('accountDetails');
     }
   }
 
@@ -100,7 +55,7 @@ export default class App extends Vue {
     for (let i = 0; i < this.toolbarItems.length; i++) {
       if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
         items.push(this.toolbarItems[i]);
-      } else if (this.toolbarItems[i].auth === "any") {
+      } else if (this.toolbarItems[i].auth === 'any') {
         items.push(this.toolbarItems[i]);
       }
     }
@@ -116,7 +71,7 @@ export default class App extends Vue {
     for (let i = 0; i < this.sidebarItems.length; i++) {
       if (this.sidebarItems[i].auth === this.$store.getters.isAuthenticated) {
         items.push(this.sidebarItems[i]);
-      } else if (this.sidebarItems[i].auth === "any") {
+      } else if (this.sidebarItems[i].auth === 'any') {
         items.push(this.sidebarItems[i]);
       }
     }

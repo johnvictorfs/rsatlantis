@@ -32,42 +32,40 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'vue-class-component';
 
-export default Vue.extend({
-  name: 'Toolbar',
+@Component({
   props: {
     sidebarItems: {
       type: Array,
-      default: []
+      default: () => []
     },
     toolbarItems: {
       type: Array,
-      default: []
-    }
-  },
-  data: () => ({
-    sidebar: true
-  }),
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
-    isAdmin() {
-      return this.$store.state.auth.isAdmin;
-    },
-    username() {
-      return this.$store.state.auth.username;
-    },
-    userIcon() {
-      return this.isAdmin ? 'fa-user-cog' : 'fa-user';
-    }
-  },
-  methods: {
-    toggleSideBar() {
-      this.sidebar = !this.sidebar;
+      default: () => []
     }
   }
 })
+export default class Toolbar extends Vue {
+  sidebar: boolean = true
+
+  get isAuthenticated() {
+    return this.$store.getters.isAuthenticated;
+  }
+  get isAdmin() {
+    return this.$store.state.auth.isAdmin;
+  }
+  get username() {
+    return this.$store.state.auth.username;
+  }
+  get userIcon() {
+    return this.isAdmin ? 'fa-user-cog' : 'fa-user';
+  }
+
+  toggleSideBar() {
+    this.sidebar = !this.sidebar;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
