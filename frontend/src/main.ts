@@ -2,7 +2,6 @@ import Vue from 'vue';
 import tinymce from 'vue-tinymce-editor';
 import VueClipboard from 'vue-clipboard2';
 
-import './plugins/axios';
 import './plugins/vuetify';
 import './plugins/toasted';
 

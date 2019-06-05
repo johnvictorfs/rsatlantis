@@ -1,24 +1,22 @@
 import Vue from 'vue';
 
-import Toasted from 'vue-toasted';
+import Toasted, { ToastOptions } from 'vue-toasted';
 
 Vue.use(Toasted);
 
 Vue.toasted.register(
   'error',
   message => {
-    // if there is no message passed show default message
     if (!message) {
       return 'Erro Inesperado :(';
     }
-    // if there is a message show it with the message
     return message;
   },
   {
     theme: 'bubble',
     position: 'top-center',
     type: 'error',
-    icon: 'error_outline',
+    icon: { name: 'error_outline', after: true },
     duration: 2800
   }
 );
@@ -35,7 +33,7 @@ Vue.toasted.register(
     theme: 'bubble',
     position: 'top-center',
     type: 'success',
-    icon: 'check_circle_outline',
+    icon: { name: 'check_circle_outline', after: true },
     duration: 2800
   }
 );

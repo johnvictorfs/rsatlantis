@@ -1,21 +1,25 @@
-const state = {
+type State = {
+  loading: boolean;
+};
+
+const state: State = {
   loading: false
 };
 
 const mutations = {
-  SET_LOADING(state) {
+  SET_LOADING(state: State) {
     state.loading = true;
   },
-  REMOVE_LOADING(state) {
+  REMOVE_LOADING(state: State) {
     state.loading = false;
   }
 };
 
 const actions = {
-  setLoading({ commit }) {
+  setLoading({ commit }: { commit: any }) {
     commit('SET_LOADING');
   },
-  removeLoading({ commit }) {
+  removeLoading({ commit }: { commit: any }) {
     commit('REMOVE_LOADING');
   }
 };

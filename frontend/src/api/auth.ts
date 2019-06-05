@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import api from '.';
 
 type credentials = {
   username: string;
@@ -9,13 +9,13 @@ type credentials = {
 
 export default {
   login(username: string, password: string) {
-    return Vue.axios.post('/api/auth/login/', { username, password });
+    return api.post('/api/auth/login/', { username, password });
   },
   logout() {
-    return Vue.axios.post('/api/auth/logout/', {});
+    return api.post('/api/auth/logout/', {});
   },
   createAccount(credentials: credentials) {
-    return Vue.axios.post('/api/users/', {
+    return api.post('/api/users/', {
       username: credentials.username,
       password: credentials.password,
       email: credentials.email,
@@ -23,13 +23,13 @@ export default {
     });
   },
   changeAccountPassword(password1: string, password2: string) {
-    return Vue.axios.post('/api/auth/password/change/', { password1, password2 });
+    return api.post('/api/auth/password/change/', { password1, password2 });
   },
   sendAccountPasswordResetEmail(email: string) {
-    return Vue.axios.post('/api/auth/password/reset/', { email });
+    return api.post('/api/auth/password/reset/', { email });
   },
   resetAccountPassword(uid: string, token: string, new_password1: string, new_password2: string) {
-    return Vue.axios.post('/api/auth/password/reset/confirm/', {
+    return api.post('/api/auth/password/reset/confirm/', {
       uid,
       token,
       new_password1,
@@ -37,12 +37,12 @@ export default {
     });
   },
   getAccountDetails() {
-    return Vue.axios.get('/api/users/current/');
+    return api.get('/api/users/current/');
   },
   updateAccountDetails(data: credentials) {
-    return Vue.axios.patch('/api/auth/user/', data);
+    return api.patch('/api/auth/user/', data);
   },
   verifyAccountEmail(key: string) {
-    return Vue.axios.post('/api/registration/verify-email/', { key });
+    return api.post('/api/registration/verify-email/', { key });
   }
 };

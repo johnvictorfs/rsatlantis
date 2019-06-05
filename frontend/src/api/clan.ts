@@ -1,7 +1,7 @@
-import Vue from 'vue';
+import api from '.';
 
 export default {
   clanList() {
-    return Vue.axios.get('/api/players/');
+    return api.get('/api/players/');
   }
 };
