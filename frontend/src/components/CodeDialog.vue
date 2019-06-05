@@ -25,19 +25,19 @@
 
 <script>
 export default {
-  name: "CodeDialog",
+  name: 'CodeDialog',
   props: {
     title: {
       type: String,
-      default: ""
+      default: ''
     },
     text: {
       type: String,
-      default: ""
+      default: ''
     },
     activatorIcon: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data: () => ({

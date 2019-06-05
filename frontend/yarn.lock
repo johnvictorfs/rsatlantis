@@ -8531,10 +8531,9 @@ vue-cli-plugin-axios@^0.0.4:
   resolved "https://registry.yarnpkg.com/vue-cli-plugin-axios/-/vue-cli-plugin-axios-0.0.4.tgz#29d4eb48275c7fe15b92e1fd5d95fbe2a966436f"
   integrity sha512-p2b/fvPJuPBnvU8027PAAuU5DiOzUn2lku8XLG/f6c8FU0N+/MXWZAlOuHhqd9e7+KIZitwe/c8qlmv7TglbTg==
 
-vue-cli-plugin-vuetify@^0.5.0:
+"vue-cli-plugin-vuetify@https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#dev":
   version "0.5.0"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-vuetify/-/vue-cli-plugin-vuetify-0.5.0.tgz#14c9a61884da58cf6aaf8ff3309044931907f184"
-  integrity sha512-TigfiZUs7SN3Z6uxKilqJUtYxte8vp0F4QxabCli6hkKPqU97JzAZc3P7AL6omkRAd2DMI26fOrIGjuALTvXww==
+  resolved "https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#f4edcc00b75a8b5cb09031358df9e6798708680f"
 
 vue-clipboard2@^0.3.0:
   version "0.3.0"
@@ -8628,17 +8627,17 @@ vue@^2.5.13, vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-vuetify-loader@^1.0.5:
+vuetify-loader@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.2.2.tgz#7c221dcfd8482344518818d598f9cef8ddd85b6b"
   integrity sha512-j6KWPuwQ4xTxPDksbFwbSJle7+3oSjNvJ/CViTEgbPLFPqnNsR8JUtRldURIQ0cmAmr0/CoLSZkj0B8JKqOBMA==
   dependencies:
     loader-utils "^1.1.0"
 
-vuetify@^1.5.5:
-  version "1.5.14"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.14.tgz#ff67d0b8a398be5297da159b6cd1b31f4d2898b8"
-  integrity sha512-7iM+TfghR/wu/Gl+k37lKr0N8Ddr6SxzqHtoK1dIyHgCH6SJRkpaXPw2MC5/FsAg9aUDJbYNWrzSeu5eHw+Q/w==
+vuetify@^2.0.0-beta.0:
+  version "2.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.0-beta.1.tgz#c4d8a92c129a698e82e2662cef2ebf6e219d5603"
+  integrity sha512-vIa1TpHHloEZnmNr237eyFPC4szS07ADwel+udDyweTJF3tiOxanO6f9E8UlTUUJgY5ab5DGfaUVa83ZsZR3Yg==
 
 vuex@^3.0.1:
   version "3.1.1"

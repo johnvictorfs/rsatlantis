@@ -10,6 +10,6 @@
 
 <script>
 export default {
-  name: "Centered"
+  name: 'Centered'
 };
 </script>

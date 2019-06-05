@@ -85,29 +85,29 @@
 </template>
 
 <script>
-import clan from "../api/clan";
+import clan from '../api/clan';
 
 export default {
-  name: "ClanList",
+  name: 'ClanList',
   filters: {
     commaSeparatedVal(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   },
   data: () => ({
     pagination: {},
     selected: [],
     apiError: false,
-    search: "",
+    search: '',
     rows_per_page: [
       15,
       20,
-      { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
+      { text: '$vuetify.dataIterator.rowsPerPageAll', value: -1 }
     ],
     headers: [
-      { text: "Nome", value: "name", align: "center" },
-      { text: "Rank", value: "translated_rank", align: "center" },
-      { text: "Exp", value: "exp", align: "center" }
+      { text: 'Nome', value: 'name', align: 'center' },
+      { text: 'Rank', value: 'translated_rank', align: 'center' },
+      { text: 'Exp', value: 'exp', align: 'center' }
     ],
     members: []
   }),
@@ -119,8 +119,9 @@ export default {
       if (
         this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
-      )
+      ) {
         return 0;
+      }
       return Math.ceil(
         this.pagination.totalItems / this.pagination.rowsPerPage
       );
@@ -131,7 +132,7 @@ export default {
   },
   methods: {
     updateClanList(notification = true) {
-      this.$store.dispatch("setLoading").then();
+      this.$store.dispatch('setLoading').then();
       clan
         .clanList()
         .then(response => {
@@ -140,7 +141,7 @@ export default {
           this.pagination.totalItems = this.members.length;
           if (notification) {
             this.$toasted.global.success(
-              "Membros do Clã atualizados com sucesso!"
+              'Membros do Clã atualizados com sucesso!'
             );
           }
         })
@@ -148,7 +149,7 @@ export default {
           this.apiError = true;
         })
         .finally(() => {
-          this.$store.dispatch("removeLoading").then();
+          this.$store.dispatch('removeLoading').then();
         });
     }
   }

@@ -3,7 +3,6 @@ import Vue from 'vue';
 import Toasted, { ToastOptions } from 'vue-toasted';
 
 Vue.use(Toasted);
-
 Vue.toasted.register(
   'error',
   message => {
@@ -16,6 +15,7 @@ Vue.toasted.register(
     theme: 'bubble',
     position: 'top-center',
     type: 'error',
+    // @ts-ignore
     icon: { name: 'error_outline', after: true },
     duration: 2800
   }
@@ -33,6 +33,7 @@ Vue.toasted.register(
     theme: 'bubble',
     position: 'top-center',
     type: 'success',
+    // @ts-ignore
     icon: { name: 'check_circle_outline', after: true },
     duration: 2800
   }
