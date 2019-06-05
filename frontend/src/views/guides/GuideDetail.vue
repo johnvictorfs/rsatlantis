@@ -16,15 +16,15 @@ const Guide = () => import('../../components/Guide');
 export default {
   name: 'GuideDetail',
   props: {
-    slug: String,
+    slug: String
   },
   components: {
-    Guide,
+    Guide
   },
   data: () => ({
     notFound: false,
     guide: {},
-    showGuide: false,
+    showGuide: false
   }),
   created() {
     this.$store.dispatch('guideDetails', this.slug).then((response) => {
@@ -39,7 +39,7 @@ export default {
         response.data.author = {
           name: author.data.username,
           isAdmin: author.data.is_staff,
-          isSuperUser: author.data.is_superuser,
+          isSuperUser: author.data.is_superuser
         };
         this.guide = response.data;
         this.showGuide = true;
@@ -47,7 +47,7 @@ export default {
         response.data.author = {
           name: 'N/A',
           isAdmin: false,
-          isSuperUser: false,
+          isSuperUser: false
         };
         this.guide = response.data;
         this.showGuide = true;
@@ -55,7 +55,7 @@ export default {
     }).catch(() => {
       this.notFound = true;
     });
-  },
+  }
 };
 </script>
 

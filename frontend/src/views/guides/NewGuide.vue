@@ -35,11 +35,8 @@
 <script>
 import { formatError } from '../../helpers/errors';
 
-const Centered = () => import('../../components/Centered');
-
 export default {
   name: 'NewGuide',
-  components: { Centered },
   data: () => ({
     valid: true,
     tinymce: {
@@ -49,16 +46,16 @@ export default {
         'advlist autolink lists link image charmap preview hr anchor pagebreak',
         'searchreplace visualblocks visualchars code',
         'insertdatetime media nonbreaking save table contextmenu directionality',
-        'template paste textcolor colorpicker textpattern imagetools toc emoticons hr codesample',
-      ],
+        'template paste textcolor colorpicker textpattern imagetools toc emoticons hr codesample'
+      ]
     },
     categories: ['PvM', 'Habilidades', 'Outros'],
     guide: {
       title: '',
       description: '',
       category: '',
-      content: '',
-    },
+      content: ''
+    }
   }),
   methods: {
     submit() {
@@ -70,11 +67,7 @@ export default {
           this.$toasted.global.error(formatError(error));
         });
       }
-    },
-  },
+    }
+  }
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -15,13 +15,13 @@ const Guide = () => import('../../components/Guide');
 export default {
   name: 'GuideList',
   components: {
-    Guide,
+    Guide
   },
   data: () => ({
     notFound: false,
     guides: [],
     page: 1,
-    pageSize: 5,
+    pageSize: 5
   }),
   async created() {
     try {
@@ -44,13 +44,13 @@ export default {
           guide.author = {
             name: author.username,
             isAdmin: author.is_staff,
-            isSuperUser: author.is_superuser,
+            isSuperUser: author.is_superuser
           };
         } catch (error) {
           guide.author = {
             name: 'N/A',
             isAdmin: false,
-            isSuperUser: false,
+            isSuperUser: false
           };
         }
         this.guides = guides;
@@ -65,7 +65,7 @@ export default {
     },
     pageLength() {
       return Math.ceil(this.guides.length / this.pageSize);
-    },
-  },
+    }
+  }
 };
 </script>

@@ -87,20 +87,7 @@ body {
     sans-serif;
 }
 
-.v-btn {
-  border-radius: 8px;
-}
-
-.v-btn--round {
-  margin-left: 8px !important;
-  border-radius: 50px;
-}
-
-.v-btn--round.v-btn--outline {
-  border-width: 2px !important;
-}
-
-.v-card {
-  border-radius: 8px;
+.atl-round-btn {
+  border-width: 2px;
 }
 </style>

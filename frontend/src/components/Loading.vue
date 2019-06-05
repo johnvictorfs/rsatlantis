@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "Loading",
+  name: 'Loading',
   computed: {
     loading() {
       return this.$store.state.loading.loading;

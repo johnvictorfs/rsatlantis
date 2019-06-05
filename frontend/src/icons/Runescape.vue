@@ -59,10 +59,6 @@
 
 <script>
 export default {
-  name: 'Runescape',
+  name: 'Runescape'
 };
 </script>
-
-<style scoped>
-
-</style>

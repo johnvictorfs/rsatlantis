@@ -126,12 +126,12 @@
 /** @namespace this.credentials.email * */
 /** @namespace this.credentials.ingame_name * */
 
-const Centered = () => import("../../components/Centered");
-const isInClan = () => import("../../helpers/runescape");
-const formatError = () => import("../../helpers/errors");
+const Centered = () => import('../../components/Centered');
+const isInClan = () => import('../../helpers/runescape');
+const formatError = () => import('../../helpers/errors');
 
 export default {
-  name: "Register",
+  name: 'Register',
   components: {
     Centered
   },
@@ -142,23 +142,23 @@ export default {
     ingameFormValid: false,
     rules: {
       email: [
-        v => !!v || "Campo de email é obrigatório",
-        v => /.+@.+/.test(v) || "Email precisa ser válido"
+        v => !!v || 'Campo de email é obrigatório',
+        v => /.+@.+/.test(v) || 'Email precisa ser válido'
       ],
       username: [
-        v => !!v || "Campo de usuário é obrigatório",
+        v => !!v || 'Campo de usuário é obrigatório',
         v =>
-          (v && v.length > 3) || "Usuário precisa ter pelo menos 4 caracteres",
+          (v && v.length > 3) || 'Usuário precisa ter pelo menos 4 caracteres',
         v =>
           /^[a-zA-Z\-0-9]+$/.test(v) ||
-          "Usuário pode conter apenas letras e números"
+          'Usuário pode conter apenas letras e números'
       ],
       password: [
-        v => !!v || "Campo de senha é obrigatório",
-        v => (v && v.length > 7) || "Senha precisa ter pelo menos 8 caracteres"
+        v => !!v || 'Campo de senha é obrigatório',
+        v => (v && v.length > 7) || 'Senha precisa ter pelo menos 8 caracteres'
       ],
-      password2: [v => !!v || "Confirmação de senha é obrigatório"],
-      ingame_name: [v => !!v || "Nome no Jogo é obrigatório"]
+      password2: [v => !!v || 'Confirmação de senha é obrigatório'],
+      ingame_name: [v => !!v || 'Nome no Jogo é obrigatório']
     }
   }),
 
@@ -174,11 +174,11 @@ export default {
           .then(isInClan => {
             if (isInClan) {
               this.$store
-                .dispatch("createAccount", this.credentials)
+                .dispatch('createAccount', this.credentials)
                 .then(() => {
-                  this.$router.push({ name: "login" });
+                  this.$router.push({ name: 'login' });
                   this.$toasted.global.success(
-                    "Conta criada com sucesso, entre agora!"
+                    'Conta criada com sucesso, entre agora!'
                   );
                 })
                 .catch(error => {
@@ -187,13 +187,13 @@ export default {
                 });
             } else {
               this.$toasted.global.error(
-                "Você precisa estar no Clã Atlantis para criar uma conta"
+                'Você precisa estar no Clã Atlantis para criar uma conta'
               );
             }
           })
           .catch(() => {
             this.$toasted.global.error(
-              "Erro ao acessar a API do RuneScape. Tente novamente mais tarde"
+              'Erro ao acessar a API do RuneScape. Tente novamente mais tarde'
             );
           });
       } else if (!this.$refs.form.validate()) {
@@ -206,7 +206,7 @@ export default {
     passwordMissmatch() {
       return this.credentials.password === this.credentials.password2
         ? []
-        : ["Senhas precisam ser iguais"];
+        : ['Senhas precisam ser iguais'];
     },
     validForms() {
       return this.userFormValid && this.ingameFormValid;

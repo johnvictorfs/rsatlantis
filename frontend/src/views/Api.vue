@@ -70,179 +70,179 @@
 </template>
 
 <script>
-const CodeDialog = () => import("../components/CodeDialog");
+const CodeDialog = () => import('../components/CodeDialog');
 
 export default {
-  name: "Api",
+  name: 'Api',
   components: {
     CodeDialog
   },
   data: () => ({
     tabs: null,
-    currentItem: "tab-Guias",
+    currentItem: 'tab-Guias',
     tabItems: [
       {
-        title: "Guias",
+        title: 'Guias',
         endpoints: [
           {
             active: false,
-            url: "/api/guides/",
+            url: '/api/guides/',
             methods: [
               {
-                method: "GET",
-                text: "Listar Guias",
+                method: 'GET',
+                text: 'Listar Guias',
                 response: [
                   {
-                    url: "URL",
-                    author: "URL",
-                    title: "String",
-                    slug: "String",
-                    category: "String",
-                    description: "String",
-                    content: "String",
-                    approved: "Boolean",
-                    date_posted: "Date"
+                    url: 'URL',
+                    author: 'URL',
+                    title: 'String',
+                    slug: 'String',
+                    category: 'String',
+                    description: 'String',
+                    content: 'String',
+                    approved: 'Boolean',
+                    date_posted: 'Date'
                   }
                 ]
               },
               {
-                method: "POST",
-                text: "Criar Guia",
+                method: 'POST',
+                text: 'Criar Guia',
                 parameters: {
-                  title: "String",
-                  category: "String",
-                  description: "String",
-                  content: "String"
+                  title: 'String',
+                  category: 'String',
+                  description: 'String',
+                  content: 'String'
                 }
               }
             ]
           },
           {
             active: false,
-            url: "/api/guides/<slug:str>/",
+            url: '/api/guides/<slug:str>/',
             methods: [
               {
-                method: "GET",
-                text: "Detalhes de Guia",
+                method: 'GET',
+                text: 'Detalhes de Guia',
                 response: {
-                  url: "URL",
-                  author: "URL",
-                  title: "String",
-                  slug: "String",
-                  category: "String",
-                  description: "String",
-                  content: "String",
-                  approved: "Boolean",
-                  date_posted: "Date"
+                  url: 'URL',
+                  author: 'URL',
+                  title: 'String',
+                  slug: 'String',
+                  category: 'String',
+                  description: 'String',
+                  content: 'String',
+                  approved: 'Boolean',
+                  date_posted: 'Date'
                 }
               },
               {
-                method: "PUT/PATCH",
-                text: "Atualizar Guia (Autor do Guia e Admin+)",
+                method: 'PUT/PATCH',
+                text: 'Atualizar Guia (Autor do Guia e Admin+)',
                 parameters: {
-                  title: "String",
-                  category: "String",
-                  description: "String",
-                  content: "String"
+                  title: 'String',
+                  category: 'String',
+                  description: 'String',
+                  content: 'String'
                 }
               },
               {
-                method: "DELETE",
-                text: "Deletar Guia (Autor do Guia e Admin+)"
+                method: 'DELETE',
+                text: 'Deletar Guia (Autor do Guia e Admin+)'
               }
             ]
           },
           {
             active: false,
-            url: "/api/guides/<slug:str>/approve/",
-            methods: [{ method: "POST", text: "Aprovar Guia (Mod+)" }]
+            url: '/api/guides/<slug:str>/approve/',
+            methods: [{ method: 'POST', text: 'Aprovar Guia (Mod+)' }]
           }
         ]
       },
       {
-        title: "Usuários",
+        title: 'Usuários',
         endpoints: [
           {
             active: false,
-            url: "/api/users/",
+            url: '/api/users/',
             methods: [
               {
-                method: "GET",
-                text: "Listar Usuários (Mod+)",
+                method: 'GET',
+                text: 'Listar Usuários (Mod+)',
                 response: [
                   {
-                    url: "URL",
-                    guides: "URL",
-                    ingame_name: "String",
-                    username: "String",
-                    email: "String",
-                    groups: "Array",
-                    is_staff: "Boolean",
-                    is_superuser: "Boolean"
+                    url: 'URL',
+                    guides: 'URL',
+                    ingame_name: 'String',
+                    username: 'String',
+                    email: 'String',
+                    groups: 'Array',
+                    is_staff: 'Boolean',
+                    is_superuser: 'Boolean'
                   }
                 ]
               },
               {
-                method: "POST",
-                text: "Criar Usuário",
+                method: 'POST',
+                text: 'Criar Usuário',
                 parameters: {
-                  username: "String",
-                  password: "String",
-                  email: "String",
-                  ingame_name: "String"
+                  username: 'String',
+                  password: 'String',
+                  email: 'String',
+                  ingame_name: 'String'
                 }
               }
             ]
           },
           {
             active: false,
-            url: "/api/users/<id:int>",
+            url: '/api/users/<id:int>',
             methods: [
               {
-                method: "GET",
-                text: "Detalhes de Usuário",
+                method: 'GET',
+                text: 'Detalhes de Usuário',
                 response: {
-                  url: "URL",
-                  guides: "URL",
-                  ingame_name: "String",
-                  username: "String",
-                  email: "String",
-                  groups: "Array",
-                  is_staff: "Boolean",
-                  is_superuser: "Boolean"
+                  url: 'URL',
+                  guides: 'URL',
+                  ingame_name: 'String',
+                  username: 'String',
+                  email: 'String',
+                  groups: 'Array',
+                  is_staff: 'Boolean',
+                  is_superuser: 'Boolean'
                 }
               },
               {
-                method: "PUT/PATCH",
-                text: "Atualizar Usuário (Próprio Usuário e Admin+)",
+                method: 'PUT/PATCH',
+                text: 'Atualizar Usuário (Próprio Usuário e Admin+)',
                 parameters: {
-                  username: "String",
-                  password: "String",
-                  email: "String",
-                  ingame_name: "String"
+                  username: 'String',
+                  password: 'String',
+                  email: 'String',
+                  ingame_name: 'String'
                 }
               },
-              { method: "DELETE", text: "Deletar Usuário (Admin+)" }
+              { method: 'DELETE', text: 'Deletar Usuário (Admin+)' }
             ]
           }
         ]
       },
       {
-        title: "Jogadores",
+        title: 'Jogadores',
         endpoints: [
           {
             active: false,
-            url: "/api/players/",
+            url: '/api/players/',
             methods: [
               {
-                method: "GET",
-                text: "Listar Jogadores do Clã",
+                method: 'GET',
+                text: 'Listar Jogadores do Clã',
                 response: [
                   {
-                    url: "URL",
-                    name: "String",
-                    exp: "Number",
-                    rank: "String"
+                    url: 'URL',
+                    name: 'String',
+                    exp: 'Number',
+                    rank: 'String'
                   }
                 ]
               }
@@ -250,16 +250,16 @@ export default {
           },
           {
             active: false,
-            url: "/api/players/<name:str>",
+            url: '/api/players/<name:str>',
             methods: [
               {
-                method: "GET",
-                text: "Detalhes de Jogador do Clã",
+                method: 'GET',
+                text: 'Detalhes de Jogador do Clã',
                 response: {
-                  url: "URL",
-                  name: "String",
-                  exp: "Number",
-                  rank: "String"
+                  url: 'URL',
+                  name: 'String',
+                  exp: 'Number',
+                  rank: 'String'
                 }
               }
             ]
@@ -270,10 +270,10 @@ export default {
   }),
   methods: {
     copySuccess() {
-      this.$toasted.global.success("URL Copiada com sucesso");
+      this.$toasted.global.success('URL Copiada com sucesso');
     },
     copyError() {
-      this.$toasted.global.error("Erro ao tentar copiar URL");
+      this.$toasted.global.error('Erro ao tentar copiar URL');
     },
     fullUrl(url) {
       return process.env.VUE_APP_API_URL + url;
