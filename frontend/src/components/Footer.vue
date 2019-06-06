@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import RunescapeIcon from '../icons/Runescape';
+import RunescapeIcon from '../icons/Runescape'
 
 export default {
   name: 'Footer',
@@ -62,5 +62,5 @@ export default {
       }
     ]
   })
-};
+}
 </script>

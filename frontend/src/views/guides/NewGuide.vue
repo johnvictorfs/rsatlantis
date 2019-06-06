@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { formatError } from '../../helpers/errors';
+import { formatError } from '../../helpers/errors'
 
 export default {
   name: 'NewGuide',
@@ -61,13 +61,13 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.$store.dispatch('publishGuide', this.guide).then(() => {
-          this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado');
-          this.$router.push({ name: 'home' });
+          this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
+          this.$router.push({ name: 'home' })
         }).catch((error) => {
-          this.$toasted.global.error(formatError(error));
-        });
+          this.$toasted.global.error(formatError(error))
+        })
       }
     }
   }
-};
+}
 </script>

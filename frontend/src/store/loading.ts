@@ -1,32 +1,31 @@
-type State = {
-  loading: boolean;
-};
+import { Module, MutationTree, ActionTree } from 'vuex'
 
-const state: State = {
+import { LoadingState, RootState } from './types'
+
+const state: LoadingState = {
   loading: false
-};
+}
 
-const mutations = {
-  SET_LOADING(state: State) {
-    state.loading = true;
+const mutations: MutationTree<LoadingState> = {
+  SET_LOADING(state) {
+    state.loading = true
   },
-  REMOVE_LOADING(state: State) {
-    state.loading = false;
+  REMOVE_LOADING(state) {
+    state.loading = false
   }
-};
+}
 
-const actions = {
+const actions: ActionTree<LoadingState, RootState> = {
   setLoading({ commit }: { commit: any }) {
-    commit('SET_LOADING');
+    commit('SET_LOADING')
   },
   removeLoading({ commit }: { commit: any }) {
-    commit('REMOVE_LOADING');
+    commit('REMOVE_LOADING')
   }
-};
+}
 
-export default {
-  // namespaced: true,
+export const loading: Module<LoadingState, RootState> = {
   state,
-  mutations,
-  actions
-};
+  actions,
+  mutations
+}

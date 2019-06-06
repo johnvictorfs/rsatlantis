@@ -1,4 +1,4 @@
-import api from '.';
+import api from '.'
 
 type credentials = {
   username: string;
@@ -9,10 +9,10 @@ type credentials = {
 
 export default {
   login(username: string, password: string) {
-    return api.post('/api/auth/login/', { username, password });
+    return api.post('/api/auth/login/', { username, password })
   },
   logout() {
-    return api.post('/api/auth/logout/', {});
+    return api.post('/api/auth/logout/', {})
   },
   createAccount(credentials: credentials) {
     return api.post('/api/users/', {
@@ -20,13 +20,13 @@ export default {
       password: credentials.password,
       email: credentials.email,
       ingame_name: credentials.ingame_name
-    });
+    })
   },
   changeAccountPassword(password1: string, password2: string) {
-    return api.post('/api/auth/password/change/', { password1, password2 });
+    return api.post('/api/auth/password/change/', { password1, password2 })
   },
   sendAccountPasswordResetEmail(email: string) {
-    return api.post('/api/auth/password/reset/', { email });
+    return api.post('/api/auth/password/reset/', { email })
   },
   resetAccountPassword(uid: string, token: string, new_password1: string, new_password2: string) {
     return api.post('/api/auth/password/reset/confirm/', {
@@ -34,15 +34,15 @@ export default {
       token,
       new_password1,
       new_password2
-    });
+    })
   },
   getAccountDetails() {
-    return api.get('/api/users/current/');
+    return api.get('/api/users/current/')
   },
   updateAccountDetails(data: credentials) {
-    return api.patch('/api/auth/user/', data);
+    return api.patch('/api/auth/user/', data)
   },
   verifyAccountEmail(key: string) {
-    return api.post('/api/registration/verify-email/', { key });
+    return api.post('/api/registration/verify-email/', { key })
   }
-};
+}

@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import store from './store';
+import Vue from 'vue'
+import Router from 'vue-router'
+import store from './store'
 
-Vue.use(Router);
+Vue.use(Router)
 
 const redirectLogout = (to: any, from: any, next: any) => {
-  store.dispatch('logout').then(() => next({ name: 'home' }));
-  Vue.toasted.global.success('Você saiu da sua conta com sucesso');
-};
+  store.dispatch('logout').then(() => next({ name: 'home' }))
+  Vue.toasted.global.success('Você saiu da sua conta com sucesso')
+}
 
 const router = new Router({
   mode: 'history',
@@ -70,19 +70,19 @@ const router = new Router({
       redirect: { name: 'notfound' }
     }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(route => route.meta.auth);
+  const requiresAuth = to.matched.some(route => route.meta.auth)
 
   // Redirects user to login page if the page they are trying to access requires authentication, and they
   // are not logged in
   if (!store.getters.isAuthenticated && requiresAuth) {
-    Vue.toasted.global.error('Você precisa estar conectado para fazer isso');
-    next('/entrar/' + `?next=${to.path}`);
+    Vue.toasted.global.error('Você precisa estar conectado para fazer isso')
+    next('/entrar/' + `?next=${to.path}`)
   } else {
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router
