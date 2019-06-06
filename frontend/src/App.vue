@@ -15,14 +15,14 @@
 
 
 <script lang="ts">
-import Component from 'vue-class-component';
-import Vue from 'vue';
+import Component from 'vue-class-component'
+import Vue from 'vue'
 
-import { ToolbarItem } from '../types';
+import { ToolbarItem } from '../types'
 
-const Toolbar = () => import('./components/Toolbar.vue');
-const Footer = () => import('./components/Footer.vue');
-const Loading = () => import('./components/Loading.vue');
+const Toolbar = () => import('./components/Toolbar.vue')
+const Footer = () => import('./components/Footer.vue')
+const Loading = () => import('./components/Loading.vue')
 
 @Component({
   components: { Footer, Toolbar, Loading }
@@ -42,7 +42,7 @@ export default class App extends Vue {
 
   async created() {
     if (this.$store.getters.isAuthenticated) {
-      await this.$store.dispatch('accountDetails');
+      await this.$store.dispatch('accountDetails')
     }
   }
 
@@ -51,15 +51,15 @@ export default class App extends Vue {
      * Filters items based on if they are shown to authenticated users or not, according to if the user is
      * authenticated or not.
      */
-    const items = [];
+    const items = []
     for (let i = 0; i < this.toolbarItems.length; i++) {
       if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
-        items.push(this.toolbarItems[i]);
+        items.push(this.toolbarItems[i])
       } else if (this.toolbarItems[i].auth === 'any') {
-        items.push(this.toolbarItems[i]);
+        items.push(this.toolbarItems[i])
       }
     }
-    return items;
+    return items
   }
 
   get filteredSidebarItems() {
@@ -67,15 +67,15 @@ export default class App extends Vue {
      * Filters items based on if they are shown to authenticated users or not, according to if the user is
      * authenticated or not.
      */
-    const items = [];
+    const items = []
     for (let i = 0; i < this.sidebarItems.length; i++) {
       if (this.sidebarItems[i].auth === this.$store.getters.isAuthenticated) {
-        items.push(this.sidebarItems[i]);
+        items.push(this.sidebarItems[i])
       } else if (this.sidebarItems[i].auth === 'any') {
-        items.push(this.sidebarItems[i]);
+        items.push(this.sidebarItems[i])
       }
     }
-    return items;
+    return items
   }
 }
 </script>

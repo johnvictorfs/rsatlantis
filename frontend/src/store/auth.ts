@@ -1,116 +1,107 @@
-import auth from '../api/auth';
-import api from '../api';
+import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
-type State = {
-  token: string | null;
-  username: string;
-  ingameName: string;
-  email: string;
-  isAdmin: boolean;
-  isSuperUser: boolean;
-  userUrl: string;
-  userGuides: string;
-};
+import { RootState, AuthState, ApiUserDetails, UserCredentials } from './types'
+import api from '../api'
 
-const mutations = {
-  SET_TOKEN(state: State, token: string) {
-    localStorage.setItem('TOKEN', token);
-    api.defaults.headers.common.Authorization = `Token ${token}`;
-    state.token = token;
+export const state: AuthState = {
+  token: localStorage.getItem('TOKEN') || '',
+  username: '',
+  ingameName: '',
+  email: '',
+  isAdmin: false,
+  isSuperUser: false,
+  userUrl: '',
+  userGuides: ''
+}
+
+export const mutations: MutationTree<AuthState> = {
+  SET_TOKEN(state, token: string) {
+    localStorage.setItem('TOKEN', token)
+    api.defaults.headers.common.Authorization = `Token ${token}`
+    state.token = token
   },
-  REMOVE_TOKEN(state: State) {
-    localStorage.removeItem('TOKEN');
-    delete api.defaults.headers.common.Authorization;
-    state.token = null;
+  REMOVE_TOKEN(state) {
+    localStorage.removeItem('TOKEN')
+    delete api.defaults.headers.common.Authorization
+    state.token = null
   },
-  SET_ACCOUNT_DETAILS(state: State, details: any) {
-    state.username = details.username;
-    state.ingameName = details.ingame_name;
-    state.email = details.email;
-    state.isAdmin = details.is_staff;
-    state.isSuperUser = details.is_superuser;
-    state.userUrl = details.url;
-    state.userGuides = details.guides;
+  SET_ACCOUNT_DETAILS(state, details: ApiUserDetails) {
+    state.username = details.username
+    state.ingameName = details.ingame_name
+    state.email = details.email
+    state.isAdmin = details.is_staff
+    state.isSuperUser = details.is_superuser
+    state.userUrl = details.url
+    state.userGuides = details.guides
   },
-  CLEAR_ACCOUNT_DETAILS(state: State) {
-    state.username = '';
-    state.ingameName = '';
-    state.email = '';
-    state.isAdmin = false;
-    state.isSuperUser = false;
-    state.userUrl = '';
-    state.userGuides = '';
+  CLEAR_ACCOUNT_DETAILS(state) {
+    state.username = ''
+    state.ingameName = ''
+    state.email = ''
+    state.isAdmin = false
+    state.isSuperUser = false
+    state.userUrl = ''
+    state.userGuides = ''
   }
-};
+}
 
-const actions = {
-  login({ commit, dispatch }: { commit: any; dispatch: any }, credentials: any) {
-    commit('SET_LOADING');
+const actions: ActionTree<AuthState, RootState> = {
+  login({ commit, dispatch }, credentials: UserCredentials) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await auth.login(credentials.username, credentials.password);
-        commit('SET_TOKEN', response.data.key);
-        dispatch('accountDetails');
-        commit('REMOVE_LOADING');
-        resolve(response);
+        commit('SET_LOADING')
+        const { username, password } = credentials
+        const response = await api.post('/api/auth/login/', { username, password })
+        commit('SET_TOKEN', response.data.key)
+        dispatch('accountDetails')
+        resolve(response)
       } catch (error) {
-        commit('REMOVE_LOADING');
-        reject(error);
-      }
-    });
-  },
-  logout({ commit }: { commit: any }) {
-    commit('SET_LOADING');
-    commit('REMOVE_TOKEN');
-    commit('CLEAR_ACCOUNT_DETAILS');
-    auth.logout();
-    commit('REMOVE_LOADING');
-  },
-  accountDetails({ commit }: { commit: any }) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await auth.getAccountDetails();
-        commit('SET_ACCOUNT_DETAILS', response.data);
-        resolve(response);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  },
-  createAccount({ commit }: { commit: any }, credentials: any) {
-    commit('SET_LOADING');
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await auth.createAccount(credentials);
-        resolve(response);
-      } catch (error) {
-        reject(error);
+        reject(error)
       } finally {
-        commit('REMOVE_LOADING');
+        commit('REMOVE_LOADING')
       }
-    });
-  }
-};
-
-const getters = {
-  isAuthenticated(state: State): boolean {
-    console.log(state);
-    return !!state.token;
-  }
-};
-
-export default {
-  store: {
-    token: localStorage.getItem('TOKEN') || '',
-    username: '',
-    ingameName: '',
-    email: '',
-    isAdmin: false,
-    isSuperUser: false,
-    userUrl: '',
-    userGuides: ''
+    })
   },
-  mutations,
+  logout({ commit }) {
+    commit('SET_LOADING')
+    commit('REMOVE_TOKEN')
+    commit('CLEAR_ACCOUNT_DETAILS')
+    api.post('/api/auth/logout/', {})
+    commit('REMOVE_LOADING')
+  },
+  accountDetails({ commit }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await api.get('/api/users/current/')
+        commit('SET_ACCOUNT_DETAILS', response.data)
+        resolve(response)
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+  createAccount({ commit }, credentials: UserCredentials) {
+    commit('SET_LOADING')
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await api.post('/api/users/', credentials)
+        resolve(response)
+      } catch (error) {
+        reject(error)
+      } finally {
+        commit('REMOVE_LOADING')
+      }
+    })
+  }
+}
+
+const getters: GetterTree<AuthState, RootState> = {
+  isAuthenticated: (state): boolean => !!state.token
+}
+
+export const auth: Module<AuthState, RootState> = {
+  state,
+  getters,
   actions,
-  getters
-};
+  mutations
+}

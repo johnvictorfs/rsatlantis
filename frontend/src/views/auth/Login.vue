@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { formatError } from '../../helpers/errors';
+import { formatError } from '../../helpers/errors'
 
 export default {
   name: 'Login',
@@ -65,26 +65,26 @@ export default {
   methods: {
     translateError(error) {
       if (error === 'Error: Network Error') {
-        return 'Erro: Falha de Conexão';
+        return 'Erro: Falha de Conexão'
       }
-      return 'Erro Inesperado, tente novamente mais tarde';
+      return 'Erro Inesperado, tente novamente mais tarde'
     },
     async login() {
       if (this.$refs.form.validate()) {
         try {
-          await this.$store.dispatch('login', this.credentials);
-          this.$router.push({ name: 'home' });
-          this.$toasted.global.success('Você entrou na sua conta com sucesso!');
+          await this.$store.dispatch('login', this.credentials)
+          this.$router.push({ name: 'home' })
+          this.$toasted.global.success('Você entrou na sua conta com sucesso!')
           if (this.$route.query.next) {
-            this.$router.push(this.$route.query.next);
+            this.$router.push(this.$route.query.next)
           }
         } catch (error) {
-          this.$toasted.global.error(formatError(error));
+          this.$toasted.global.error(formatError(error))
         }
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

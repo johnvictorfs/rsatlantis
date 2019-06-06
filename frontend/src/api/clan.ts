@@ -1,7 +1,7 @@
-import api from '.';
+import api from '.'
 
 export default {
   clanList() {
-    return api.get('/api/players/');
+    return api.get('/api/players/')
   }
-};
+}

@@ -257,5 +257,5 @@ tinymce.addI18n('pt_BR', {
   Table: 'Tabela',
   Tools: 'Ferramentas',
   'Powered by {0}': 'Distribu\u00eddo por  {0}',
-  'Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help': '\u00c1rea de texto formatado. Pressione ALT-F9 para exibir o menu, ALT-F10 para exibir a barra de ferramentas ou ALT-0 para exibir a ajuda',
-});
+  'Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help': '\u00c1rea de texto formatado. Pressione ALT-F9 para exibir o menu, ALT-F10 para exibir a barra de ferramentas ou ALT-0 para exibir a ajuda'
+})

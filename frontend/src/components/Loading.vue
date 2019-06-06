@@ -16,8 +16,8 @@ export default {
   name: 'Loading',
   computed: {
     loading() {
-      return this.$store.state.loading.loading;
+      return this.$store.state.loading.loading
     }
   }
-};
+}
 </script>

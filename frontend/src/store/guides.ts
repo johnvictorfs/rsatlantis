@@ -1,56 +1,52 @@
-import guide from '../api/guide';
+import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
-const actions = {
-  publishGuide({ commit }: { commit: any }, guideDetails: any) {
-    commit('SET_LOADING');
-    return new Promise((resolve, reject) => {
-      guide
-        .publishGuide(guideDetails)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        })
-        .finally(() => {
-          commit('REMOVE_LOADING');
-        });
-    });
+import { GuideState, RootState } from './types'
+import api from '../api'
+
+export const state: GuideState = {}
+
+const actions: ActionTree<GuideState, RootState> = {
+  publishGuide({ commit }, guideDetails: any) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        commit('SET_LOADING')
+        const response = await api.post('/api/guides/', guideDetails)
+        resolve(response)
+      } catch (error) {
+        reject(error)
+      } finally {
+        commit('REMOVE_LOADING')
+      }
+    })
   },
-  guideList({ commit }: { commit: any }) {
-    commit('SET_LOADING');
-    return new Promise((resolve, reject) => {
-      guide
-        .guideList()
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        })
-        .finally(() => {
-          commit('REMOVE_LOADING');
-        });
-    });
+  guideList({ commit }) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        commit('SET_LOADING')
+        const response = await api.get('/api/guides/')
+        resolve(response)
+      } catch (error) {
+        reject(error)
+      } finally {
+        commit('REMOVE_LOADING')
+      }
+    })
   },
-  guideDetails({ commit }: { commit: any }, slug: string) {
-    commit('SET_LOADING');
-    return new Promise((resolve, reject) => {
-      guide
-        .guideDetails(slug)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        })
-        .finally(() => {
-          commit('REMOVE_LOADING');
-        });
-    });
+  guideDetails({ commit }, slug: string) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        commit('SET_LOADING')
+        const response = await api.get(`/api/guides/${slug}/`)
+        resolve(response)
+      } catch (error) {
+        reject(error)
+      } finally {
+        commit('REMOVE_LOADING')
+      }
+    })
   }
-};
+}
 
-export default {
+export const guides: Module<GuideState, RootState> = {
   actions
-};
+}

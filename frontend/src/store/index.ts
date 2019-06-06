@@ -1,16 +1,19 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex, { StoreOptions } from 'vuex'
 
-import auth from './auth';
-import guides from './guides';
-import loading from './loading';
+import { RootState } from './types'
+import { auth } from './auth'
+import { guides } from './guides'
+import { loading } from './loading'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store: StoreOptions<RootState> = {
   modules: {
     auth,
     guides,
     loading
   }
-});
+}
+
+export default new Vuex.Store<RootState>(store)

@@ -70,7 +70,7 @@
 </template>
 
 <script>
-const CodeDialog = () => import('../components/CodeDialog');
+const CodeDialog = () => import('../components/CodeDialog')
 
 export default {
   name: 'Api',
@@ -270,14 +270,14 @@ export default {
   }),
   methods: {
     copySuccess() {
-      this.$toasted.global.success('URL Copiada com sucesso');
+      this.$toasted.global.success('URL Copiada com sucesso')
     },
     copyError() {
-      this.$toasted.global.error('Erro ao tentar copiar URL');
+      this.$toasted.global.error('Erro ao tentar copiar URL')
     },
     fullUrl(url) {
-      return process.env.VUE_APP_API_URL + url;
+      return process.env.VUE_APP_API_URL + url
     }
   }
-};
+}
 </script>

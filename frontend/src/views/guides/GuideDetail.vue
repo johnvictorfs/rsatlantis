@@ -11,7 +11,7 @@
 </template>
 
 <script>
-const Guide = () => import('../../components/Guide');
+const Guide = () => import('../../components/Guide')
 
 export default {
   name: 'GuideDetail',
@@ -29,34 +29,34 @@ export default {
   created() {
     this.$store.dispatch('guideDetails', this.slug).then((response) => {
       if (response.category === 'pvm') {
-        response.data.category = 'PvM';
+        response.data.category = 'PvM'
       } else if (response.category === 'skilling') {
-        response.data.category = 'Habilidades';
+        response.data.category = 'Habilidades'
       } else {
-        response.data.category = 'Outros';
+        response.data.category = 'Outros'
       }
       this.$axios.get(response.data.author).then((author) => {
         response.data.author = {
           name: author.data.username,
           isAdmin: author.data.is_staff,
           isSuperUser: author.data.is_superuser
-        };
-        this.guide = response.data;
-        this.showGuide = true;
+        }
+        this.guide = response.data
+        this.showGuide = true
       }).catch(() => {
         response.data.author = {
           name: 'N/A',
           isAdmin: false,
           isSuperUser: false
-        };
-        this.guide = response.data;
-        this.showGuide = true;
-      });
+        }
+        this.guide = response.data
+        this.showGuide = true
+      })
     }).catch(() => {
-      this.notFound = true;
-    });
+      this.notFound = true
+    })
   }
-};
+}
 </script>
 
 <style scoped>
