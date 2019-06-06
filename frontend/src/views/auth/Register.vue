@@ -126,9 +126,9 @@
 /** @namespace this.credentials.email * */
 /** @namespace this.credentials.ingame_name * */
 
-const Centered = () => import('../../components/Centered');
-const isInClan = () => import('../../helpers/runescape');
-const formatError = () => import('../../helpers/errors');
+const Centered = () => import('../../components/Centered')
+const isInClan = () => import('../../helpers/runescape')
+const formatError = () => import('../../helpers/errors')
 
 export default {
   name: 'Register',
@@ -165,7 +165,7 @@ export default {
   methods: {
     secondPage() {
       if (this.$refs.form.validate()) {
-        this.registerStep = 2;
+        this.registerStep = 2
       }
     },
     register() {
@@ -176,29 +176,29 @@ export default {
               this.$store
                 .dispatch('createAccount', this.credentials)
                 .then(() => {
-                  this.$router.push({ name: 'login' });
+                  this.$router.push({ name: 'login' })
                   this.$toasted.global.success(
                     'Conta criada com sucesso, entre agora!'
-                  );
+                  )
                 })
                 .catch(error => {
-                  this.registerStep = 1;
-                  this.$toasted.global.error(formatError(error));
-                });
+                  this.registerStep = 1
+                  this.$toasted.global.error(formatError(error))
+                })
             } else {
               this.$toasted.global.error(
                 'Você precisa estar no Clã Atlantis para criar uma conta'
-              );
+              )
             }
           })
           .catch(() => {
             this.$toasted.global.error(
               'Erro ao acessar a API do RuneScape. Tente novamente mais tarde'
-            );
-          });
+            )
+          })
       } else if (!this.$refs.form.validate()) {
         // Go back to first page of form if it failed to validate, else stay on the same page
-        this.registerStep = 1;
+        this.registerStep = 1
       }
     }
   },
@@ -206,11 +206,11 @@ export default {
     passwordMissmatch() {
       return this.credentials.password === this.credentials.password2
         ? []
-        : ['Senhas precisam ser iguais'];
+        : ['Senhas precisam ser iguais']
     },
     validForms() {
-      return this.userFormValid && this.ingameFormValid;
+      return this.userFormValid && this.ingameFormValid
     }
   }
-};
+}
 </script>

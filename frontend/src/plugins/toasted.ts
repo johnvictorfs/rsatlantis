@@ -1,15 +1,15 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
-import Toasted, { ToastOptions } from 'vue-toasted';
+import Toasted, { ToastOptions } from 'vue-toasted'
 
-Vue.use(Toasted);
+Vue.use(Toasted)
 Vue.toasted.register(
   'error',
   message => {
     if (!message) {
-      return 'Erro Inesperado :(';
+      return 'Erro Inesperado :('
     }
-    return message;
+    return message
   },
   {
     theme: 'bubble',
@@ -19,15 +19,15 @@ Vue.toasted.register(
     icon: { name: 'error_outline', after: true },
     duration: 2800
   }
-);
+)
 
 Vue.toasted.register(
   'success',
   message => {
     if (!message) {
-      return 'Sucesso :)';
+      return 'Sucesso :)'
     }
-    return message;
+    return message
   },
   {
     theme: 'bubble',
@@ -37,4 +37,4 @@ Vue.toasted.register(
     icon: { name: 'check_circle_outline', after: true },
     duration: 2800
   }
-);
+)

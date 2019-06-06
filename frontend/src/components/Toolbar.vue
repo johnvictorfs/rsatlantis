@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component';
+import Component from 'vue-class-component'
 
 @Component({
   props: {
@@ -49,20 +49,20 @@ export default class Toolbar extends Vue {
   sidebar: boolean = true
 
   get isAuthenticated() {
-    return this.$store.getters.isAuthenticated;
+    return this.$store.getters.isAuthenticated
   }
   get isAdmin() {
-    return this.$store.state.auth.isAdmin;
+    return this.$store.state.auth.isAdmin
   }
   get username() {
-    return this.$store.state.auth.username;
+    return this.$store.state.auth.username
   }
   get userIcon() {
-    return this.isAdmin ? 'fa-user-cog' : 'fa-user';
+    return this.isAdmin ? 'fa-user-cog' : 'fa-user'
   }
 
   toggleSideBar() {
-    this.sidebar = !this.sidebar;
+    this.sidebar = !this.sidebar
   }
 }
 </script>
