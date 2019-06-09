@@ -85,13 +85,13 @@
 </template>
 
 <script>
-import clan from '../api/clan';
+import clan from '../api/clan'
 
 export default {
   name: 'ClanList',
   filters: {
     commaSeparatedVal(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
   },
   data: () => ({
@@ -113,47 +113,47 @@ export default {
   }),
   computed: {
     loading() {
-      return this.$store.state.loading.loading;
+      return this.$store.state.loading.loading
     },
     pages() {
       if (
         this.pagination.rowsPerPage == null ||
         this.pagination.totalItems == null
       ) {
-        return 0;
+        return 0
       }
       return Math.ceil(
         this.pagination.totalItems / this.pagination.rowsPerPage
-      );
+      )
     }
   },
   mounted() {
-    this.updateClanList(false);
+    this.updateClanList(false)
   },
   methods: {
     updateClanList(notification = true) {
-      this.$store.dispatch('setLoading').then();
+      this.$store.dispatch('setLoading').then()
       clan
         .clanList()
         .then(response => {
-          this.members = response.data;
-          this.apiError = false;
-          this.pagination.totalItems = this.members.length;
+          this.members = response.data
+          this.apiError = false
+          this.pagination.totalItems = this.members.length
           if (notification) {
             this.$toasted.global.success(
               'Membros do Clã atualizados com sucesso!'
-            );
+            )
           }
         })
         .catch(() => {
-          this.apiError = true;
+          this.apiError = true
         })
         .finally(() => {
-          this.$store.dispatch('removeLoading').then();
-        });
+          this.$store.dispatch('removeLoading').then()
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

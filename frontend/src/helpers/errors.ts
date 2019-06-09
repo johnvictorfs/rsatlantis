@@ -1,12 +1,12 @@
 export function formatError(error: any) {
-  let errorMessage: any = 'Erro inesperado :(';
+  let errorMessage: any = 'Erro inesperado :('
   if (error.response !== undefined) {
-    errorMessage = Object.values(error.response.data)[0];
+    errorMessage = Object.values(error.response.data)[0]
   } else {
-    errorMessage = error.toString();
+    errorMessage = error.toString()
   }
   if (errorMessage === 'Error: Network Error') {
-    return 'Erro: Falha de Conexão';
+    return 'Erro: Falha de Conexão'
   }
-  return errorMessage;
+  return errorMessage
 }
