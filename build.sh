@@ -13,6 +13,11 @@ if ! yarn install ; then
   exit 1
 fi
 
+if ! yarn lint --fix ; then
+  echo "${RED}Failed front-end linting tests${NC}"
+  exit 1
+fi
+
 if ! yarn build ; then
   echo "${RED}Could not build Vue Bundle${NC}"
   exit 1

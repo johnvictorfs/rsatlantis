@@ -27,3 +27,5 @@ install:
 
 script:
   - poetry run python manage.py test
+  - cd ../frontend
+  - yarn install && yarn lint
