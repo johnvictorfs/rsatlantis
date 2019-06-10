@@ -4,8 +4,10 @@
   </v-layout>
 </template>
 
-<script>
-export default {
-  name: 'Homepage'
-}
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component({})
+export default class HomePage extends Vue {}
 </script>

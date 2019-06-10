@@ -1,32 +1,32 @@
 <template>
-    <v-app-bar app dark fixed >
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click="toggleSideBar" />
+  <v-app-bar app dark fixed >
+    <v-app-bar-nav-icon class="hidden-md-and-up" @click="toggleSideBar" />
 
-      <v-toolbar-title>
-        <router-link :to="{name: 'home'}">
-          <v-img src="../assets/atlantis_logo.png" class="mt-1" />
-        </router-link>
-      </v-toolbar-title>
+    <v-toolbar-title>
+      <router-link :to="{name: 'home'}">
+        <v-img src="../assets/atlantis_logo.png" class="mt-1" />
+      </router-link>
+    </v-toolbar-title>
 
-      <v-btn v-for="item in sidebarItems" :key="item.text" class="atl-toolbar-btn hidden-sm-and-down" :color="item.color" flat :to="item.path">
-        <v-icon left :color="item.color">{{ item.icon }}</v-icon>
-        {{ item.text }}
-      </v-btn>
+    <v-btn v-for="item in sidebarItems" :key="item.text" class="atl-toolbar-btn hidden-sm-and-down" :color="item.color" text :to="item.path">
+      <v-icon left :color="item.color">{{ item.icon }}</v-icon>
+      {{ item.text }}
+    </v-btn>
 
-      <v-spacer />
+    <v-spacer />
 
-        <v-chip class="atl-user-label hidden-sm-and-down" label color="indigo" text-color="white" :value="isAuthenticated">
-          <v-avatar class="indigo darken-2">
-            <v-icon small>{{ userIcon }}</v-icon>
-          </v-avatar>
-          {{ username }}
-        </v-chip>
+    <v-chip class="atl-user-label hidden-sm-and-down" label color="indigo" text-color="white" v-if="isAuthenticated">
+      <v-avatar left class="indigo darken-2">
+        <v-icon small>{{ userIcon }}</v-icon>
+      </v-avatar>
+      {{ username }}
+    </v-chip>
 
-        <v-btn round class="ml-3 atl-round-btn hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
-          <v-icon left>{{ item.icon }}</v-icon>
-          {{ item.text }}
-        </v-btn>
-    </v-app-bar>
+    <v-btn rounded class="ml-3 atl-round-btn hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
+      <v-icon left>{{ item.icon }}</v-icon>
+      {{ item.text }}
+    </v-btn>
+  </v-app-bar>
 </template>
 
 <script lang="ts">
@@ -52,10 +52,12 @@ export default class Toolbar extends Vue {
     return this.$store.getters.isAuthenticated
   }
   get isAdmin() {
-    return this.$store.state.auth.isAdmin
+    const { auth } = this.$store.state
+    if (auth) return auth.isAdmin
   }
   get username() {
-    return this.$store.state.auth.username
+    const { auth } = this.$store.state
+    if (auth) return auth.username
   }
   get userIcon() {
     return this.isAdmin ? 'fa-user-cog' : 'fa-user'
