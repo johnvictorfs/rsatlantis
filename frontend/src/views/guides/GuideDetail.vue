@@ -33,6 +33,7 @@ export default class GuideDetail extends Vue {
 
   async mounted() {
     try {
+      // @ts-ignore
       const { data: guide } = await this.$store.dispatch('guideDetails', this.slug)
       if (guide.category === 'pvm') {
         guide.category = 'PvM'
