@@ -39,4 +39,4 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
 
-urlpatterns += [re_path(r'^.*(|/)/?$', TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r'^.*/$', TemplateView.as_view(template_name='index.html'))]

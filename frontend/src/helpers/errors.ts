@@ -1,5 +1,5 @@
 export function formatError(error: any) {
-  let errorMessage: any = 'Erro inesperado :('
+  let errorMessage: string | any = 'Erro inesperado :('
   if (error.response !== undefined) {
     errorMessage = Object.values(error.response.data)[0]
   } else {

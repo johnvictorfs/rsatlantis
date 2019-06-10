@@ -1,24 +1,22 @@
 <template>
   <v-card class="elevation-12 mb-2" color="grey darken-3">
-    <v-card-title primary-title>
-      <v-btn round absolute top left>
-        <v-icon small left>{{ authorIcon }}</v-icon>
-        {{ guide.author.name }}
-      </v-btn>
-      <v-btn small round absolute top right color="grey darken-1">{{ guide.category }}</v-btn>
-      <div>
-        <div class="headline guide-title">{{ guide.title }} asdasd asdasdasd asdasdasd asdasdasd</div>
-        <span>{{ guide.description }}</span>
-      </div>
-    </v-card-title>
-
+    <v-list-item>
+      <v-list-item-avatar color="grey">
+        <v-icon>{{ authorIcon }}</v-icon>
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title class="headline">{{ guide.title }}</v-list-item-title>
+        <v-list-item-subtitle>— {{ guide.author.name }}</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+    <!-- <v-img height="200" src="https://runescape.wiki/images/thumb/7/76/Raids_concept_art.png/441px-Raids_concept_art.png?92ae9"></v-img> -->
+    <v-card-text>
+      {{ guide.description }}
+    </v-card-text>
     <v-card-actions class="guide-actions">
-      <v-btn
-        class="atl-btn mb-1"
-        small
-        color="primary"
-        :to="{name: 'guides.detail', params: {slug: guide.slug}}"
-      >Ver Guia</v-btn>
+      <v-btn class="mb-1" small color="primary" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
+        Ver Guia
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
