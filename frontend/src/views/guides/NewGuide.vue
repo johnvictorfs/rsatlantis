@@ -9,21 +9,41 @@
 
       <v-card-text>
         <v-form ref="form" v-model="valid">
-          <v-text-field box required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
+          <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
 
-          <v-text-field box required label="Descrição" v-model="guide.description" :counter="40"
+          <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40"
                         maxlength="40"></v-text-field>
 
-          <v-select box required label="Categoria" :items="categories"></v-select>
+          <v-select filled required label="Categoria" :items="categories" v-model="guide.category"></v-select>
         </v-form>
 
-        <tinymce id="d1" v-model="guide.content" :other_options="tinymce" :plugins="tinymce.plugins"></tinymce>
-
+        <v-layout>
+          <v-flex xs6>
+            <v-textarea
+              filled
+              auto-grow
+              name="input-7-4"
+              rows="10"
+              label="Conteúdo"
+              v-model="guide.content"
+              :value="markdownContent"
+            ></v-textarea>
+          </v-flex>
+          <v-flex xs6>
+            <v-card>
+              <v-toolbar dark color="yellow darken-3">
+                <v-toolbar-title>Preview</v-toolbar-title>
+              </v-toolbar>
+              <v-card-text>
+                <div v-html="markdownContent"></div>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
         <v-divider class="my-2"></v-divider>
-
       </v-card-text>
 
-      <v-btn outline round block color="success" :disabled="!valid" @click="submit">
+      <v-btn outlined rounded block color="success" :disabled="!valid" @click="submit">
         Enviar
         <v-icon right>check</v-icon>
       </v-btn>
@@ -32,41 +52,53 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+// https://stackoverflow.com/a/35961176
+declare const require: any
+const marked = require('marked')
+
 import { formatError } from '../../helpers/errors'
 
-export default {
-  name: 'NewGuide',
-  data: () => ({
-    valid: true,
-    tinymce: {
-      language_url: 'https://cdn.jsdelivr.net/npm/tinymce-i18n@18.12.25/langs/pt_BR.js',
-      height: 500,
-      plugins: [
-        'advlist autolink lists link image charmap preview hr anchor pagebreak',
-        'searchreplace visualblocks visualchars code',
-        'insertdatetime media nonbreaking save table contextmenu directionality',
-        'template paste textcolor colorpicker textpattern imagetools toc emoticons hr codesample'
-      ]
-    },
-    categories: ['PvM', 'Habilidades', 'Outros'],
-    guide: {
-      title: '',
-      description: '',
-      category: '',
-      content: ''
-    }
-  }),
-  methods: {
-    submit() {
-      if (this.$refs.form.validate()) {
-        this.$store.dispatch('publishGuide', this.guide).then(() => {
-          this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
-          this.$router.push({ name: 'home' })
-        }).catch((error) => {
-          this.$toasted.global.error(formatError(error))
-        })
+@Component({})
+export default class NewGuide extends Vue {
+  valid: boolean = true
+  categories: Array<string> = ['PvM', 'Habilidades', 'Outros']
+  guide = {
+    title: '',
+    description: '',
+    category: '',
+    content: ''
+  }
+
+  get markdownContent() {
+    return marked(this.guide.content, { sanitize: true })
+  }
+
+  submit() {
+    /**
+     * https://stackoverflow.com/a/52109899
+     */
+    if ((this.$refs.form as any).validate()) {
+      switch (this.guide.category) {
+        case 'PvM':
+          this.guide.category = 'pvm'
+          break
+        case 'Habilidades':
+          this.guide.category = 'skilling'
+          break
+        default:
+          this.guide.category = 'others'
       }
+      this.guide.content = this.markdownContent()
+      this.$store.dispatch('publishGuide', this.guide).then(() => {
+        this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
+        this.$router.push({ name: 'home' })
+      }).catch((error) => {
+        this.$toasted.global.error(formatError(error))
+      })
     }
   }
 }

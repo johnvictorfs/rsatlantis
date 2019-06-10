@@ -10,51 +10,62 @@
   </v-container>
 </template>
 
-<script>
-const Guide = () => import('../../components/Guide')
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-export default {
-  name: 'GuideDetail',
+import api from '../../api'
+const Guide = () => import('../../components/Guide.vue')
+
+@Component({
   props: {
-    slug: String
+    slug: {
+      type: String,
+      default: ''
+    }
   },
-  components: {
-    Guide
-  },
-  data: () => ({
-    notFound: false,
-    guide: {},
-    showGuide: false
-  }),
-  created() {
-    this.$store.dispatch('guideDetails', this.slug).then((response) => {
-      if (response.category === 'pvm') {
-        response.data.category = 'PvM'
-      } else if (response.category === 'skilling') {
-        response.data.category = 'Habilidades'
+  components: { Guide }
+})
+export default class GuideDetail extends Vue {
+  notFound: boolean = false
+  showGuide: boolean = false
+  guide = {}
+
+  async mounted() {
+    try {
+      const { data: guide } = await this.$store.dispatch('guideDetails', this.slug)
+      if (guide.category === 'pvm') {
+        guide.category = 'PvM'
+      } else if (guide.category === 'skilling') {
+        guide.category = 'Habilidades'
       } else {
-        response.data.category = 'Outros'
+        guide.category = 'Outros'
       }
-      this.$axios.get(response.data.author).then((author) => {
-        response.data.author = {
-          name: author.data.username,
-          isAdmin: author.data.is_staff,
-          isSuperUser: author.data.is_superuser
+      this.guide = guide
+      this.showGuide = true
+      try {
+        let { data: author } = await api.get(guide.author)
+        this.guide = {
+          ...this.guide,
+          author: {
+            name: author.username,
+            isAdmin: author.is_staff,
+            isSuperUser: author.is_superuser
+          }
         }
-        this.guide = response.data
-        this.showGuide = true
-      }).catch(() => {
-        response.data.author = {
-          name: 'N/A',
-          isAdmin: false,
-          isSuperUser: false
+      } catch (error) {
+        this.guide = {
+          ...this.guide,
+          author: {
+            name: 'N/A',
+            isAdmin: false,
+            isSuperUser: false
+          }
         }
-        this.guide = response.data
-        this.showGuide = true
-      })
-    }).catch(() => {
+      }
+    } catch (error) {
       this.notFound = true
-    })
+    }
   }
 }
 </script>

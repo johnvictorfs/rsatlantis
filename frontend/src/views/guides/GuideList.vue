@@ -1,5 +1,8 @@
 <template>
   <v-container app>
+    <v-alert border="top" type="error" transition="scale-transition" v-if="visibleGuides.length === 0">
+      Nenhum Guia Encontrado
+    </v-alert>
     <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">
       <Guide :guide="guide" :content="false" :details-button="true"></Guide>
     </v-flex>
@@ -10,6 +13,8 @@
 </template>
 
 <script>
+import api from '../../api'
+
 const Guide = () => import('../../components/Guide')
 
 export default {
@@ -25,8 +30,7 @@ export default {
   }),
   async created() {
     try {
-      const { data: guides } = await this.$store.dispatch('guideList', this.$route.params.slug)
-      console.log(guides)
+      const { data: guides } = await this.$store.dispatch('guideList')
       for (const guide of guides) {
         switch (guide.category) {
           case 'pvm':
@@ -40,7 +44,7 @@ export default {
         }
 
         try {
-          const { data: author } = await this.$axios.get(guide.author)
+          const { data: author } = await api.get(guide.author)
           guide.author = {
             name: author.username,
             isAdmin: author.is_staff,
