@@ -24,21 +24,19 @@ const Toolbar = () => import('./components/Toolbar.vue')
 const Footer = () => import('./components/Footer.vue')
 const Loading = () => import('./components/Loading.vue')
 
-@Component({
-  components: { Footer, Toolbar, Loading }
-})
+@Component({ components: { Footer, Toolbar, Loading } })
 export default class App extends Vue {
-  prevHeight: number = 0;
+  prevHeight: number = 0
   toolbarItems: Array<ToolbarItem> = [
     { text: 'Entrar', path: { name: 'login' }, color: 'success', auth: false, icon: 'fa-sign-in-alt' },
     { text: 'Cadastro', path: { name: 'register' }, color: 'primary', auth: false, icon: 'fa-user-plus' },
     { text: 'Sair', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
-  ];
+  ]
   sidebarItems: Array<ToolbarItem> = [
     { text: 'Novo Guia', path: { name: 'guides.new' }, color: 'success', auth: true, icon: 'fa-plus-square' },
     { text: 'Guias', path: { name: 'guides.list' }, color: 'orange', auth: 'any', icon: 'fa-list' },
     { text: 'Membros', path: { name: 'clan-list' }, color: 'primary', auth: 'any', icon: 'fa-users' }
-  ];
+  ]
 
   async created() {
     if (this.$store.getters.isAuthenticated) {

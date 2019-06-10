@@ -10,7 +10,7 @@ const actions: ActionTree<GuideState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.post('/api/guides/', guideDetails)
+        const response = await api.post('guides/', guideDetails)
         resolve(response)
       } catch (error) {
         reject(error)
@@ -23,7 +23,7 @@ const actions: ActionTree<GuideState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.get('/api/guides/')
+        const response = await api.get('guides')
         resolve(response)
       } catch (error) {
         reject(error)
@@ -36,7 +36,7 @@ const actions: ActionTree<GuideState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.get(`/api/guides/${slug}/`)
+        const response = await api.get(`guides/${slug}`)
         resolve(response)
       } catch (error) {
         reject(error)

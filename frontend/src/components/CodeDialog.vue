@@ -15,7 +15,7 @@
 
       <v-card-actions>
         <v-spacer/>
-        <v-btn color="error" flat @click="dialog = false">
+        <v-btn color="error" text @click="dialog = false">
           <v-icon left>fa-times</v-icon>Fechar
         </v-btn>
       </v-card-actions>

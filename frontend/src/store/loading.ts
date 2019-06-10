@@ -21,6 +21,7 @@ const actions: ActionTree<LoadingState, RootState> = {
   },
   removeLoading({ commit }: { commit: any }) {
     commit('REMOVE_LOADING')
+    setTimeout(() => commit('REMOVE_LOADING'), 5000)
   }
 }
 

@@ -1,11 +1,11 @@
 export interface RouterPath {
-  name: string;
+  name: string
 }
 
 export interface ToolbarItem {
-  text: string;
-  path: RouterPath;
-  color: string;
-  auth: boolean | 'any';
-  icon: string;
+  text: string
+  path: RouterPath
+  color: string
+  auth: boolean | 'any'
+  icon: string
 }
