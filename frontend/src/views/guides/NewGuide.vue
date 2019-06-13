@@ -112,6 +112,13 @@ export default class NewGuide extends Vue {
       } catch (error) {
         this.$toasted.global.error(formatError(error))
       }
+      this.guide.content = this.markdownContent()
+      this.$store.dispatch('publishGuide', this.guide).then(() => {
+        this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
+        this.$router.push({ name: 'home' })
+      }).catch((error) => {
+        this.$toasted.global.error(formatError(error))
+      })
     }
   }
 }
