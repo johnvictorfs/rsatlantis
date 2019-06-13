@@ -1,55 +1,65 @@
 <template>
-  <v-card class="elevation-12">
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md8 lg8 xl8>
+        <v-card class="elevation-12">
 
-    <v-toolbar dark color="green">
-      <v-toolbar-title>Criar um Novo Guia</v-toolbar-title>
-    </v-toolbar>
+          <v-toolbar dark color="green">
+            <v-toolbar-title>Criar um Novo Guia</v-toolbar-title>
+          </v-toolbar>
 
-    <v-container fluid grid-list-md>
+          <v-container fluid grid-list-md>
 
-      <v-card-text>
-        <v-form ref="form" v-model="valid">
-          <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
+            <v-card-text>
+              <v-form ref="form" v-model="valid">
+                <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
 
-          <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40"
-                        maxlength="40"></v-text-field>
+                <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40"
+                              maxlength="40"></v-text-field>
 
-          <v-select filled required label="Categoria" :items="categories" v-model="guide.category"></v-select>
-        </v-form>
+                <v-select filled required label="Categoria" :items="categories" v-model="guide.category"></v-select>
+              </v-form>
 
-        <v-layout>
-          <v-flex xs6>
-            <v-textarea
-              filled
-              auto-grow
-              name="input-7-4"
-              rows="10"
-              label="Conteúdo"
-              v-model="guide.content"
-              :value="markdownContent"
-            ></v-textarea>
-          </v-flex>
-          <v-flex xs6>
-            <v-card>
-              <v-toolbar dark color="yellow darken-3">
-                <v-toolbar-title>Preview</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <div v-html="markdownContent"></div>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-        <v-divider class="my-2"></v-divider>
-      </v-card-text>
-
-      <v-btn outlined rounded block color="success" :disabled="!valid" @click="submit">
-        Enviar
-        <v-icon right>check</v-icon>
-      </v-btn>
-
-    </v-container>
-  </v-card>
+              <v-layout>
+                <v-flex xs6>
+                  <v-textarea
+                    filled
+                    auto-grow
+                    name="input-7-4"
+                    rows="10"
+                    label="Conteúdo"
+                    v-model="guide.content"
+                    :value="markdownContent"
+                  ></v-textarea>
+                </v-flex>
+                <v-flex xs6>
+                  <v-card>
+                    <v-toolbar dark color="yellow darken-3">
+                      <v-toolbar-title>Preview</v-toolbar-title>
+                    </v-toolbar>
+                    <v-card-text>
+                      <div v-html="markdownContent"></div>
+                    </v-card-text>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+              <v-divider class="my-2"></v-divider>
+            </v-card-text>
+            <v-card-actions>
+              <v-layout>
+                <v-flex xs10 offset-xs1 lg6 offset-lg3>
+                  <v-btn height="40" outlined rounded block color="success" :disabled="!valid" @click="submit">
+                    Enviar
+                    <v-icon right>check</v-icon>
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -74,10 +84,13 @@ export default class NewGuide extends Vue {
   }
 
   get markdownContent() {
-    return marked(this.guide.content, { sanitize: true })
+    /**
+     * https://marked.js.org/#/USING_ADVANCED.md
+     */
+    return marked(this.guide.content, { sanitize: true, breaks: true })
   }
 
-  submit() {
+  async submit() {
     /**
      * https://stackoverflow.com/a/52109899
      */
@@ -92,13 +105,13 @@ export default class NewGuide extends Vue {
         default:
           this.guide.category = 'others'
       }
-      this.guide.content = this.markdownContent()
-      this.$store.dispatch('publishGuide', this.guide).then(() => {
+      try {
+        await this.$store.dispatch('publishGuide', { ...this.guide, content: this.markdownContent })
         this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
         this.$router.push({ name: 'home' })
-      }).catch((error) => {
+      } catch (error) {
         this.$toasted.global.error(formatError(error))
-      })
+      }
     }
   }
 }

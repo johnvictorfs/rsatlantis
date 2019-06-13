@@ -52,11 +52,9 @@
               >
               {{ props.item.translated_rank + 'asdasd' }}
             </template>
-            <v-alert
-              slot="no-results"
-              :value="true"
-              color="error"
-            >Nenhum resultado encontrado para "{{ search }}".</v-alert>
+            <v-alert slot="no-results" :value="true" color="error">
+              Nenhum resultado encontrado para "{{ search }}"
+            </v-alert>
           </v-data-table>
           <!-- <div class="text-xs-center pt-2 light-grey-background">
             <v-pagination
@@ -79,6 +77,7 @@ import api from '../api'
 
 @Component({})
 export default class ClanList extends Vue {
+  loading = false
   pagination = {}
   selected = []
   apiError = false
@@ -99,10 +98,6 @@ export default class ClanList extends Vue {
     this.updateClanList(false)
   }
 
-  get loading(): boolean {
-    return this.$store.state.loading.loading
-  }
-
   // get pages() {
   //   if (
   //     this.pagination.rowsPerPage == null ||
@@ -119,7 +114,7 @@ export default class ClanList extends Vue {
 
   async updateClanList(notification = true) {
     try {
-      this.$store.dispatch('setLoading')
+      this.loading = true
       const { data } = await api.get('players')
       this.members = data.map((player: any) => ({ ...player, exp: this.commaSeparatedVal(player.exp) }))
       this.apiError = false
@@ -131,7 +126,7 @@ export default class ClanList extends Vue {
     } catch (error) {
       this.apiError = true
     } finally {
-      this.$store.dispatch('removeLoading').then()
+      this.loading = false
     }
   }
 }

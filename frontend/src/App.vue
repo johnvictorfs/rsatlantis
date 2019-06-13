@@ -2,12 +2,12 @@
   <v-app dark>
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
     <v-content>
-      <transition name="fade">
-        <v-container fluid>
-          <Loading></Loading>
+      <v-container fluid>
+        <Loading></Loading>
+        <transition name="fade" mode="out-in">
           <router-view></router-view>
-        </v-container>
-      </transition>
+        </transition>
+      </v-container>
     </v-content>
     <Footer></Footer>
   </v-app>
@@ -87,5 +87,17 @@ body {
 
 .atl-round-btn {
   border-width: 2px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>
