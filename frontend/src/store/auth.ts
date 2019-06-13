@@ -62,12 +62,15 @@ const actions: ActionTree<AuthState, RootState> = {
       }
     })
   },
-  logout({ commit }) {
-    commit('SET_LOADING')
-    commit('REMOVE_TOKEN')
-    commit('CLEAR_ACCOUNT_DETAILS')
-    api.post('auth/logout/', {})
-    commit('REMOVE_LOADING')
+  async logout({ commit }) {
+    try {
+      commit('SET_LOADING')
+      commit('REMOVE_TOKEN')
+      commit('CLEAR_ACCOUNT_DETAILS')
+      await api.post('auth/logout/', {})
+    } catch (error) {} finally {
+      commit('REMOVE_LOADING')
+    }
   },
   accountDetails({ commit }) {
     return new Promise(async (resolve, reject) => {

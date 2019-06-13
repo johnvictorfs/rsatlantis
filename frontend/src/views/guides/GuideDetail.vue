@@ -35,12 +35,15 @@ export default class GuideDetail extends Vue {
     try {
       // @ts-ignore
       const { data: guide } = await this.$store.dispatch('guideDetails', this.slug)
-      if (guide.category === 'pvm') {
-        guide.category = 'PvM'
-      } else if (guide.category === 'skilling') {
-        guide.category = 'Habilidades'
-      } else {
-        guide.category = 'Outros'
+      switch (guide.category) {
+        case 'pvm':
+          guide.category = 'PvM'
+          break
+        case 'skilling':
+          guide.category = 'Habilidades'
+          break
+        default:
+          guide.category = 'Outros'
       }
       this.guide = guide
       this.showGuide = true
@@ -70,7 +73,3 @@ export default class GuideDetail extends Vue {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
