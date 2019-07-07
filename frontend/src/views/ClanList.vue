@@ -1,6 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md5>
+    <v-flex xs12 sm10 md8 xl6>
       <v-alert
         slot="apiError"
         :value="apiError"
@@ -37,27 +37,23 @@
           single-line
           hide-details
         />
-          <!-- :search="search" -->
-          <!-- :rows-per-page-items="rows_per_page" -->
-            <!-- :pagination.sync="pagination" -->
-
           <v-data-table
             :loading="loading"
             :headers="headers"
             :items="members"
             :search="search"
-            loading-text="Carregando..."
-            class="mx-2 elevation-1"
-            :items-per-page="5"
+            :items-per-page="10"
             :page.sync="page"
-            hide-default-footer
+            locale="pt-BR"
+            loading-text="Carregando..."
+            no-data-text="Nenhum Membro Encontrado"
             @page-count="pageCount = $event"
+            class="mx-2 elevation-1"
+            hide-default-footer
+            :custom-sort="memberSort"
           >
             <template v-slot:item.translated_rank="{ item }">
-                <img
-                  :src="require(`../assets/clan_ranks/${item.rank}.png`)"
-                  :alt="'rank_' + item.rank"
-                />
+                <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
                 {{ item.translated_rank }}
             </template>
             <template v-slot:progress>
@@ -67,8 +63,11 @@
               Nenhum resultado encontrado para "{{ search }}"
             </v-alert>
           </v-data-table>
-          <div class="text-xs-center pt-2">
-            <v-pagination v-model="page" :length="pageCount" :total-visible="10"></v-pagination>
+          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
+            <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
+          </div>
+          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
+            <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
           </div>
       </v-card>
     </v-flex>
@@ -84,8 +83,6 @@ import api from '../api'
 @Component({})
 export default class ClanList extends Vue {
   loading = false
-  pagination = {}
-  selected = []
   apiError = false
   search = ''
   page = 1
@@ -102,19 +99,77 @@ export default class ClanList extends Vue {
     this.updateClanList(false)
   }
 
-  // get pages() {
-  //   if (
-  //     this.pagination.rowsPerPage == null ||
-  //     this.pagination.totalItems == null
-  //   ) {
-  //     return 0
-  //   }
-  //   return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
-  // }
-
-  commaSeparatedVal(num: number): string {
+  commaSeparatedVal(num: number | string): string {
+    /**
+     * Formats numbers into Comma-separated numbers (as a string)
+     *
+     * 123456789 -> '123,456,789'
+     * '123456789' -> '123,456,789'
+     */
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
+
+  memberSort(items: any[], sortBy: string[], sortDesc: boolean[]) {
+    if (sortBy[0] === 'translated_rank') {
+      /**
+       * Sort by rank based on in-game patents
+       * https://stackoverflow.com/a/14872766
+       * https://stackoverflow.com/a/54612408
+       */
+      const ordering: any = {}
+
+      const sortOrder: Array<string> = [
+        'Owner',
+        'Deputy Owner',
+        'Overseer',
+        'Coordinator',
+        'Organiser',
+        'Admin',
+        'General',
+        'Captain',
+        'Lieutenant',
+        'Sergeant',
+        'Corporal',
+        'Recruit'
+      ]
+
+      for (let i = 0; i < sortOrder.length; ++i) {
+        ordering[sortOrder[i]] = i
+      }
+
+      const newsItems = items.sort((a: any, b: any) => (ordering[a.rank] - ordering[b.rank]) || a.rank.localeCompare(b.rank))
+      if (!sortDesc[0]) {
+        return newsItems.reverse()
+      }
+      return newsItems
+    } else if (sortBy[0] === 'name') {
+      /**
+       * Just sort by name normally, alphabetically
+       */
+      const newItems = items.sort((a, b) => a.name.localeCompare(b.name))
+      if (!sortDesc[0]) {
+        return newItems.reverse()
+      }
+      return newItems
+    } else if (sortBy[0] === 'exp') {
+      /**
+       * Sort Clan Members based on their Clan Exp, needs the
+       * comma-separated values to be converted to Integers before
+       */
+      const newItems = items.sort((a, b) => {
+        const expA = parseInt(a.exp.replace(/,/g, ''))
+        const expB = parseInt(b.exp.replace(/,/g, ''))
+
+        return expA - expB
+      })
+      if (!sortDesc[0]) {
+        return newItems.reverse()
+      }
+      return newItems
+    }
+    return items
+  }
+
 
   async updateClanList(notification = true) {
     try {
@@ -122,8 +177,6 @@ export default class ClanList extends Vue {
       const { data } = await api.get('players')
       this.members = data.map((player: any) => ({ ...player, exp: this.commaSeparatedVal(player.exp) }))
       this.apiError = false
-      // @ts-ignore
-      this.pagination.totalItems = this.members.length
       if (notification) {
         this.$toasted.global.success('Membros do Clã atualizados com sucesso!')
       }
