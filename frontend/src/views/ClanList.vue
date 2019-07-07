@@ -1,6 +1,6 @@
 <template>
   <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md5>
+    <v-flex xs12 sm10 md8 xl6>
       <v-alert
         slot="apiError"
         :value="apiError"
@@ -13,22 +13,22 @@
         novamente mais tarde :(
       </v-alert>
 
-      <v-card>
-          <v-toolbar dark color="grey darken-2">
-            <v-toolbar-title>Membros do Clã</v-toolbar-title>
+      <v-card v-if="!apiError">
+        <v-toolbar dark color="grey darken-2">
+          <v-toolbar-title>Membros do Clã</v-toolbar-title>
 
-            <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-            <!-- Desktop Update Clans button -->
-            <v-btn small :disabled="loading" class="hidden-sm-and-down" @click="updateClanList">
-              <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
-            </v-btn>
+          <!-- Desktop Update Clans button -->
+          <v-btn small :disabled="loading" class="hidden-sm-and-down" @click="updateClanList">
+            <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
+          </v-btn>
 
-            <!-- Mobile Update Clans icon -->
-            <v-btn fab :disabled="loading" class="hidden-md-and-up" @click="updateClanList">
-              <v-icon small color="white">fa-sync-alt</v-icon>
-            </v-btn>
-          </v-toolbar>
+          <!-- Mobile Update Clans icon -->
+          <v-btn fab :disabled="loading" class="hidden-md-and-up" @click="updateClanList">
+            <v-icon small color="white">fa-sync-alt</v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-text-field
           class="mx-4 mb-2"
           v-model="search"
@@ -37,33 +37,55 @@
           single-line
           hide-details
         />
-          <!-- :search="search" -->
-          <!-- :rows-per-page-items="rows_per_page" -->
-            <!-- :pagination.sync="pagination" -->
-
-          <v-data-table :loading="loading" :headers="headers" :items="members" align="center" class="mx-2 elevation-1">
+          <v-data-table
+            :loading="loading"
+            :headers="headers"
+            :items="members"
+            :search="search"
+            :items-per-page="10"
+            :page.sync="page"
+            locale="pt-BR"
+            loading-text="Carregando..."
+            no-data-text="Nenhum Membro Encontrado"
+            @page-count="pageCount = $event"
+            class="mx-2 elevation-1"
+            hide-default-footer
+            :custom-sort="memberSort"
+          >
+            <template v-slot:item.name="{ item }">
+              <v-layout row class="text-xs-center">
+                <v-flex xs1>
+                  <v-avatar class="mt-2 mb-2 hidden-sm-and-down" tile>
+                    <v-img
+                      :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
+                      :alt="`avatar${item.name}`"
+                    />
+                  </v-avatar>
+                </v-flex>
+                <v-flex xs10 class="mt-3 mr-5">
+                  {{ item.name }}
+                </v-flex>
+              </v-layout>
+            </template>
+            <template v-slot:item.translated_rank="{ item }">
+              <div class="mr-4">
+                <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
+                {{ item.translated_rank }}
+              </div>
+            </template>
             <template v-slot:progress>
               <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
             </template>
-            <template v-slot:item.rank="{ item }">
-              <img
-                :src="require(`../assets/clan_ranks/${props.item.rank}.png`)"
-                :alt="'rank_' + props.item.rank"
-              >
-              {{ props.item.translated_rank + 'asdasd' }}
-            </template>
-            <v-alert slot="no-results" :value="true" color="error">
+            <v-alert slot="no-results" :value="true" color="error" class="mt-3">
               Nenhum resultado encontrado para "{{ search }}"
             </v-alert>
           </v-data-table>
-          <!-- <div class="text-xs-center pt-2 light-grey-background">
-            <v-pagination
-              v-model="pagination.page"
-              :length="pages"
-              color="grey darken-4"
-              :total-visible="9"
-            />
-          </div> -->
+          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-sm-and-down">
+            <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
+          </div>
+          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-md-and-up">
+            <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
+          </div>
       </v-card>
     </v-flex>
   </v-layout>
@@ -78,15 +100,11 @@ import api from '../api'
 @Component({})
 export default class ClanList extends Vue {
   loading = false
-  pagination = {}
-  selected = []
   apiError = false
   search = ''
-  rows_per_page = [
-    15,
-    20,
-    { text: '$vuetify.dataIterator.rowsPerPageAll', value: -1 }
-  ]
+  page = 1
+  pageCount = 0
+  itemsPerPage = 15
   headers = [
     { text: 'Nome', value: 'name', align: 'center' },
     { text: 'Rank', value: 'translated_rank', align: 'center' },
@@ -98,19 +116,77 @@ export default class ClanList extends Vue {
     this.updateClanList(false)
   }
 
-  // get pages() {
-  //   if (
-  //     this.pagination.rowsPerPage == null ||
-  //     this.pagination.totalItems == null
-  //   ) {
-  //     return 0
-  //   }
-  //   return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
-  // }
-
-  commaSeparatedVal(num: number): string {
+  commaSeparatedVal(num: number | string): string {
+    /**
+     * Formats numbers into Comma-separated numbers (as a string)
+     *
+     * 123456789 -> '123,456,789'
+     * '123456789' -> '123,456,789'
+     */
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
+
+  memberSort(items: any[], sortBy: string[], sortDesc: boolean[]) {
+    if (sortBy[0] === 'translated_rank') {
+      /**
+       * Sort by rank based on in-game patents
+       * https://stackoverflow.com/a/14872766
+       * https://stackoverflow.com/a/54612408
+       */
+      const ordering: any = {}
+
+      const sortOrder: Array<string> = [
+        'Owner',
+        'Deputy Owner',
+        'Overseer',
+        'Coordinator',
+        'Organiser',
+        'Admin',
+        'General',
+        'Captain',
+        'Lieutenant',
+        'Sergeant',
+        'Corporal',
+        'Recruit'
+      ]
+
+      for (let i = 0; i < sortOrder.length; ++i) {
+        ordering[sortOrder[i]] = i
+      }
+
+      const newsItems = items.sort((a: any, b: any) => (ordering[a.rank] - ordering[b.rank]) || a.rank.localeCompare(b.rank))
+      if (!sortDesc[0]) {
+        return newsItems.reverse()
+      }
+      return newsItems
+    } else if (sortBy[0] === 'name') {
+      /**
+       * Just sort by name normally, alphabetically
+       */
+      const newItems = items.sort((a, b) => a.name.localeCompare(b.name))
+      if (!sortDesc[0]) {
+        return newItems.reverse()
+      }
+      return newItems
+    } else if (sortBy[0] === 'exp') {
+      /**
+       * Sort Clan Members based on their Clan Exp, needs the
+       * comma-separated values to be converted to Integers before
+       */
+      const newItems = items.sort((a, b) => {
+        const expA = parseInt(a.exp.replace(/,/g, ''))
+        const expB = parseInt(b.exp.replace(/,/g, ''))
+
+        return expA - expB
+      })
+      if (!sortDesc[0]) {
+        return newItems.reverse()
+      }
+      return newItems
+    }
+    return items
+  }
+
 
   async updateClanList(notification = true) {
     try {
@@ -118,8 +194,6 @@ export default class ClanList extends Vue {
       const { data } = await api.get('players')
       this.members = data.map((player: any) => ({ ...player, exp: this.commaSeparatedVal(player.exp) }))
       this.apiError = false
-      // @ts-ignore
-      this.pagination.totalItems = this.members.length
       if (notification) {
         this.$toasted.global.success('Membros do Clã atualizados com sucesso!')
       }
@@ -133,7 +207,7 @@ export default class ClanList extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.light-grey-background {
+.atl-light-grey-background {
   background: #757575;
 }
 </style>
