@@ -13,22 +13,22 @@
         novamente mais tarde :(
       </v-alert>
 
-      <v-card>
-          <v-toolbar dark color="grey darken-2">
-            <v-toolbar-title>Membros do Clã</v-toolbar-title>
+      <v-card v-if="!apiError">
+        <v-toolbar dark color="grey darken-2">
+          <v-toolbar-title>Membros do Clã</v-toolbar-title>
 
-            <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-            <!-- Desktop Update Clans button -->
-            <v-btn small :disabled="loading" class="hidden-sm-and-down" @click="updateClanList">
-              <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
-            </v-btn>
+          <!-- Desktop Update Clans button -->
+          <v-btn small :disabled="loading" class="hidden-sm-and-down" @click="updateClanList">
+            <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
+          </v-btn>
 
-            <!-- Mobile Update Clans icon -->
-            <v-btn fab :disabled="loading" class="hidden-md-and-up" @click="updateClanList">
-              <v-icon small color="white">fa-sync-alt</v-icon>
-            </v-btn>
-          </v-toolbar>
+          <!-- Mobile Update Clans icon -->
+          <v-btn fab :disabled="loading" class="hidden-md-and-up" @click="updateClanList">
+            <v-icon small color="white">fa-sync-alt</v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-text-field
           class="mx-4 mb-2"
           v-model="search"
@@ -41,29 +41,35 @@
           <!-- :rows-per-page-items="rows_per_page" -->
             <!-- :pagination.sync="pagination" -->
 
-          <v-data-table :loading="loading" :headers="headers" :items="members" align="center" class="mx-2 elevation-1">
+          <v-data-table
+            :loading="loading"
+            :headers="headers"
+            :items="members"
+            :search="search"
+            loading-text="Carregando..."
+            class="mx-2 elevation-1"
+            :items-per-page="5"
+            :page.sync="page"
+            hide-default-footer
+            @page-count="pageCount = $event"
+          >
+            <template v-slot:item.translated_rank="{ item }">
+                <img
+                  :src="require(`../assets/clan_ranks/${item.rank}.png`)"
+                  :alt="'rank_' + item.rank"
+                />
+                {{ item.translated_rank }}
+            </template>
             <template v-slot:progress>
               <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
             </template>
-            <template v-slot:item.rank="{ item }">
-              <img
-                :src="require(`../assets/clan_ranks/${props.item.rank}.png`)"
-                :alt="'rank_' + props.item.rank"
-              >
-              {{ props.item.translated_rank + 'asdasd' }}
-            </template>
-            <v-alert slot="no-results" :value="true" color="error">
+            <v-alert slot="no-results" :value="true" color="error" class="mt-3">
               Nenhum resultado encontrado para "{{ search }}"
             </v-alert>
           </v-data-table>
-          <!-- <div class="text-xs-center pt-2 light-grey-background">
-            <v-pagination
-              v-model="pagination.page"
-              :length="pages"
-              color="grey darken-4"
-              :total-visible="9"
-            />
-          </div> -->
+          <div class="text-xs-center pt-2">
+            <v-pagination v-model="page" :length="pageCount" :total-visible="10"></v-pagination>
+          </div>
       </v-card>
     </v-flex>
   </v-layout>
@@ -82,11 +88,9 @@ export default class ClanList extends Vue {
   selected = []
   apiError = false
   search = ''
-  rows_per_page = [
-    15,
-    20,
-    { text: '$vuetify.dataIterator.rowsPerPageAll', value: -1 }
-  ]
+  page = 1
+  pageCount = 0
+  itemsPerPage = 15
   headers = [
     { text: 'Nome', value: 'name', align: 'center' },
     { text: 'Rank', value: 'translated_rank', align: 'center' },
