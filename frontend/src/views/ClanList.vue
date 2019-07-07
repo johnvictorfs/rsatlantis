@@ -52,9 +52,26 @@
             hide-default-footer
             :custom-sort="memberSort"
           >
+            <template v-slot:item.name="{ item }">
+              <v-layout row class="text-xs-center">
+                <v-flex xs1>
+                  <v-avatar class="mt-2 mb-2 hidden-sm-and-down" tile>
+                    <v-img
+                      :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
+                      :alt="`avatar${item.name}`"
+                    />
+                  </v-avatar>
+                </v-flex>
+                <v-flex xs10 class="mt-3 mr-5">
+                  {{ item.name }}
+                </v-flex>
+              </v-layout>
+            </template>
             <template v-slot:item.translated_rank="{ item }">
+              <div class="mr-4">
                 <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
                 {{ item.translated_rank }}
+              </div>
             </template>
             <template v-slot:progress>
               <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
@@ -63,10 +80,10 @@
               Nenhum resultado encontrado para "{{ search }}"
             </v-alert>
           </v-data-table>
-          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
+          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-sm-and-down">
             <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
           </div>
-          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
+          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-md-and-up">
             <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
           </div>
       </v-card>
@@ -190,7 +207,7 @@ export default class ClanList extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.light-grey-background {
+.atl-light-grey-background {
   background: #757575;
 }
 </style>
