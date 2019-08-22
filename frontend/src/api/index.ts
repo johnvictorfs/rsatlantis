@@ -8,6 +8,12 @@ const api = axios.create({
   xsrfHeaderName: 'X-CSRFToken'
 })
 
+api.interceptors.request.use((response: any) => {
+  if (response.url[response.url.length - 1] !== '/') {
+    response.url += '/'
+  }
+  return response
+})
 api.interceptors.request.use(response => response, error => Promise.reject(error))
 api.interceptors.response.use(response => response, error => Promise.reject(error))
 
