@@ -1,6 +1,6 @@
 <template>
   <v-container app>
-    <v-alert border="top" type="error" transition="scale-transition" v-if="visibleGuides.length === 0">
+    <v-alert border="top" type="error" transition="scale-transition" v-if="notFound">
       Nenhum Guia Encontrado
     </v-alert>
     <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">

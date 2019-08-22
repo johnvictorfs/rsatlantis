@@ -24,9 +24,7 @@ Vue.toasted.register(
 Vue.toasted.register(
   'success',
   message => {
-    if (!message) {
-      return 'Sucesso :)'
-    }
+    if (!message) return 'Sucesso :)'
     return message
   },
   {
