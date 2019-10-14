@@ -8,6 +8,10 @@ from guides.api.permissions import GuidePermission
 
 
 class GuideViewSet(viewsets.ModelViewSet):
+    """
+    # Guias
+    Another **test**
+    """
     serializer_class = GuideSerializer
     lookup_field = 'slug'
     queryset = Guide.objects.all().order_by('-date_posted')
