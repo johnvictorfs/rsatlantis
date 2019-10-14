@@ -52,7 +52,7 @@ const router = new Router({
     {
       path: '/docs/api',
       name: 'api-docs',
-      component: () => import(/* webpackChunkName: "api" */ './views/Api.vue')
+      component: () => import(/* webpackChunkName: "apidocs" */ './views/ApiDocs.vue')
     },
     {
       path: '/clan/list',

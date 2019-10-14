@@ -86,7 +86,7 @@
                 </v-toolbar>
                 <v-layout row class="hidden-md-and-up">
                   <v-flex xs12 offset-md8 class="mb-2">
-                    <v-btn color="primary" class="atl-continue-btn mt-2 mb-3" block :disabled="!userFormValid" @click="secondPage">
+                    <v-btn color="primary" class="continue-btn mt-2 mb-3" block :disabled="!userFormValid" @click="secondPage">
                       Continuar
                       <v-icon right>arrow_right</v-icon>
                     </v-btn>
@@ -120,13 +120,13 @@
 
               <br>
               <v-toolbar>
-                <v-btn text small @click="registerStep = 1">
+                <v-btn text @click="registerStep = 1">
                   <v-icon left>arrow_left</v-icon>Voltar
                 </v-btn>
 
                 <v-spacer></v-spacer>
 
-                <v-btn :disabled="!validForms" small @click="register" color="success">
+                <v-btn :disabled="!validForms" @click="register" color="success">
                   Registrar
                   <v-icon right>check</v-icon>
                 </v-btn>
@@ -215,7 +215,7 @@ export default class Register extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.atl-continue-btn {
+.continue-btn {
   height: 50px !important;
 }
 </style>
