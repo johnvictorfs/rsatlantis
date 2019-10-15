@@ -1,0 +1,43 @@
+{
+  "folders": [
+    {
+      "name": "Project Root",
+      "path": "."
+    },
+    {
+      "name": "Frontend (Vue)",
+      "path": "frontend"
+    },
+    {
+      "name": "Backend (Django)",
+      "path": "backend"
+    }
+  ],
+  "settings": {
+    // Fix some node typing warnings with the typescript extension
+    "typescript.tsdk": "${workspaceRoot}/frontend/node_modules/typescript/lib",
+
+    // Enable imports with alias '@' to '/frontend/src/' with the path-intellisense extension
+    "path-intellisense.mappings": {
+      "@": "${workspaceRoot}/frontend/src"
+    },
+
+    // Enable linting on .vue files with the Vetur extension
+    "vetur.format.defaultFormatter.ts": "vscode-typescript",
+    "vetur.format.defaultFormatter.html": "prettyhtml",
+    "vetur.format.defaultFormatterOptions": {
+      "js-beautify-html": {
+        "wrap_attributes": "auto"
+      }
+    },
+	},
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"octref.vetur",
+			"necinc.elmmet",
+			"ms-python.python",
+			"christian-kohler.path-intellisense"
+		]
+	}
+}
