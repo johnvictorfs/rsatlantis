@@ -2,7 +2,8 @@
   <v-footer dark padless>
     <v-card class="flex" text tile>
       <v-card-title>
-        <v-flex text-xs-center>
+        <v-row align="center" justify="center">
+
           <v-btn
             @mouseleave="item.colorUse = 'white'"
             @mouseover="item.colorUse = item.color"
@@ -20,14 +21,14 @@
               <RunescapeIcon />
             </a>
           </v-btn>
-        </v-flex>
+        </v-row>
       </v-card-title>
       <v-card-actions class="blue darken-1 justify-center">
         &copy;{{ new Date().getFullYear() }} —
         <strong>
           Atlantis
           <v-btn icon>
-            <a href="https://github.com/johnvictorfs/" target="_blank" style="text-decoration: none;">
+            <a href="https://github.com/johnvictorfs/rsatlantis" target="_blank" style="text-decoration: none;">
               <v-icon color="white">fab fa-github</v-icon>
             </a>
           </v-btn>
@@ -47,6 +48,7 @@ export default {
   name: 'Footer',
   components: { RunescapeIcon },
   data: () => ({
+    facebook_text: '',
     clanUrl: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
     items: [
       {

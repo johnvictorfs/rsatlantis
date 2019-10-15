@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
     <v-content>
       <v-container fluid>
@@ -39,6 +39,9 @@ export default class App extends Vue {
   ]
 
   async created() {
+    // Turn on vuetify dark theme
+    this.$vuetify.theme.dark = true
+
     if (this.$store.getters.isAuthenticated) {
       await this.$store.dispatch('accountDetails')
     }
@@ -46,8 +49,7 @@ export default class App extends Vue {
 
   get filteredToolbarItems() {
     /**
-     * Filters items based on if they are shown to authenticated users or not, according to if the user is
-     * authenticated or not.
+     * Filters items based on if they are shown to authenticated users or not
      */
     const items = []
     for (let i = 0; i < this.toolbarItems.length; i++) {

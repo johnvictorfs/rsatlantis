@@ -29,7 +29,7 @@
                 </v-toolbar>
                 <v-layout row class="hidden-md-and-up">
                   <v-flex xs12 offset-md8 class="mb-2">
-                    <v-btn class="atl-login-btn mt-4 mb-3" block color="success" :disabled="!valid" @click="login">
+                    <v-btn class="login-btn mt-4 mb-3" block color="success" :disabled="!valid" @click="login">
                       Entrar
                       <v-icon right>check</v-icon>
                     </v-btn>
@@ -64,13 +64,13 @@ export default class Login extends Vue {
   valid: boolean = true
   rules = {
     username: [
-      (v: string) => !!v || 'Campo de usuário é obrigatório',
-      (v: string) => (v && v.length > 3) || 'Usuário precisa ter pelo menos 4 caracteres',
-      (v: string) => /^[a-zA-Z\-0-9]+$/.test(v) || 'Usuário pode conter apenas letras e números'
+      (value: string) => !!value || 'Campo de usuário é obrigatório',
+      (value: string) => (value && value.length > 3) || 'Usuário precisa ter pelo menos 4 caracteres',
+      (value: string) => /^[a-zA-Z\-0-9]+$/.test(value) || 'Usuário pode conter apenas letras e números'
     ],
     password: [
-      (v: string) => !!v || 'Campo de senha é obrigatório',
-      (v: string) => (v && v.length > 7) || 'Senha precisa ter pelo menos 8 caracteres'
+      (value: string) => !!value || 'Campo de senha é obrigatório',
+      (value: string) => (value && value.length > 7) || 'Senha precisa ter pelo menos 8 caracteres'
     ]
   }
 
@@ -102,7 +102,7 @@ export default class Login extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.atl-login-btn {
+.login-btn {
   height: 50px !important;
 }
 </style>

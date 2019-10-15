@@ -46,19 +46,12 @@ export default {
 
   computed: {
     authorColor() {
-      if (this.guide.author.isSuperUser) {
-        return 'yellow darken-3'
-      }
-      if (this.guide.author.isAdmin) {
-        return 'error'
-      }
+      if (this.guide.author.isSuperUser) return 'yellow darken-3'
+      if (this.guide.author.isAdmin) return 'error'
       return 'primary'
     },
     authorIcon() {
-      if (this.guide.author.isSuperUser) {
-        return 'fa-user-shield'
-      }
-      if (this.guide.author.isAdmin) {
+      if (this.guide.author.isSuperUser || this.guide.author.isAdmin) {
         return 'fa-user-shield'
       }
       return 'account_circle'

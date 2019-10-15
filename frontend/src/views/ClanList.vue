@@ -20,12 +20,12 @@
           <v-spacer></v-spacer>
 
           <!-- Desktop Update Clans button -->
-          <v-btn small :disabled="loading" class="hidden-sm-and-down" @click="updateClanList">
+          <v-btn small :loading="loading" :disabled="loading" class="hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
             <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
           </v-btn>
 
           <!-- Mobile Update Clans icon -->
-          <v-btn fab :disabled="loading" class="hidden-md-and-up" @click="updateClanList">
+          <v-btn fab :loading="loading" :disabled="loading" class="hidden-md-and-up" @click="updateClanList" color="blue-grey darken-4">
             <v-icon small color="white">fa-sync-alt</v-icon>
           </v-btn>
         </v-toolbar>
@@ -51,6 +51,8 @@
             class="mx-2 elevation-1"
             hide-default-footer
             :custom-sort="memberSort"
+            sort-by="translated_rank"
+            :sort-desc="true"
           >
             <template v-slot:item.name="{ item }">
               <v-layout row class="text-xs-center">
@@ -80,10 +82,10 @@
               Nenhum resultado encontrado para "{{ search }}"
             </v-alert>
           </v-data-table>
-          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-sm-and-down">
+          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
             <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
           </div>
-          <div class="text-xs-center pt-2 pb-2 atl-light-grey-background hidden-md-and-up">
+          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
             <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
           </div>
       </v-card>
@@ -134,7 +136,6 @@ export default class ClanList extends Vue {
        * https://stackoverflow.com/a/54612408
        */
       const ordering: any = {}
-
       const sortOrder: Array<string> = [
         'Owner',
         'Deputy Owner',
@@ -155,23 +156,20 @@ export default class ClanList extends Vue {
       }
 
       const newsItems = items.sort((a: any, b: any) => (ordering[a.rank] - ordering[b.rank]) || a.rank.localeCompare(b.rank))
-      if (!sortDesc[0]) {
-        return newsItems.reverse()
-      }
+      if (!sortDesc[0]) return newsItems.reverse()
       return newsItems
     } else if (sortBy[0] === 'name') {
       /**
        * Just sort by name normally, alphabetically
        */
       const newItems = items.sort((a, b) => a.name.localeCompare(b.name))
-      if (!sortDesc[0]) {
-        return newItems.reverse()
-      }
+      if (!sortDesc[0]) return newItems.reverse()
       return newItems
     } else if (sortBy[0] === 'exp') {
       /**
        * Sort Clan Members based on their Clan Exp, needs the
        * comma-separated values to be converted to Integers before
+       * running any comparisons
        */
       const newItems = items.sort((a, b) => {
         const expA = parseInt(a.exp.replace(/,/g, ''))
@@ -179,16 +177,14 @@ export default class ClanList extends Vue {
 
         return expA - expB
       })
-      if (!sortDesc[0]) {
-        return newItems.reverse()
-      }
+      if (!sortDesc[0]) return newItems.reverse()
       return newItems
     }
     return items
   }
 
 
-  async updateClanList(notification = true) {
+  async updateClanList(notification: boolean = true) {
     try {
       this.loading = true
       const { data } = await api.get('players')
@@ -207,7 +203,7 @@ export default class ClanList extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.atl-light-grey-background {
+.light-grey-background {
   background: #757575;
 }
 </style>
