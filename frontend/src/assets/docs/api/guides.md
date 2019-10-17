@@ -3,7 +3,7 @@
 
 ---
 
-## GET `/guides/` (Detalhes de todos os Guias)
+## GET `/api/guides/` (Detalhes de todos os Guias)
   * **Permissões:** Todos
   * **Exemplo:** `{base_url}/api/guides/guia-yakamaru`
   * **Respostas:**
@@ -74,7 +74,7 @@
 
 ---
 
-## PUT `/guides/{slug:str}` (Atualizar Guia existente)
+## PUT `/guides/{slug:str}` (Atualizar Guia)
 
   * **Permissões:** Requer Usuário Autenticado que seja Administrador ou Criador do Guia sendo alterado
 
@@ -87,15 +87,16 @@
   | description | string  | Não          | Descrição do Guia | `"Como matar o Boss Yakamaru"` |
   | content     | string  | Não          | Conteúdo do Guia, em Markdown | `"## Piscina Stun \n (.......) ## Piscina Tendrils \n (.......)"` |
 
-  <div class="table-caption success">200 Success ✔️</div>
-  <br>
-  <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
-  <br>
-  <div class="table-caption error">403 Forbidden (Usuário / não-autor / não-admin / inativo) ❌</div>
+  * **Respostas:**
+    <div class="table-caption success">200 Success ✔️</div>
+    <br>
+    <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
+    <br>
+    <div class="table-caption error">403 Forbidden (Usuário / não-autor / não-admin / inativo) ❌</div>
 
 ---
 
-## DELETE `/guides/{slug:str}` (Deletar Guia existente)
+## DELETE `/guides/{slug:str}` (Deletar Guia)
   <div class="table-caption">Parâmetros de URL</div>
 
   | Parâmetro | Tipo    | Obrigatório? | Descrição | Exemplo(s) |
@@ -104,11 +105,12 @@
 
   * **Permissões:** Requer Usuário Autenticado que seja Administrador ou Criador do Guia sendo deletado
 
-  <div class="table-caption success">200 Success ✔️</div>
-  <br>
-  <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
-  <br>
-  <div class="table-caption error">403 Forbidden (Usuário não-autor / não-admin / inativo) ❌</div>
+  * **Respostas:**
+    <div class="table-caption success">204 No Content ✔️</div>
+    <br>
+    <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
+    <br>
+    <div class="table-caption error">403 Forbidden (Usuário não-autor / não-admin / inativo) ❌</div>
 
 ---
 
@@ -121,8 +123,9 @@
 
   * **Permissões:** Requer Usuário Autenticado que seja Administrador ou Criador do Guia sendo deletado
 
-  <div class="table-caption success">200 Success ✔️</div>
-  <br>
-  <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
-  <br>
-  <div class="table-caption error">403 Forbidden (Usuário não-autor / não-admin / inativo) ❌</div>
+  * **Respostas:**
+    <div class="table-caption success">200 Success ✔️</div>
+    <br>
+    <div class="table-caption error">401 Unauthorized (Usuário não-autenticado) ❌</div>
+    <br>
+    <div class="table-caption error">403 Forbidden (Usuário não-autor / não-admin / inativo) ❌</div>

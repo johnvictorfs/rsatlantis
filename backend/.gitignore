@@ -117,3 +117,7 @@ dmypy.json
 /media
 /static
 /staticfiles
+
+# Editor files
+.vscode/
+.idea/
