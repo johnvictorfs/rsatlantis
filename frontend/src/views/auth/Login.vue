@@ -54,9 +54,9 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import { formatError } from '../../helpers/errors'
+import { formatError } from '@/helpers/errors'
 
-import { UserCredentials } from '../../store/types'
+import { UserCredentials } from '@/store/types'
 
 @Component({})
 export default class Login extends Vue {

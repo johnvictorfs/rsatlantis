@@ -4,8 +4,8 @@
 
     <v-tabs v-model="tab">
       <v-tabs-slider></v-tabs-slider>
-      <v-tab href="#guides-api" ripple>Guias</v-tab>
-      <v-tab href="#users-api" ripple>Usuários</v-tab>
+      <v-tab href="#guides-api" ripple @click="updateBaseUrls">Guias</v-tab>
+      <v-tab href="#users-api" ripple @click="updateBaseUrls">Usuários</v-tab>
 
       <v-tab-item value="guides-api">
         <div class="api-markdown">
@@ -15,7 +15,7 @@
 
       <v-tab-item value="users-api">
         <div class="api-markdown">
-          API Usuários
+          <Users />
         </div>
       </v-tab-item>
     </v-tabs>
@@ -29,8 +29,9 @@ import Component from 'vue-class-component'
 
 // @ts-ignore
 import Guide from '@/assets/docs/api/guides.md'
+import Users from '@/assets/docs/api/users.md'
 
-@Component({ components: { Guide } })
+@Component({ components: { Guide, Users } })
 export default class ApiDocs extends Vue {
   tab = null;
 
@@ -39,6 +40,11 @@ export default class ApiDocs extends Vue {
      * Replace all mentions of '{base_url}' in the markdown HTML to the
      * actual API's base url
      */
+
+    this.updateBaseUrls()
+  }
+
+  private updateBaseUrls() {
     setTimeout(() => {
       const apiElements = document.getElementsByClassName('api-markdown')
 

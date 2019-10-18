@@ -51,7 +51,9 @@ const actions: ActionTree<AuthState, RootState> = {
       try {
         commit('SET_LOADING')
         const { username, password } = credentials
-        const response = await api.post('auth/login/', { username, password })
+
+        const response = await api.post('auth/login', { username, password })
+
         commit('SET_TOKEN', response.data.key)
         dispatch('accountDetails')
         resolve(response)
@@ -67,7 +69,8 @@ const actions: ActionTree<AuthState, RootState> = {
       commit('SET_LOADING')
       commit('REMOVE_TOKEN')
       commit('CLEAR_ACCOUNT_DETAILS')
-      await api.post('auth/logout/', {})
+
+      await api.post('auth/logout', {})
     } catch (error) {} finally {
       commit('REMOVE_LOADING')
     }
@@ -76,7 +79,9 @@ const actions: ActionTree<AuthState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await api.get('users/current')
+
         commit('SET_ACCOUNT_DETAILS', response.data)
+
         resolve(response)
       } catch (error) {
         reject(error)
@@ -87,7 +92,8 @@ const actions: ActionTree<AuthState, RootState> = {
     commit('SET_LOADING')
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await api.post('users/', credentials)
+        const response = await api.post('users', credentials)
+
         resolve(response)
       } catch (error) {
         reject(error)
