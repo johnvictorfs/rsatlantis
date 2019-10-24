@@ -96,12 +96,12 @@
   | email    | string | Não          | Email do Usuário | `"admin@rsatlantis.com"` |
   | ingame_name | string | Não | Nome do RuneScape do Usuário | `"NRiver"` |
 
-  **Respostas:**
-    <div class="table-caption table-success">200 Success ✔️</div>
+  * **Respostas:**
+  <div class="table-caption table-success">200 Success ✔️</div>
 
-    <br>
+  <br>
 
-    <div class="table-caption table-error">403 Forbidden (Não é Admin nem Usuário sendo alterado) ❌</div>
+  <div class="table-caption table-error">403 Forbidden (Não é Admin nem Usuário sendo alterado) ❌</div>
 
 ---
 
@@ -116,6 +116,7 @@
   | id      | int  | Sim | ID do Usuário | `3` |
 
   * **Respostas:**
+
   <div class="table-caption table-success">204 No Content ✔️</div>
   <br>
   <div class="table-caption table-error">403 Forbidden (Usuário não-admin) ❌</div>
