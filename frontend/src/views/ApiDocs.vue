@@ -1,26 +1,37 @@
-<template xmlns:v-clipboard="">
-  <v-sheet class="pa-5" elevation="6" fluid>
-    <h1 class="pb-3">Documentação da API</h1>
+<template>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" lg="8" md="10" sm="12">
+        <v-card class="api-card mt-2" elevation="6">
+          <v-toolbar class="text-center" color="#353434">
+            <v-spacer></v-spacer>
+            <v-toolbar-title>
+              <h2 style="font-family: Rubik;">Documentação da API</h2>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
 
-    <v-tabs v-model="tab">
-      <v-tabs-slider></v-tabs-slider>
-      <v-tab href="#guides-api" ripple @click="updateBaseUrls">Guias</v-tab>
-      <v-tab href="#users-api" ripple @click="updateBaseUrls">Usuários</v-tab>
+          <v-tabs center-active v-model="tab" color="light-blue" background-color="deep-gray accent-4">
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab href="#guides-api" ripple @click="updateBaseUrls">Guias</v-tab>
+            <v-tab href="#users-api" ripple @click="updateBaseUrls">Usuários</v-tab>
 
-      <v-tab-item value="guides-api">
-        <div class="api-markdown">
-          <Guide />
-        </div>
-      </v-tab-item>
+            <v-tab-item value="guides-api">
+              <div class="api-markdown">
+                <Guide />
+              </div>
+            </v-tab-item>
 
-      <v-tab-item value="users-api">
-        <div class="api-markdown">
-          <Users />
-        </div>
-      </v-tab-item>
-    </v-tabs>
-
-  </v-sheet>
+            <v-tab-item value="users-api">
+              <div class="api-markdown">
+                <Users />
+              </div>
+            </v-tab-item>
+          </v-tabs>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -29,6 +40,8 @@ import Component from 'vue-class-component'
 
 // @ts-ignore
 import Guide from '@/assets/docs/api/guides.md'
+
+// @ts-ignore
 import Users from '@/assets/docs/api/users.md'
 
 @Component({ components: { Guide, Users } })
@@ -36,20 +49,21 @@ export default class ApiDocs extends Vue {
   tab = null;
 
   mounted() {
-    /**
-     * Replace all mentions of '{base_url}' in the markdown HTML to the
-     * actual API's base url
-     */
-
     this.updateBaseUrls()
   }
 
   private updateBaseUrls() {
+    /**
+     * Replace all mentions of '{base_url}' in the markdown HTML to the
+     * actual API's base url
+     */
     setTimeout(() => {
       const apiElements = document.getElementsByClassName('api-markdown')
 
       for (let i = 0; i < apiElements.length; ++i) {
         apiElements[i].innerHTML = apiElements[i].innerHTML.replace(/{base_url}/g, process.env.VUE_APP_API_URL || '')
+        apiElements[i].innerHTML = apiElements[i].innerHTML.replace(/✔️/g, '<i class="v-icon notranslate fa fa-check theme--dark"></i>')
+        apiElements[i].innerHTML = apiElements[i].innerHTML.replace(/❌/g, '<i class="v-icon notranslate fa fa-times theme--dark"></i>')
       }
     }, 1000)
   }
@@ -58,6 +72,10 @@ export default class ApiDocs extends Vue {
 
 <style lang="scss">
 
+.api-card {
+  border-radius: 25px !important;
+}
+
 .api-markdown {
   $dark-gray: rgb(100, 99, 99);
   $darker-gray: rgb(48, 47, 47);
@@ -65,8 +83,13 @@ export default class ApiDocs extends Vue {
   $white-gray: #fafafa;
   $dark-light-gray: rgb(73, 72, 72);
   $light-gray: rgb(122, 121, 121);
+  $table-border-radius: 20px;
 
   margin-top: 15px;
+  margin-right: 18px;
+  margin-left: 18px;
+
+  font-family: Muli;
 
   hr {
     $hr-margin: 15px;
@@ -75,10 +98,34 @@ export default class ApiDocs extends Vue {
     background-color: $light-gray;
     margin-bottom: $hr-margin;
     margin-top: $hr-margin;
+    width: 100%;
+    background: linear-gradient(90deg,#1976d2,rgba(25,118,210,0));
+    border-radius: 3px;
   }
 
   h1, h2, h3, h4, h5 {
     margin-bottom: 10px;
+  }
+
+  ul li {
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  ul li:before{
+    content: '';
+    position: absolute;
+    border-right: 2px solid #757575;
+    border-bottom: 2px solid #757575;
+    width: 8px;
+    height: 8px;
+    top: calc(50% - 6px);
+    left: -15px;
+    transform: translateY(-50%) rotate(-45deg);
   }
 
   li > p:first-child {
@@ -93,13 +140,24 @@ export default class ApiDocs extends Vue {
     text-align: center;
     font-weight: bold;
     font-size: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     background-color: $even-darker-gray;
-    border: 1px solid black !important;
+    margin-top: 2px;
+    border-top-left-radius: $table-border-radius;
+    border-top-right-radius: $table-border-radius;
+  }
+
+  .table-success {
+    background-color: rgb(39, 126, 39);
+  }
+
+  .table-error {
+    background-color: rgb(179, 57, 57);
   }
 
   table {
+    overflow: auto;
     margin-bottom: 20px;
     text-align: center;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -109,17 +167,20 @@ export default class ApiDocs extends Vue {
 
     tbody {
       display: table-row-group;
+      border-bottom-left-radius: $table-border-radius;
+      border-bottom-right-radius: $table-border-radius;
     }
 
     td, th {
-      border: 1px solid black;
+      /* border: 1px solid black; */
       padding: 8px;
       display: table-cell;
+      font-family: Muli;
     }
 
     tr {
       td:nth-child(2) {
-        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         color: lightskyblue;
       }
       background-color: $dark-light-gray;
@@ -131,6 +192,16 @@ export default class ApiDocs extends Vue {
 
     tr:hover {
       background-color: $light-gray;
+    }
+
+    tr:last-child {
+      td:first-child {
+        border-bottom-left-radius: $table-border-radius;
+      }
+
+      td:last-child {
+        border-bottom-right-radius: $table-border-radius;
+      }
     }
 
     th {
@@ -146,6 +217,7 @@ export default class ApiDocs extends Vue {
     border-left: 10px solid #ccc;
     margin: 1.5em 10px;
     padding: 0.5em 10px;
+    border-radius: 10px;
 
     p {
       display: inline;
@@ -162,11 +234,16 @@ export default class ApiDocs extends Vue {
 
   :not(pre) > code {
     // Inline-code with ``
-    font-family: Consolas, monospace;
+    font-family: 'Source Code Pro', Consolas, monospace;
     margin-left: 6px;
-    color: rgb(240, 239, 239);
+    border-radius: 8px;
+    color: #d8dae4;
     background-color: rgb(100, 100, 100);
     border: 1px solid rgb(87, 87, 87);
+  }
+
+  :not(pre) > code:hover {
+    background-color: rgb(88, 87, 87);
   }
 
   /**

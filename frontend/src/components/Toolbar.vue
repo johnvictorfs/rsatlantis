@@ -8,7 +8,7 @@
       </router-link>
     </v-toolbar-title>
 
-    <v-btn v-for="item in sidebarItems" :key="item.text" class="atl-toolbar-btn hidden-sm-and-down" :color="item.color" text :to="item.path">
+    <v-btn v-for="item in sidebarItems" :key="item.text" class="atl-toolbar-btn hidden-sm-and-down ml-1" :color="item.color" text :to="item.path">
       <v-icon left :color="item.color">{{ item.icon }}</v-icon>
       {{ item.text }}
     </v-btn>
@@ -70,6 +70,10 @@ export default class Toolbar extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.atl-toolbar-btn {
+  border-radius: 10px !important;
+}
+
 .user-label {
   padding-left: 10px;
   font-size: 18px;

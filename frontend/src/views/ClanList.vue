@@ -20,7 +20,7 @@
           <v-spacer></v-spacer>
 
           <!-- Desktop Update Clans button -->
-          <v-btn small :loading="loading" :disabled="loading" class="hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
+          <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
             <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
           </v-btn>
 
@@ -203,6 +203,10 @@ export default class ClanList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.update-btn {
+  border-radius: 8px;
+}
+
 .light-grey-background {
   background: #757575;
 }
