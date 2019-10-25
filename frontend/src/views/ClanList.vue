@@ -13,9 +13,13 @@
         novamente mais tarde :(
       </v-alert>
 
-      <v-card v-if="!apiError">
+      <v-card class="clan-list-card" v-if="!apiError">
         <v-toolbar dark color="grey darken-2">
-          <v-toolbar-title>Membros do Clã</v-toolbar-title>
+          <v-toolbar-title class="clan-list-title">
+            <h2 class="clan-list-title">
+              Membros do Clã
+            </h2>
+          </v-toolbar-title>
 
           <v-spacer></v-spacer>
 
@@ -48,7 +52,7 @@
             loading-text="Carregando..."
             no-data-text="Nenhum Membro Encontrado"
             @page-count="pageCount = $event"
-            class="mx-2 elevation-1"
+            class="mx-2 elevation-1 clan-list-table"
             hide-default-footer
             :custom-sort="memberSort"
             sort-by="translated_rank"
@@ -203,6 +207,14 @@ export default class ClanList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.clan-list-title {
+  font-family: Rubik;
+}
+
+.clan-list-card {
+  border-radius: 14px;
+}
+
 .update-btn {
   border-radius: 8px;
 }

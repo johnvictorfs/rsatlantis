@@ -1,17 +1,19 @@
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
 import { RootState, AuthState, ApiUserDetails, UserCredentials } from './types'
-import api from '../api'
+import api from '@/api'
 
 export const state: AuthState = {
   token: localStorage.getItem('TOKEN') || '',
-  username: '',
-  ingameName: '',
-  email: '',
-  isAdmin: false,
-  isSuperUser: false,
-  userUrl: '',
-  userGuides: ''
+  user: {
+    username: '',
+    ingameName: '',
+    email: '',
+    isAdmin: false,
+    isSuperUser: false,
+    userUrl: '',
+    userGuides: ''
+  }
 }
 
 export const mutations: MutationTree<AuthState> = {
@@ -26,22 +28,26 @@ export const mutations: MutationTree<AuthState> = {
     state.token = null
   },
   SET_ACCOUNT_DETAILS(state, details: ApiUserDetails) {
-    state.username = details.username
-    state.ingameName = details.ingame_name
-    state.email = details.email
-    state.isAdmin = details.is_staff
-    state.isSuperUser = details.is_superuser
-    state.userUrl = details.url
-    state.userGuides = details.guides
+    state.user = {
+      username: details.username,
+      ingameName: details.ingame_name,
+      email: details.email,
+      isAdmin: details.is_staff,
+      isSuperUser: details.is_superuser,
+      userUrl: details.url,
+      userGuides: details.guides
+    }
   },
   CLEAR_ACCOUNT_DETAILS(state) {
-    state.username = ''
-    state.ingameName = ''
-    state.email = ''
-    state.isAdmin = false
-    state.isSuperUser = false
-    state.userUrl = ''
-    state.userGuides = ''
+    state.user = {
+      username: '',
+      ingameName: '',
+      email: '',
+      isAdmin: false,
+      isSuperUser: false,
+      userUrl: '',
+      userGuides: ''
+    }
   }
 }
 

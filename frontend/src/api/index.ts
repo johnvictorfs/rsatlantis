@@ -24,8 +24,6 @@ class Api {
   }
 
   private middleware(): void {
-    this.axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
-
     this.axios.interceptors.request.use((response: any) => {
       if (!response.url.includes('static')) {
         // Add '/' to end of API url to avoid issues with running into the catch-all

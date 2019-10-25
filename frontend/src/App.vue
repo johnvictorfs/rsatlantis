@@ -13,16 +13,15 @@
   </v-app>
 </template>
 
-
 <script lang="ts">
 import Component from 'vue-class-component'
 import Vue from 'vue'
 
-import { ToolbarItem } from '../types'
+import { ToolbarItem } from '@/types'
 
-const Toolbar = () => import('./components/Toolbar.vue')
-const Footer = () => import('./components/Footer.vue')
-const Loading = () => import('./components/Loading.vue')
+const Toolbar = () => import('@/components/Toolbar.vue')
+const Footer = () => import('@/components/Footer.vue')
+const Loading = () => import('@/components/Loading.vue')
 
 @Component({ components: { Footer, Toolbar, Loading } })
 export default class App extends Vue {

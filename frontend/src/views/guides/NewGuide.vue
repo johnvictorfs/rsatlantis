@@ -1,9 +1,8 @@
 <template>
   <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md8 lg8 xl8>
+    <v-row justify="center">
+      <v-col cols="12" lg="10" xs="12" sm="12">
         <v-card class="elevation-12">
-
           <v-toolbar dark color="green">
             <v-toolbar-title>Criar um Novo Guia</v-toolbar-title>
           </v-toolbar>
@@ -23,6 +22,7 @@
               <v-layout>
                 <v-flex xs6>
                   <v-textarea
+                    @keydown.prevent.tab="addTab($event)"
                     filled
                     auto-grow
                     name="input-7-4"
@@ -33,14 +33,14 @@
                   ></v-textarea>
                 </v-flex>
                 <v-flex xs6>
-                  <v-card>
-                    <v-toolbar dark color="yellow darken-3">
-                      <v-toolbar-title>Preview</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text>
-                      <div v-html="markdownContent"></div>
-                    </v-card-text>
-                  </v-card>
+                  <v-toolbar style="border-radius: 12px;" dark color="yellow darken-4">
+                    <v-spacer></v-spacer>
+                      <v-toolbar-title>
+                          <h3>Preview</h3>
+                        </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <GuideDetail :guide="guide" :author="currentUser"></GuideDetail>
                 </v-flex>
               </v-layout>
               <v-divider class="my-2"></v-divider>
@@ -57,22 +57,21 @@
             </v-card-actions>
           </v-container>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
+import marked from 'marked'
 
-// https://stackoverflow.com/a/35961176
-declare const require: any
-const marked = require('marked')
+import GuideDetail from '@/components/GuideDetail.vue'
 
-import { formatError } from '../../helpers/errors'
+import { formatError } from '@/helpers/errors'
 
-@Component({})
+@Component({ components: { GuideDetail } })
 export default class NewGuide extends Vue {
   valid: boolean = true
   categories: Array<string> = ['PvM', 'Habilidades', 'Outros']
@@ -90,7 +89,23 @@ export default class NewGuide extends Vue {
     return marked(this.guide.content, { sanitize: true, breaks: true })
   }
 
-  async submit() {
+  get currentUser() {
+    const { auth } = this.$store.state
+    if (auth) return auth.user
+  }
+
+  private addTab(event: Event): void {
+    /**
+     * Insert 4 spaces when pressing Space inside the
+     * 'Content' text box
+     */
+    if (event) {
+      event.preventDefault()
+      document.execCommand('insertText', false, '    ')
+    }
+  }
+
+  private async submit(): Promise<void> {
     /**
      * https://stackoverflow.com/a/52109899
      */
@@ -106,19 +121,12 @@ export default class NewGuide extends Vue {
           this.guide.category = 'others'
       }
       try {
-        await this.$store.dispatch('publishGuide', { ...this.guide, content: this.markdownContent })
+        await this.$store.dispatch('publishGuide', { ...this.guide })
         this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'guides.list' })
       } catch (error) {
         this.$toasted.global.error(formatError(error))
       }
-      this.guide.content = this.markdownContent()
-      this.$store.dispatch('publishGuide', this.guide).then(() => {
-        this.$toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
-        this.$router.push({ name: 'home' })
-      }).catch((error) => {
-        this.$toasted.global.error(formatError(error))
-      })
     }
   }
 }

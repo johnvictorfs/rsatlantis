@@ -47,7 +47,7 @@ const router = new Router({
       path: '/guias/atl/:slug',
       name: 'guides.detail',
       props: true,
-      component: () => import(/* webpackChunkName: "guides-guidedetail" */ './views/guides/GuideDetail.vue')
+      component: () => import(/* webpackChunkName: "guides-guidedetail" */ './views/guides/GuideView.vue')
     },
     {
       path: '/docs/api',
