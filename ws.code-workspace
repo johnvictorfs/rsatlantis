@@ -17,11 +17,6 @@
     // Fix some node typing warnings with the typescript extension
     "typescript.tsdk": "${workspaceRoot}/frontend/node_modules/typescript/lib",
 
-    // Enable imports with alias '@' to '/frontend/src/' with the path-intellisense extension
-    "path-intellisense.mappings": {
-      "@": "${workspaceRoot}/frontend/src"
-    },
-
     // Enable linting on .vue files with the Vetur extension
     "vetur.format.defaultFormatter.ts": "vscode-typescript",
     "vetur.format.defaultFormatter.html": "prettyhtml",
@@ -30,6 +25,11 @@
         "wrap_attributes": "auto"
       }
     },
+
+    // Enable imports with alias '@' to '/frontend/src/' with the path-intellisense extension
+    "path-intellisense.mappings": {
+      "@": "${workspaceRoot}/frontend/src"
+    },
 	},
 	"extensions": {
 		"recommendations": [
@@ -37,7 +37,8 @@
 			"octref.vetur",
 			"necinc.elmmet",
 			"ms-python.python",
-			"christian-kohler.path-intellisense"
+      "christian-kohler.path-intellisense",
+      "mishannn.vuex-suggest"
 		]
 	}
 }

@@ -1,9 +1,18 @@
 <template>
   <v-footer dark padless>
     <v-card class="flex" text tile>
+      <v-sparkline
+        fill
+        class="wave"
+        :smooth="25"
+        :gradient="['#424242']"
+        :line-width="4"
+        :padding="0"
+        :height="7"
+        :value="[4, 3, 4, 5, 4, 5, 3, 4, 5, 4]"
+      ></v-sparkline>
       <v-card-title>
         <v-row align="center" justify="center">
-
           <v-btn
             @mouseleave="item.colorUse = 'white'"
             @mouseover="item.colorUse = item.color"
@@ -42,7 +51,7 @@
 </template>
 
 <script>
-import RunescapeIcon from '../icons/Runescape'
+import RunescapeIcon from '@/icons/Runescape'
 
 export default {
   name: 'Footer',
@@ -79,3 +88,9 @@ export default {
   })
 }
 </script>
+
+<style lang="scss" scoped>
+.wave {
+  background-color: rgb(48, 48, 48);
+}
+</style>

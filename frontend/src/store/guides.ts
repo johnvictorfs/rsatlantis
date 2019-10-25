@@ -1,7 +1,7 @@
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
 import { GuideState, RootState } from './types'
-import api from '../api'
+import api from '@/api'
 
 export const state: GuideState = {}
 

@@ -1,17 +1,35 @@
 <template>
   <v-hover>
     <template v-slot:default="{ hover }">
-      <v-card class="elevation-12 mb-2" color="grey darken-3" width="400">
-        <v-list-item>
-          <v-list-item-avatar color="grey">
-            <v-icon>{{ authorIcon }}</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title class="headline">{{ guide.title }}</v-list-item-title>
-            <v-list-item-subtitle>— {{ guide.author.name }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-img height="200" src="https://runescape.wiki/images/thumb/7/76/Raids_concept_art.png/441px-Raids_concept_art.png?92ae9"></v-img>
+      <v-card class="elevation-12 mb-2 guide-card" color="grey darken-3" width="400">
+        <v-toolbar color="light-blue darken-4">
+          <v-btn color="light-green darken-3">
+            <v-icon left>{{ authorIcon }}</v-icon>
+            <strong>{{guide.author.name}}</strong>
+          </v-btn>
+
+          <v-spacer></v-spacer>
+          <v-btn small :color="categoryColor">
+            <v-icon small left>{{categoryIcon}}</v-icon>
+            <strong>{{guide.category}}</strong>
+          </v-btn>
+        </v-toolbar>
+
+        <v-img
+          v-if="guide.title == 'Guia Yakamaru'"
+          height="200"
+          src="https://runescape.wiki/images/thumb/7/76/Raids_concept_art.png/441px-Raids_concept_art.png?92ae9">
+        </v-img>
+        <v-img
+          v-if="guide.title == 'Guia de Jack of Trades'"
+          height="200"
+          src="https://vignette.wikia.nocookie.net/runescape2/images/d/d2/Legendary_jack_of_trades_aura_detail.png/revision/latest?cb=20170722142749">
+        </v-img>
+        <v-img
+          v-if="guide.title == 'Guia AoD'"
+          height="200"
+          src="http://legends-br.com/wp-content/uploads/2017/09/aod-760x490.jpg">
+        </v-img>
         <v-card-text>
           {{ guide.description }}
         </v-card-text>
@@ -34,33 +52,58 @@
   </v-hover>
 </template>
 
-<script>
-export default {
-  name: 'Guide',
-  props: {
-    guide: {
-      type: Object,
-      default: () => {}
-    }
-  },
+<script lang="ts">
+import { Vue, Prop } from 'vue-property-decorator'
+import Component from 'vue-class-component'
 
-  computed: {
-    authorColor() {
-      if (this.guide.author.isSuperUser) return 'yellow darken-3'
-      if (this.guide.author.isAdmin) return 'error'
-      return 'primary'
-    },
-    authorIcon() {
-      if (this.guide.author.isSuperUser || this.guide.author.isAdmin) {
-        return 'fa-user-shield'
-      }
-      return 'account_circle'
+import { IGuide } from '@/types'
+
+@Component({})
+export default class Guide extends Vue {
+  @Prop() private guide!: IGuide;
+
+  get authorColor(): 'yellow darken-3' | 'error' | 'primary' {
+    if (this.guide.author.isSuperUser) return 'yellow darken-3'
+    if (this.guide.author.isAdmin) return 'error'
+    return 'primary'
+  }
+
+  get authorIcon(): 'fa-user-shield' | 'account_circle' {
+    if (this.guide.author.isSuperUser || this.guide.author.isAdmin) {
+      return 'fa-user-shield'
+    }
+    return 'account_circle'
+  }
+
+  get categoryIcon(): 'mdi-sword-cross' | 'mdi-chart-bar' | 'mdi-notification-clear-all' {
+    switch (this.guide.category) {
+      case 'PvM':
+        return 'mdi-sword-cross'
+      case 'Habilidades':
+        return 'mdi-chart-bar'
+      default:
+        return 'mdi-notification-clear-all'
+    }
+  }
+
+  get categoryColor(): 'red darken-4' | 'green darken-1' | 'grey darken-3' {
+    switch (this.guide.category) {
+      case 'PvM':
+        return 'red darken-4'
+      case 'Habilidades':
+        return 'green darken-1'
+      default:
+        return 'grey darken-3'
     }
   }
 }
 </script>
 
 <style scoped>
+.guide-card {
+  border-radius: 12px;
+}
+
 .guide-title {
   font-size: 32px !important;
   margin-bottom: 10px;

@@ -1,8 +1,8 @@
 <template>
 <v-container fluid fill-height>
-  <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md8 lg6 xl6>
-      <v-card class="elevation-12">
+  <v-row justify="center">
+    <v-col xs="12" sm="8" md="8" lg="6" xl="6">
+      <v-card class="elevation-12 register-card">
         <v-toolbar dark color="primary">
           <v-toolbar-title>Crie sua conta</v-toolbar-title>
         </v-toolbar>
@@ -119,24 +119,24 @@
               </v-form>
 
               <br>
-              <v-toolbar>
-                <v-btn text @click="registerStep = 1">
-                  <v-icon left>arrow_left</v-icon>Voltar
-                </v-btn>
+                <v-toolbar>
+                  <v-btn text @click="registerStep = 1">
+                    <v-icon left>arrow_left</v-icon>Voltar
+                  </v-btn>
 
-                <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
 
-                <v-btn :disabled="!validForms" @click="register" color="success">
-                  Registrar
-                  <v-icon right>check</v-icon>
-                </v-btn>
-              </v-toolbar>
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper>
-      </v-card>
-      </v-flex>
-    </v-layout>
+                  <v-btn :disabled="!validForms" @click="register" color="success">
+                    Registrar
+                    <v-icon right>check</v-icon>
+                  </v-btn>
+                </v-toolbar>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -144,9 +144,9 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import { UserCredentials } from '../../store/types'
-import { isInClan } from '../../helpers/runescape'
-import { formatError } from '../../helpers/errors'
+import { UserCredentials } from '@/store/types'
+import { isInClan } from '@/helpers/runescape'
+import { formatError } from '@/helpers/errors'
 
 @Component({})
 export default class Register extends Vue {
@@ -215,6 +215,10 @@ export default class Register extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.register-card {
+  border-radius: 12px;
+}
+
 .continue-btn {
   height: 50px !important;
 }

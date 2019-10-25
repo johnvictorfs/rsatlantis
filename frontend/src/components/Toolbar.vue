@@ -4,7 +4,7 @@
 
     <v-toolbar-title>
       <router-link :to="{name: 'home'}">
-        <v-img src="@/assets/atlantis_logo.png" class="mt-1" />
+        <v-img src="@/assets/images/atlantis_logo.png" class="mt-1" />
       </router-link>
     </v-toolbar-title>
 
@@ -53,11 +53,11 @@ export default class Toolbar extends Vue {
   }
   get isAdmin() {
     const { auth } = this.$store.state
-    if (auth) return auth.isAdmin
+    if (auth) return auth.user.isAdmin
   }
   get username() {
     const { auth } = this.$store.state
-    if (auth) return auth.username
+    if (auth) return auth.user.username
   }
   get userIcon() {
     return this.isAdmin ? 'fa-user-cog' : 'fa-user'
@@ -75,7 +75,8 @@ export default class Toolbar extends Vue {
 }
 
 .user-label {
-  padding-left: 10px;
+  border-radius: 12px !important;
+  padding-left: 16px;
   font-size: 18px;
   height: 40px;
   align-self: center;

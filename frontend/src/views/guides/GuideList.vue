@@ -1,6 +1,6 @@
 <template>
   <v-container app>
-    <v-alert border="top" type="error" transition="scale-transition" v-if="notFound">
+    <v-alert border="top" type="error" transition="scale-transition" v-if="(notFound || visibleGuides.length == 0) && !loading">
       Nenhum Guia Encontrado
     </v-alert>
     <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">
@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import api from '../../api'
+import api from '@/api'
 
-const Guide = () => import('../../components/Guide')
+import Guide from '@/components/Guide'
 
 export default {
   name: 'GuideList',
@@ -31,6 +31,7 @@ export default {
   async created() {
     try {
       const { data: guides } = await this.$store.dispatch('guideList')
+
       for (const guide of guides) {
         switch (guide.category) {
           case 'pvm':
@@ -45,6 +46,7 @@ export default {
 
         try {
           const { data: author } = await api.get(guide.author)
+
           guide.author = {
             name: author.username,
             isAdmin: author.is_staff,
@@ -69,6 +71,9 @@ export default {
     },
     pageLength() {
       return Math.ceil(this.guides.length / this.pageSize)
+    },
+    loading() {
+      return this.$store.state.loading.loading
     }
   }
 }

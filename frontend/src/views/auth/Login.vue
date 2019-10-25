@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md8 lg6 xl6>
-        <v-card class="elevation-12">
+  <v-container>
+    <v-row justify="center">
+      <v-col xs="12" sm="8" md="8" lg="5" xl="5">
+        <v-card class="elevation-12 login-card">
           <v-toolbar dark color="green">
             <v-toolbar-title>
               Entre na sua Conta
@@ -16,7 +16,7 @@
               <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter type="password" label="Senha" name="password" maxlength="70" required />
 
               <v-container>
-                <v-toolbar color="grey darken-4" class="hidden-sm-and-down">
+                <v-toolbar color="#2d2e2d" class="login-toolbar hidden-sm-and-down">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
                     <v-icon right small>fa-user-plus</v-icon>
@@ -45,8 +45,8 @@
             </v-form>
           </v-container>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -55,7 +55,6 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 import { formatError } from '@/helpers/errors'
-
 import { UserCredentials } from '@/store/types'
 
 @Component({})
@@ -102,7 +101,15 @@ export default class Login extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.login-card {
+  border-radius: 12px;
+}
+
 .login-btn {
   height: 50px !important;
+}
+
+.login-toolbar {
+  border-radius: 18px;
 }
 </style>
