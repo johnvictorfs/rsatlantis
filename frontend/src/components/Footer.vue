@@ -10,7 +10,7 @@
         :padding="0"
         :height="7"
         :value="[4, 3, 4, 5, 4, 5, 3, 4, 5, 4]"
-      ></v-sparkline>
+      />
       <v-card-title>
         <v-row align="center" justify="center">
           <v-btn
@@ -26,8 +26,8 @@
             <v-icon :color="item.colorUse">{{ item.icon }}</v-icon>
           </v-btn>
           <v-btn icon>
-            <a :href="clanUrl" target="_blank" style="text-decoration: none;" >
-              <RunescapeIcon />
+            <a :href="clanUrl" target="_blank" style="text-decoration: none;">
+              <RunescapeIcon/>
             </a>
           </v-btn>
         </v-row>
@@ -42,7 +42,8 @@
             </a>
           </v-btn>
           <v-btn rounded small :to="{name: 'api-docs'}">
-            <v-icon small left>fa-code</v-icon>API
+            <v-icon small left>fa-code</v-icon>
+            API
           </v-btn>
         </strong>
       </v-card-actions>
@@ -90,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wave {
-  background-color: rgb(48, 48, 48);
-}
+  .wave {
+    background-color: rgb(48, 48, 48);
+  }
 </style>

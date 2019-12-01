@@ -1,15 +1,15 @@
 <template>
   <v-app>
-    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
+    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"/>
     <v-content>
-      <v-container fluid>
-        <Loading></Loading>
+      <v-container fluid class="mb-3">
+        <Loading/>
         <transition name="fade" mode="out-in">
-          <router-view></router-view>
+          <router-view/>
         </transition>
       </v-container>
     </v-content>
-    <Footer></Footer>
+    <Footer/>
   </v-app>
 </template>
 
@@ -100,5 +100,9 @@ body {
 .fade-enter,
 .fade-leave-active {
   opacity: 0
+}
+
+.atl-round-toolbar {
+  border-radius: 18px !important;
 }
 </style>

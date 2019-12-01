@@ -1,130 +1,130 @@
 <template>
-<v-container fluid fill-height>
-  <v-row justify="center">
-    <v-col xs="12" sm="8" md="8" lg="6" xl="6">
-      <v-card class="elevation-12 register-card">
-        <v-toolbar dark color="primary">
-          <v-toolbar-title>Crie sua conta</v-toolbar-title>
-        </v-toolbar>
+  <v-container fluid fill-height>
+    <v-row justify="center">
+      <v-col xs="12" sm="8" md="8" lg="6" xl="6">
+        <v-card class="elevation-12 register-card">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Crie sua conta</v-toolbar-title>
+          </v-toolbar>
 
-        <v-stepper v-model="registerStep">
-          <v-stepper-header>
-            <v-stepper-step :complete="registerStep > 1" step="1">Detalhes de Usuário</v-stepper-step>
+          <v-stepper v-model="registerStep">
+            <v-stepper-header>
+              <v-stepper-step :complete="registerStep > 1" step="1">Detalhes de Usuário</v-stepper-step>
 
-            <v-divider></v-divider>
+              <v-divider/>
 
-            <v-stepper-step :complete="registerStep > 2" step="2">Detalhes de Jogo</v-stepper-step>
+              <v-stepper-step :complete="registerStep > 2" step="2">Detalhes de Jogo</v-stepper-step>
 
-            <v-divider></v-divider>
-          </v-stepper-header>
+              <v-divider/>
+            </v-stepper-header>
 
-          <v-stepper-items>
-            <v-stepper-content step="1">
-              <v-form ref="form" v-model="userFormValid" @keydown.native.enter="secondPage">
-                <v-text-field
-                  v-model="credentials.username"
-                  autofocus
-                  prepend-icon="person"
-                  :rules="rules.username"
-                  filled
-                  :counter="20"
-                  type="text"
-                  label="Usuário"
-                  name="username"
-                  maxlength="20"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="credentials.email"
-                  prepend-icon="email"
-                  :rules="rules.email"
-                  counter
-                  filled
-                  type="email"
-                  label="Email"
-                  name="email"
-                  maxlength="70"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="credentials.password"
-                  prepend-icon="lock"
-                  :rules="rules.password"
-                  counter
-                  filled
-                  type="password"
-                  label="Senha"
-                  name="password"
-                  maxlength="70"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  v-model="credentials.password2"
-                  prepend-icon="lock"
-                  :rules="rules.password2"
-                  counter
-                  filled
-                  :error-messages="passwordMissmatch"
-                  type="password"
-                  label="Confirmar Senha"
-                  name="password2"
-                  maxlength="70"
-                  required
-                ></v-text-field>
-              </v-form>
-              <v-container>
-                <v-toolbar color="grey darken-4" class="hidden-sm-and-down">
-                  <v-btn color="success" text small :to="{name: 'login'}">
-                    Já tenho uma conta
-                    <v-icon right>fa-sign-in-alt</v-icon>
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn color="primary" :disabled="!userFormValid" @click="secondPage">
-                    Continuar
-                    <v-icon right>arrow_right</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-layout row class="hidden-md-and-up">
-                  <v-flex xs12 offset-md8 class="mb-2">
-                    <v-btn color="primary" class="continue-btn mt-2 mb-3" block :disabled="!userFormValid" @click="secondPage">
+            <v-stepper-items>
+              <v-stepper-content step="1">
+                <v-form ref="form" v-model="userFormValid" @keydown.native.enter="secondPage">
+                  <v-text-field
+                    v-model="credentials.username"
+                    autofocus
+                    prepend-icon="person"
+                    :rules="rules.username"
+                    filled
+                    :counter="20"
+                    type="text"
+                    label="Usuário"
+                    name="username"
+                    maxlength="20"
+                    required
+                  />
+                  <v-text-field
+                    v-model="credentials.email"
+                    prepend-icon="email"
+                    :rules="rules.email"
+                    counter
+                    filled
+                    type="email"
+                    label="Email"
+                    name="email"
+                    maxlength="70"
+                    required
+                  />
+                  <v-text-field
+                    v-model="credentials.password"
+                    prepend-icon="lock"
+                    :rules="rules.password"
+                    counter
+                    filled
+                    type="password"
+                    label="Senha"
+                    name="password"
+                    maxlength="70"
+                    required
+                  />
+                  <v-text-field
+                    v-model="credentials.password2"
+                    prepend-icon="lock"
+                    :rules="rules.password2"
+                    counter
+                    filled
+                    :error-messages="passwordMissmatch"
+                    type="password"
+                    label="Confirmar Senha"
+                    name="password2"
+                    maxlength="70"
+                    required
+                  />
+                </v-form>
+                <v-container>
+                  <v-toolbar color="grey darken-4" class="atl-round-toolbar hidden-sm-and-down">
+                    <v-btn color="success" text small :to="{name: 'login'}">
+                      Já tenho uma conta
+                      <v-icon right>fa-sign-in-alt</v-icon>
+                    </v-btn>
+                    <v-spacer />
+                    <v-btn color="primary" :disabled="!userFormValid" @click="secondPage">
                       Continuar
                       <v-icon right>arrow_right</v-icon>
                     </v-btn>
-                  </v-flex>
-                </v-layout>
-                <v-layout row justify-end class="hidden-md-and-up">
-                  <v-btn color="success" text small :to="{name: 'login'}">
-                    Já tenho uma conta
-                    <v-icon right small>fa-sign-in-alt</v-icon>
-                  </v-btn>
-                </v-layout>
-              </v-container>
+                  </v-toolbar>
+                  <v-layout row class="hidden-md-and-up">
+                    <v-flex xs12 offset-md8 class="mb-2">
+                      <v-btn color="primary" class="continue-btn mt-2 mb-3" block :disabled="!userFormValid" @click="secondPage">
+                        Continuar
+                        <v-icon right>arrow_right</v-icon>
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row class="hidden-md-and-up">
+                    <v-btn color="success" text small :to="{name: 'login'}">
+                      Já tenho uma conta
+                      <v-icon right small>fa-sign-in-alt</v-icon>
+                    </v-btn>
+                  </v-layout>
+                </v-container>
 
-            </v-stepper-content>
+              </v-stepper-content>
 
-            <v-stepper-content step="2">
-              <v-form ref="form2" v-model="ingameFormValid" @submit.prevent="register">
-                <v-text-field
-                  v-model="credentials.ingame_name"
-                  prepend-icon="person"
-                  :rules="rules.ingame_name"
-                  filled
-                  :counter="12"
-                  type="text"
-                  label="Nome no jogo"
-                  name="ingame_username"
-                  maxlength="12"
-                  required
-                ></v-text-field>
-              </v-form>
+              <v-stepper-content step="2">
+                <v-form ref="form2" v-model="ingameFormValid" @submit.prevent="register">
+                  <v-text-field
+                    v-model="credentials.ingame_name"
+                    prepend-icon="person"
+                    :rules="rules.ingame_name"
+                    filled
+                    :counter="12"
+                    type="text"
+                    label="Nome no jogo"
+                    name="ingame_username"
+                    maxlength="12"
+                    required
+                  />
+                </v-form>
 
-              <br>
+                <br>
                 <v-toolbar>
                   <v-btn text @click="registerStep = 1">
                     <v-icon left>arrow_left</v-icon>Voltar
                   </v-btn>
 
-                  <v-spacer></v-spacer>
+                  <v-spacer />
 
                   <v-btn :disabled="!validForms" @click="register" color="success">
                     Registrar
@@ -182,7 +182,8 @@ export default class Register extends Vue {
     if ((this.$refs.form as any).validate() && (this.$refs.form2 as any).validate()) {
       try {
         const inClan = isInClan(this.credentials.ingame_name)
-        if (isInClan) {
+
+        if (inClan) {
           try {
             this.$store.dispatch('createAccount', this.credentials)
             this.$router.push({ name: 'login' })

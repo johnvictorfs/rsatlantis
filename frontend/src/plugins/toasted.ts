@@ -1,21 +1,17 @@
 import Vue from 'vue'
 
-import Toasted, { ToastOptions } from 'vue-toasted'
+import Toasted from 'vue-toasted'
 
 Vue.use(Toasted)
+
 Vue.toasted.register(
   'error',
-  message => {
-    if (!message) {
-      return 'Erro Inesperado :('
-    }
-    return message
-  },
+  message => message ? message : 'Erro Inesperado :(',
   {
     theme: 'bubble',
     position: 'top-center',
     type: 'error',
-    // @ts-ignore
+    // @ts-ignore https://github.com/shakee93/vue-toasted/issues/132
     icon: { name: 'error_outline', after: true },
     duration: 2800
   }
@@ -23,15 +19,12 @@ Vue.toasted.register(
 
 Vue.toasted.register(
   'success',
-  message => {
-    if (!message) return 'Sucesso :)'
-    return message
-  },
+  message => message ? message : 'Sucesso :)',
   {
     theme: 'bubble',
     position: 'top-center',
     type: 'success',
-    // @ts-ignore
+    // @ts-ignore https://github.com/shakee93/vue-toasted/issues/132
     icon: { name: 'check_circle_outline', after: true },
     duration: 2800
   }

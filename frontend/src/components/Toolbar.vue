@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark fixed class="app-bar">
+  <v-app-bar app dark fixed class="app-bar" hide-on-scroll>
     <v-app-bar-nav-icon class="hidden-md-and-up" @click="toggleSideBar" />
 
     <v-toolbar-title>
@@ -23,7 +23,7 @@
     </v-chip>
 
     <v-btn rounded class="ml-3 shadow-hover atl-round-btn hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
-      <v-icon left>{{ item.icon }}</v-icon>
+      <v-icon left class="ml-1">{{ item.icon }}</v-icon>
       {{ item.text }}
     </v-btn>
   </v-app-bar>
@@ -51,14 +51,17 @@ export default class Toolbar extends Vue {
   get isAuthenticated() {
     return this.$store.getters.isAuthenticated
   }
+
   get isAdmin() {
     const { auth } = this.$store.state
     if (auth) return auth.user.isAdmin
   }
+
   get username() {
     const { auth } = this.$store.state
     if (auth) return auth.user.username
   }
+
   get userIcon() {
     return this.isAdmin ? 'fa-user-cog' : 'fa-user'
   }
