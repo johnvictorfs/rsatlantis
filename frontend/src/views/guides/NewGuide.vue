@@ -35,9 +35,9 @@
                 <v-flex xs6>
                   <v-toolbar style="border-radius: 12px;" dark color="yellow darken-4">
                     <v-spacer></v-spacer>
-                      <v-toolbar-title>
-                          <h3>Preview</h3>
-                        </v-toolbar-title>
+                    <v-toolbar-title>
+                      <h3>Preview</h3>
+                    </v-toolbar-title>
                     <v-spacer></v-spacer>
                   </v-toolbar>
                   <GuideDetail :guide="guide" :author="currentUser"></GuideDetail>

@@ -16,12 +16,12 @@
               <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter type="password" label="Senha" name="password" maxlength="70" required />
 
               <v-container>
-                <v-toolbar color="#2d2e2d" class="login-toolbar hidden-sm-and-down">
+                <v-toolbar color="#2d2e2d" class="atl-round-toolbar hidden-sm-and-down">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
                     <v-icon right small>fa-user-plus</v-icon>
                   </v-btn>
-                  <v-spacer></v-spacer>
+                  <v-spacer/>
                   <v-btn color="success" :disabled="!valid" @click="login">
                     Entrar
                     <v-icon right>check</v-icon>
@@ -35,7 +35,7 @@
                     </v-btn>
                   </v-flex>
                 </v-layout>
-                <v-layout row justify-end class="hidden-md-and-up">
+                <v-layout row class="hidden-md-and-up">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
                     <v-icon right small>fa-user-plus</v-icon>
@@ -107,9 +107,5 @@ export default class Login extends Vue {
 
 .login-btn {
   height: 50px !important;
-}
-
-.login-toolbar {
-  border-radius: 18px;
 }
 </style>

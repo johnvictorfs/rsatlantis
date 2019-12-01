@@ -4,15 +4,15 @@
       <v-col cols="12" lg="8" md="10" sm="12">
         <v-card class="api-card mt-2" elevation="6">
           <v-toolbar class="text-center" color="#353434">
-            <v-spacer></v-spacer>
+            <v-spacer/>
             <v-toolbar-title>
               <h2 style="font-family: Rubik;">Documentação da API</h2>
             </v-toolbar-title>
-            <v-spacer></v-spacer>
+            <v-spacer/>
           </v-toolbar>
 
           <v-tabs center-active v-model="tab" color="light-blue" background-color="deep-gray accent-4">
-            <v-tabs-slider></v-tabs-slider>
+            <v-tabs-slider/>
             <v-tab href="#guides-api" ripple @click="updateBaseUrls">Guias</v-tab>
             <v-tab href="#users-api" ripple @click="updateBaseUrls">Usuários</v-tab>
 

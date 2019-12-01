@@ -3,9 +3,9 @@
     <v-card class="guide-card">
       <v-toolbar color="light-blue darken-2">
         <v-spacer />
-          <v-toolbar-title>
-            <h2 class="guide-title">{{guide.title}}</h2>
-          </v-toolbar-title>
+        <v-toolbar-title>
+          <h2 class="guide-title">{{guide.title}}</h2>
+        </v-toolbar-title>
         <v-spacer />
       </v-toolbar>
 
@@ -15,11 +15,11 @@
           <strong>{{author.username}}</strong>
         </v-btn>
 
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <p class="guide-description pt-4">{{guide.description}}</p>
 
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <v-btn :color="categoryColor">
           <v-icon left>{{categoryIcon}}</v-icon>

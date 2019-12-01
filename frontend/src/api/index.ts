@@ -12,8 +12,7 @@ class Api {
       xsrfHeaderName: 'X-CSRFToken'
     })
 
-
-    this.middleware()
+    this.setupMiddleware()
   }
 
   public async static(url: string) {
@@ -23,7 +22,10 @@ class Api {
     return this.axios.get(this.baseURL + '/static/' + url)
   }
 
-  private middleware(): void {
+  private setupMiddleware(): void {
+    /**
+     * Setup API Middlewares
+     */
     this.axios.interceptors.request.use((response: any) => {
       if (!response.url.includes('static')) {
         // Add '/' to end of API url to avoid issues with running into the catch-all
@@ -37,9 +39,13 @@ class Api {
     this.axios.interceptors.request.use(response => response, error => Promise.reject(error))
     this.axios.interceptors.response.use(response => response, error => Promise.reject(error))
 
-    if (localStorage.getItem('TOKEN')) {
-      this.axios.defaults.headers.common['Authorization'] = `Token ${localStorage.getItem('TOKEN')}`
-    }
+    this.axios.interceptors.request.use(async config => {
+      const token = localStorage.getItem('TOKEN')
+      if (token) {
+        config.headers.Authorization = `Token ${token}`
+      }
+      return config
+    })
   }
 }
 

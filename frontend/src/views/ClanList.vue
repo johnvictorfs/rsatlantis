@@ -41,57 +41,57 @@
           single-line
           hide-details
         />
-          <v-data-table
-            :loading="loading"
-            :headers="headers"
-            :items="members"
-            :search="search"
-            :items-per-page="10"
-            :page.sync="page"
-            locale="pt-BR"
-            loading-text="Carregando..."
-            no-data-text="Nenhum Membro Encontrado"
-            @page-count="pageCount = $event"
-            class="mx-2 elevation-1 clan-list-table"
-            hide-default-footer
-            :custom-sort="memberSort"
-            sort-by="translated_rank"
-            :sort-desc="true"
-          >
-            <template v-slot:item.name="{ item }">
-              <v-layout row class="text-xs-center">
-                <v-flex xs1>
-                  <v-avatar class="mt-2 mb-2 hidden-sm-and-down" tile>
-                    <v-img
-                      :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
-                      :alt="`avatar${item.name}`"
-                    />
-                  </v-avatar>
-                </v-flex>
-                <v-flex xs10 class="mt-3 mr-5">
-                  {{ item.name }}
-                </v-flex>
-              </v-layout>
-            </template>
-            <template v-slot:item.translated_rank="{ item }">
-              <div class="mr-4">
-                <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
-                {{ item.translated_rank }}
-              </div>
-            </template>
-            <template v-slot:progress>
-              <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
-            </template>
-            <v-alert slot="no-results" :value="true" color="error" class="mt-3">
-              Nenhum resultado encontrado para "{{ search }}"
-            </v-alert>
-          </v-data-table>
-          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
-            <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
-          </div>
-          <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
-            <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
-          </div>
+        <v-data-table
+          :loading="loading"
+          :headers="headers"
+          :items="members"
+          :search="search"
+          :items-per-page="10"
+          :page.sync="page"
+          locale="pt-BR"
+          loading-text="Carregando..."
+          no-data-text="Nenhum Membro Encontrado"
+          @page-count="pageCount = $event"
+          class="mx-2 elevation-1 clan-list-table"
+          hide-default-footer
+          :custom-sort="memberSort"
+          sort-by="translated_rank"
+          :sort-desc="true"
+        >
+          <template v-slot:item.name="{ item }">
+            <v-layout row class="text-xs-center">
+              <v-flex xs1>
+                <v-avatar class="mt-2 mb-2 hidden-sm-and-down" tile>
+                  <v-img
+                    :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
+                    :alt="`avatar${item.name}`"
+                  />
+                </v-avatar>
+              </v-flex>
+              <v-flex xs10 class="mt-3 mr-5">
+                {{ item.name }}
+              </v-flex>
+            </v-layout>
+          </template>
+          <template v-slot:item.translated_rank="{ item }">
+            <div class="mr-4">
+              <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
+              {{ item.translated_rank }}
+            </div>
+          </template>
+          <template v-slot:progress>
+            <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
+          </template>
+          <v-alert slot="no-results" :value="true" color="error" class="mt-3">
+            Nenhum resultado encontrado para "{{ search }}"
+          </v-alert>
+        </v-data-table>
+        <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
+          <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
+        </div>
+        <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
+          <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
+        </div>
       </v-card>
     </v-flex>
   </v-layout>
@@ -208,11 +208,13 @@ export default class ClanList extends Vue {
 
 <style lang="scss" scoped>
 .clan-list-title {
-  font-family: Rubik;
+  font-family: Rubik, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+  sans-serif;;
 }
 
 .clan-list-card {
-  border-radius: 14px;
+  border-radius: 14px !important;
 }
 
 .update-btn {
@@ -221,5 +223,7 @@ export default class ClanList extends Vue {
 
 .light-grey-background {
   background: #757575;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
 }
 </style>
