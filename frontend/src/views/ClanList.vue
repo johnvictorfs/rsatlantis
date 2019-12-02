@@ -102,6 +102,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 import api from '../api'
+import { IPlayer } from '@/types'
 
 @Component({})
 export default class ClanList extends Vue {
@@ -116,7 +117,7 @@ export default class ClanList extends Vue {
     { text: 'Rank', value: 'translated_rank', align: 'center' },
     { text: 'Exp', value: 'exp', align: 'center' }
   ]
-  members = []
+  members: IPlayer[] = []
 
   mounted() {
     this.updateClanList(false)
@@ -191,8 +192,8 @@ export default class ClanList extends Vue {
   async updateClanList(notification: boolean = true) {
     try {
       this.loading = true
-      const { data } = await api.get('players')
-      this.members = data.map((player: any) => ({ ...player, exp: this.commaSeparatedVal(player.exp) }))
+      const players = await api.players.all()
+      this.members = players.map(player => ({ ...player, exp: this.commaSeparatedVal(player.exp) }))
       this.apiError = false
       if (notification) {
         this.$toasted.global.success('Membros do Clã atualizados com sucesso!')

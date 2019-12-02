@@ -4,10 +4,10 @@
       Nenhum Guia Encontrado
     </v-alert>
     <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">
-      <Guide :guide="guide" :content="false" :details-button="true"></Guide>
+      <Guide :guide="guide" :content="false" :details-button="true"/>
     </v-flex>
-    <v-layout justify-center>
-      <v-pagination v-if="visibleGuides.length > 5" v-model="page" :length="pageLength" circle></v-pagination>
+    <v-layout>
+      <v-pagination v-if="visibleGuides.length > 5" v-model="page" :length="pageLength" circle/>
     </v-layout>
   </v-container>
 </template>
@@ -30,7 +30,7 @@ export default {
   }),
   async created() {
     try {
-      const { data: guides } = await this.$store.dispatch('guideList')
+      const guides = await this.$store.dispatch('guideList')
 
       for (const guide of guides) {
         switch (guide.category) {
@@ -45,7 +45,7 @@ export default {
         }
 
         try {
-          const { data: author } = await api.get(guide.author)
+          const author = await guide.getAuthor()
 
           guide.author = {
             name: author.username,

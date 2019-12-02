@@ -151,7 +151,7 @@ import { formatError } from '@/helpers/errors'
 @Component({})
 export default class Register extends Vue {
   registerStep: number = 0
-  credentials: UserCredentials = {}
+  credentials: UserCredentials = { username: '', password: '' }
   userFormValid: boolean = false
   ingameFormValid: boolean = false
   rules = {

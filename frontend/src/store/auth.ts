@@ -2,6 +2,7 @@ import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
 import { RootState, AuthState, ApiUserDetails, UserCredentials } from './types'
 import api from '@/api'
+import { IUser } from '@/types'
 
 export const state: AuthState = {
   token: localStorage.getItem('TOKEN') || '',
@@ -19,12 +20,10 @@ export const state: AuthState = {
 export const mutations: MutationTree<AuthState> = {
   SET_TOKEN(state, token: string) {
     localStorage.setItem('TOKEN', token)
-    api.defaults.headers.common.Authorization = `Token ${token}`
     state.token = token
   },
   REMOVE_TOKEN(state) {
     localStorage.removeItem('TOKEN')
-    delete api.defaults.headers.common.Authorization
     state.token = null
   },
   SET_ACCOUNT_DETAILS(state, details: ApiUserDetails) {
@@ -56,13 +55,11 @@ const actions: ActionTree<AuthState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const { username, password } = credentials
+        const token = await api.users.login(credentials)
 
-        const response = await api.post('auth/login', { username, password })
-
-        commit('SET_TOKEN', response.data.key)
+        commit('SET_TOKEN', token)
         dispatch('accountDetails')
-        resolve(response)
+        resolve(token)
       } catch (error) {
         reject(error)
       } finally {
@@ -76,7 +73,7 @@ const actions: ActionTree<AuthState, RootState> = {
       commit('REMOVE_TOKEN')
       commit('CLEAR_ACCOUNT_DETAILS')
 
-      await api.post('auth/logout', {})
+      await api.users.logout()
     } catch (error) {} finally {
       commit('REMOVE_LOADING')
     }
@@ -84,23 +81,22 @@ const actions: ActionTree<AuthState, RootState> = {
   accountDetails({ commit }) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await api.get('users/current')
+        const user = await api.users.current()
 
-        commit('SET_ACCOUNT_DETAILS', response.data)
-
-        resolve(response)
+        commit('SET_ACCOUNT_DETAILS', user)
+        resolve(user)
       } catch (error) {
         reject(error)
       }
     })
   },
-  createAccount({ commit }, credentials: UserCredentials) {
+  createAccount({ commit }, credentials: IUser) {
     commit('SET_LOADING')
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await api.post('users', credentials)
+        const user = await api.users.create(credentials)
 
-        resolve(response)
+        resolve(user)
       } catch (error) {
         reject(error)
       } finally {

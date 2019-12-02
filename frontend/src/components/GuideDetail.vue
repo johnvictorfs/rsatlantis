@@ -39,13 +39,13 @@ import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
 import marked from 'marked'
 
-import { IApiGuide, IApiUser } from '@/types'
+import { IGuide, IUser } from '@/types'
 import api from '@/api'
 
 @Component({})
 export default class GuideDetail extends Vue {
-  @Prop() private guide!: IApiGuide;
-  @Prop() private author!: IApiUser;
+  @Prop() private guide!: IGuide;
+  @Prop() private author!: IUser;
 
   get markdownContent(): string {
     return marked(this.guide.content)
