@@ -6,7 +6,6 @@ Vue.use(Router)
 
 const redirectLogout = (to: any, from: any, next: any) => {
   store.dispatch('logout').then(() => next({ name: 'home' }))
-  Vue.toasted.global.success('Você saiu da sua conta com sucesso')
 }
 
 const router = new Router({

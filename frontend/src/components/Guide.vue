@@ -56,20 +56,20 @@
 import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
 
-import { IGuide } from '@/types'
+import { IGuide, IAuthor } from '@/types'
 
 @Component({})
 export default class Guide extends Vue {
   @Prop() private guide!: IGuide;
 
   get authorColor(): 'yellow darken-3' | 'error' | 'primary' {
-    if (this.guide.author.isSuperUser) return 'yellow darken-3'
-    if (this.guide.author.isAdmin) return 'error'
+    if ((this.guide.author as IAuthor).isSuperUser) return 'yellow darken-3'
+    if ((this.guide.author as IAuthor).isAdmin) return 'error'
     return 'primary'
   }
 
   get authorIcon(): 'fa-user-shield' | 'account_circle' {
-    if (this.guide.author.isSuperUser || this.guide.author.isAdmin) {
+    if ((this.guide.author as IAuthor).isSuperUser || (this.guide.author as IAuthor).isAdmin) {
       return 'fa-user-shield'
     }
     return 'account_circle'

@@ -8,7 +8,7 @@
       Esse Guia não foi aprovado ainda.
     </v-alert>
 
-    <GuideDetail :guide="guide" :author="author"></GuideDetail>
+    <GuideDetail :guide="guide" :author="author"/>
   </v-container>
 </template>
 
@@ -17,14 +17,14 @@ import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
 
 import GuideDetail from '@/components/GuideDetail.vue'
-import { IApiGuide, IApiUser } from '@/types'
+import { IGuide, IGuideWithAuthor, IUser } from '@/types'
 import api from '@/api'
 
 @Component({ components: { GuideDetail } })
 export default class GuideView extends Vue {
   @Prop() private slug!: string;
 
-  private guide: IApiGuide = {
+  private guide: IGuide = {
     url: '',
     title: '',
     slug: '',
@@ -36,7 +36,7 @@ export default class GuideView extends Vue {
     author: ''
   };
 
-  private author: IApiUser = {
+  private author: IUser = {
     username: '',
     ingame_name: '',
     email: '',
@@ -51,10 +51,13 @@ export default class GuideView extends Vue {
 
   async created() {
     try {
-      const { data: guide }: { data: IApiGuide } = await api.get(`guides/${this.slug}`)
+      const guide = await api.guides.get(this.slug)
       this.guide = guide
-      const { data: author }: { data: IApiUser } = await api.get(guide.author)
-      this.author = author
+
+      const author = await guide.getAuthor()
+      if (author) {
+        this.author = author
+      }
     } catch (error) {
       this.apiError = true
     }

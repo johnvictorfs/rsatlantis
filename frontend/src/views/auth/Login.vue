@@ -59,8 +59,10 @@ import { UserCredentials } from '@/store/types'
 
 @Component({})
 export default class Login extends Vue {
-  credentials: UserCredentials = {}
+  credentials: UserCredentials = { username: '', password: '' }
+
   valid: boolean = true
+
   rules = {
     username: [
       (value: string) => !!value || 'Campo de usuário é obrigatório',
@@ -73,27 +75,17 @@ export default class Login extends Vue {
     ]
   }
 
-  translateError(error: string) {
-    if (error === 'Error: Network Error') {
-      return 'Erro: Falha de Conexão'
-    }
-    return 'Erro Inesperado, tente novamente mais tarde'
-  }
-
   async login() {
     if ((this.$refs.form as any).validate()) {
-      try {
-        await this.$store.dispatch('login', this.credentials)
-        this.$router.push({ name: 'home' })
-        this.$toasted.global.success('Você entrou na sua conta com sucesso!')
-        if (this.$route.query.next) {
-          // @ts-ignore
-          // TODO: Mover isso para o store ou router.ts?
-          // https://github.com/vuejs/vue-router/issues/1932
-          this.$router.push(this.$route.query.next)
-        }
-      } catch (error) {
-        this.$toasted.global.error(formatError(error))
+      await this.$store.dispatch('login', this.credentials)
+
+      this.$router.push({ name: 'home' })
+
+      if (this.$route.query.next) {
+        // @ts-ignore
+        // TODO: Mover isso para o store ou router.ts?
+        // https://github.com/vuejs/vue-router/issues/1932
+        this.$router.push(this.$route.query.next)
       }
     }
   }

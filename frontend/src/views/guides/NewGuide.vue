@@ -11,12 +11,11 @@
 
             <v-card-text>
               <v-form ref="form" v-model="valid">
-                <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"></v-text-field>
+                <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"/>
 
-                <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40"
-                              maxlength="40"></v-text-field>
+                <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40" maxlength="40"/>
 
-                <v-select filled required label="Categoria" :items="categories" v-model="guide.category"></v-select>
+                <v-select filled required label="Categoria" :items="categories" v-model="guide.category"/>
               </v-form>
 
               <v-layout>
@@ -30,21 +29,22 @@
                     label="Conteúdo"
                     v-model="guide.content"
                     :value="markdownContent"
-                  ></v-textarea>
+                  />
                 </v-flex>
                 <v-flex xs6>
                   <v-toolbar style="border-radius: 12px;" dark color="yellow darken-4">
-                    <v-spacer></v-spacer>
+                    <v-spacer/>
                     <v-toolbar-title>
                       <h3>Preview</h3>
                     </v-toolbar-title>
-                    <v-spacer></v-spacer>
+                    <v-spacer/>
                   </v-toolbar>
-                  <GuideDetail :guide="guide" :author="currentUser"></GuideDetail>
+                  <GuideDetail :guide="guide" :author="currentUser"/>
                 </v-flex>
               </v-layout>
-              <v-divider class="my-2"></v-divider>
+              <v-divider class="my-2"/>
             </v-card-text>
+
             <v-card-actions>
               <v-layout>
                 <v-flex xs10 offset-xs1 lg6 offset-lg3>
@@ -70,12 +70,15 @@ import marked from 'marked'
 import GuideDetail from '@/components/GuideDetail.vue'
 
 import { formatError } from '@/helpers/errors'
+import { IGuide, GuideCategory } from '@/types'
 
 @Component({ components: { GuideDetail } })
 export default class NewGuide extends Vue {
   valid: boolean = true
-  categories: Array<string> = ['PvM', 'Habilidades', 'Outros']
-  guide = {
+
+  categories: Array<GuideCategory> = ['PvM', 'Habilidades', 'Outros']
+
+  guide: IGuide = {
     title: '',
     description: '',
     category: '',

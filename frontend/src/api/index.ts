@@ -1,8 +1,15 @@
 import axios, { AxiosInstance } from 'axios'
 
-class Api {
+import GuideService from './guides'
+import UserService from './users'
+import PlayerService from './players'
+
+export class Api {
   public axios: AxiosInstance
   public baseURL: string = process.env.VUE_APP_API_URL || ''
+  public guides: GuideService
+  public users: UserService
+  public players: PlayerService
 
   constructor() {
     // Full config:  https://github.com/axios/axios#request-config
@@ -12,14 +19,18 @@ class Api {
       xsrfHeaderName: 'X-CSRFToken'
     })
 
+    this.guides = new GuideService(this)
+    this.users = new UserService(this)
+    this.players = new PlayerService(this)
+
     this.setupMiddleware()
   }
 
-  public async static(url: string) {
+  public async static(path: string) {
     /**
      * Access backend static files
      */
-    return this.axios.get(this.baseURL + '/static/' + url)
+    return this.axios.get(`${this.baseURL}/static/${path}`)
   }
 
   private setupMiddleware(): void {
@@ -41,16 +52,15 @@ class Api {
 
     this.axios.interceptors.request.use(async config => {
       const token = localStorage.getItem('TOKEN')
+
       if (token) {
         config.headers.Authorization = `Token ${token}`
       }
+
       return config
     })
   }
 }
 
-const api = new Api()
+export default new Api()
 
-export default api.axios
-
-export { api }
