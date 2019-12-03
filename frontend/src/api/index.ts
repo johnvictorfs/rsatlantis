@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from 'axios'
 
-import GuideService from './guides'
-import UserService from './users'
-import PlayerService from './players'
+import GuideService from '@/api/guides'
+import UserService from '@/api/users'
+import PlayerService from '@/api/players'
+import DiscordService from '@/api/discord'
 
 export class Api {
   public axios: AxiosInstance
@@ -10,6 +11,7 @@ export class Api {
   public guides: GuideService
   public users: UserService
   public players: PlayerService
+  public discord: DiscordService
 
   constructor() {
     // Full config:  https://github.com/axios/axios#request-config
@@ -22,6 +24,7 @@ export class Api {
     this.guides = new GuideService(this)
     this.users = new UserService(this)
     this.players = new PlayerService(this)
+    this.discord = new DiscordService(this)
 
     this.setupMiddleware()
   }
@@ -63,4 +66,3 @@ export class Api {
 }
 
 export default new Api()
-

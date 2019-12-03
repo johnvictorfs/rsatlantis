@@ -21,7 +21,7 @@
             </h2>
           </v-toolbar-title>
 
-          <v-spacer></v-spacer>
+          <v-spacer/>
 
           <!-- Desktop Update Clans button -->
           <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
@@ -101,7 +101,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-import api from '../api'
+import api from '@/api'
 import { IPlayer } from '@/types'
 
 @Component({})

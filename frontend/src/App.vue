@@ -29,7 +29,7 @@ export default class App extends Vue {
   toolbarItems: Array<ToolbarItem> = [
     { text: 'Entrar', path: { name: 'login' }, color: 'success', auth: false, icon: 'fa-sign-in-alt' },
     { text: 'Cadastro', path: { name: 'register' }, color: 'primary', auth: false, icon: 'fa-user-plus' },
-    { text: 'Sair', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
+    { text: '', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
   ]
   sidebarItems: Array<ToolbarItem> = [
     { text: 'Novo Guia', path: { name: 'guides.new' }, color: 'success', auth: true, icon: 'fa-plus-square' },
@@ -104,5 +104,13 @@ body {
 
 .atl-round-toolbar {
   border-radius: 18px !important;
+}
+
+.atl-round-card {
+  border-radius: 18px !important;
+}
+
+.atl-round {
+  border-radius: 12px !important;
 }
 </style>

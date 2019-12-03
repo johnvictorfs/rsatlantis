@@ -1,14 +1,9 @@
-import { Api } from './index'
+import Service from '@/api/service'
+import { Api } from '@/api'
 import { IPlayer } from '@/types'
 
-export default class PlayerService {
-  private api: Api
-
-  constructor(api: Api) {
-    this.api = api
-  }
-
-  async all(): Promise<IPlayer[]> {
+export default class PlayerService extends Service {
+  public async all(): Promise<IPlayer[]> {
     /**
      * Get all Players
      */
@@ -16,7 +11,7 @@ export default class PlayerService {
     return data
   }
 
-  async get(name: string): Promise<IPlayer> {
+  public async get(name: string): Promise<IPlayer> {
     /**
      * Get specific Player by Name
      */

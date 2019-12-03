@@ -60,7 +60,7 @@ export default {
     items: [
       {
         icon: 'fab fa-discord',
-        path: 'https://discordapp.com/invite/d7gquc',
+        path: 'https://discord.gg/2aYDY8N',
         color: '#7289da',
         colorUse: ''
       },

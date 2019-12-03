@@ -6,28 +6,34 @@ from discord.models import RaidsState, DisabledCommand, DiscordUser, AmigoSecret
 class RaidsStateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RaidsState
-        fields = ('notifications', 'time_to_next_message')
+        fields = ('id', 'notifications', 'time_to_next_message')
 
 
 class DisabledCommandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DisabledCommand
-        fields = ('name',)
+        fields = ('id', 'name')
 
 
 class DiscordUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DiscordUser
-        fields = ('updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name')
+        fields = ('id', 'updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name')
 
 
 class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AmigoSecretoPerson
-        fields = ('discord_id', 'discord_name', 'ingame_name', 'giving_to_id', 'giving_to_name', 'receiving')
+        fields = ('id', 'discord_id', 'discord_name', 'ingame_name', 'giving_to_id', 'giving_to_name', 'receiving')
 
 
 class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
+    registered = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_registered(obj):
+        return AmigoSecretoPerson.objects.all().count()
+
     class Meta:
         model = AmigoSecretoState
-        fields = ('activated',)
+        fields = ('id', 'activated', 'registered')

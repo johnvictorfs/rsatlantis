@@ -108,7 +108,7 @@ export default class GuideDetail extends Vue {
 }
 
 .guide-title {
-  font-family: Rubik;
+  font-family: Rubik, monospace;
 }
 
 .guide-card {

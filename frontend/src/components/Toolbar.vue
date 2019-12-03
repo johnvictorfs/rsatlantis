@@ -8,7 +8,7 @@
       </router-link>
     </v-toolbar-title>
 
-    <v-btn v-for="item in sidebarItems" :key="item.text" class="atl-toolbar-btn hidden-sm-and-down ml-1" :color="item.color" text :to="item.path">
+    <v-btn outlined v-for="item in sidebarItems" :key="item.text" class="hidden-sm-and-down ml-2" :color="item.color" :to="item.path">
       <v-icon left :color="item.color">{{ item.icon }}</v-icon>
       {{ item.text }}
     </v-btn>
@@ -22,8 +22,8 @@
       {{ username }}
     </v-chip>
 
-    <v-btn rounded class="ml-3 shadow-hover atl-round-btn hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
-      <v-icon left class="ml-1">{{ item.icon }}</v-icon>
+    <v-btn rounded class="ml-3 shadow-hover hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
+      <v-icon :left="!!item.text" class="ml-1" v-if="item.icon">{{ item.icon }}</v-icon>
       {{ item.text }}
     </v-btn>
   </v-app-bar>

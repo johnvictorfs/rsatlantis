@@ -31,6 +31,15 @@ class RaidsStateViewSet(StatusViewSet):
     queryset = models.RaidsState.objects.all()
     permission_classes = (discord_permissions.AdminOrReadOnly,)
 
+    @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
+    def toggle(self, request):
+        """
+        Toggle Status of Discord's Raids Notifications
+        """
+        status = models.RaidsState.objects.first()
+        status.toggle()
+        return Response('Status do Amigo Secreto atualizado com sucesso')
+
 
 class DisabledCommandViewSet(viewsets.ModelViewSet):
     """
@@ -47,7 +56,7 @@ class AmigoSecretoPersonViewSet(viewsets.ModelViewSet):
     """
     serializer_class = serializers.AmigoSecretoPersonSerializer
     queryset = models.AmigoSecretoPerson.objects.all()
-    permission_classes = (discord_permissions.AdminOrReadOnly,)
+    permission_classes = (discord_permissions.IsSuperUser,)
 
     @action(detail=False, methods=['get'], permission_classes=[discord_permissions.AdminOrReadOnly])
     def status(self, request):
@@ -57,6 +66,15 @@ class AmigoSecretoPersonViewSet(viewsets.ModelViewSet):
         status = models.AmigoSecretoState.objects.first()
         serializer = serializers.AmigoSecretoStateSerializer(status)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
+    def toggle(self, request):
+        """
+        Toggle Status of Discord's Secret Santa
+        """
+        status = models.AmigoSecretoState.objects.first()
+        status.toggle()
+        return Response('Status do Amigo Secreto atualizado com sucesso')
 
 
 class DiscordUserViewSet(viewsets.ModelViewSet):

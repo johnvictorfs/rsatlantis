@@ -7,6 +7,8 @@ class DiscordManager(models.Manager):
     Model Manager that will use the 'use_db' attribute from Model if it exists
 
     Used to set the Db used to be the Discord one
+
+    https://stackoverflow.com/a/55754529/10416161
     """
 
     def get_queryset(self):
@@ -37,6 +39,10 @@ class RaidsState(DiscordModel):
     class Meta:
         db_table = 'raidsstate'
 
+    def toggle(self):
+        self.notifications = not self.notifications
+        self.save()
+
 
 class DisabledCommand(DiscordModel):
     name = models.TextField(verbose_name='Nome', unique=True)
@@ -62,6 +68,10 @@ class AmigoSecretoState(DiscordModel):
 
     class Meta:
         db_table = 'amigosecretostate'
+
+    def toggle(self):
+        self.activated = not self.activated
+        self.save()
 
 
 class DiscordUser(DiscordModel):
