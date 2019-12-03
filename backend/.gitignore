@@ -114,9 +114,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/media
-/static
-/staticfiles
+media/
+static/
+staticfiles/
 
 # Editor files
 .vscode/
