@@ -37,8 +37,8 @@
 			"octref.vetur",
 			"necinc.elmmet",
 			"ms-python.python",
-      "christian-kohler.path-intellisense",
-      "mishannn.vuex-suggest"
+            "christian-kohler.path-intellisense",
+            "mishannn.vuex-suggest"
 		]
 	}
 }
