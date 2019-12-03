@@ -94,7 +94,7 @@ export default class Login extends Vue {
 
 <style lang="scss" scoped>
 .login-card {
-  border-radius: 12px;
+  border-radius: 12px !important;
 }
 
 .login-btn {

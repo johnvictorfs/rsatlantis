@@ -217,7 +217,7 @@ export default class Register extends Vue {
 
 <style lang="scss" scoped>
 .register-card {
-  border-radius: 12px;
+  border-radius: 12px !important;
 }
 
 .continue-btn {
