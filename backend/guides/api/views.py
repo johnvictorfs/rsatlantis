@@ -25,7 +25,9 @@ class GuideViewSet(viewsets.ModelViewSet):
     def approve(self, request, slug=None):
         """Approving a guide with a post request to the /approve/ endpoint action"""
         guide = self.get_object()
+
         if guide.approved:
             return Response('Guia já está aprovado.', status.HTTP_400_BAD_REQUEST)
+
         guide.approve()
         return Response('Guia aprovado com sucesso.')

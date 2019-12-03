@@ -33,19 +33,16 @@
         </v-row>
       </v-card-title>
       <v-card-actions class="blue darken-1 justify-center">
-        &copy;{{ new Date().getFullYear() }} —
-        <strong>
-          Atlantis
-          <v-btn icon>
-            <a href="https://github.com/johnvictorfs/rsatlantis" target="_blank" style="text-decoration: none;">
-              <v-icon color="white">fab fa-github</v-icon>
-            </a>
-          </v-btn>
-          <v-btn rounded small :to="{name: 'api-docs'}">
-            <v-icon small left>fa-code</v-icon>
-            API
-          </v-btn>
-        </strong>
+        <strong>&copy;{{ new Date().getFullYear() }} — Atlantis</strong>
+        <v-btn icon>
+          <a href="https://github.com/johnvictorfs/rsatlantis" target="_blank" style="text-decoration: none;">
+            <v-icon color="white">fab fa-github</v-icon>
+          </a>
+        </v-btn>
+        <v-btn rounded small :to="{name: 'api-docs'}">
+          <v-icon small left>fa-code</v-icon>
+          API
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-footer>

@@ -9,17 +9,20 @@ User = get_user_model()
 
 ALLOWED_TAGS = [
     'a', 'img', 'br', 'abbr', 'acronym', 'b', 'blockquote', 'span',
-    'code', 'em', 'i', 'li', 'ol', 'strong', 'ul', 'table',
-    'h1', 'h2', 'h3', 'h4', 'h5', 'h6' 'dl', 'dt', 'p', 'sup', 'strike', 'hr',
-
+    'code', 'em', 'i', 'li', 'ol', 'strong', 'ul', 'table', 'nl', 'div',
+    'thead', 'caption', 'tbody', 'tr', 'pre',
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dl', 'dt', 'p', 'sup', 'strike', 'hr',
 ]
+
 ALLOWED_ATTRIBUTES = {
     'a': ['href', 'title'],
     'abbr': ['title'],
     'acronym': ['title'],
     'img': ['src', 'width', 'height', 'alt', 'title'],
+    'div': ['class'],
     '*': ['style']
 }
+
 ALLOWED_STYLES = [
     'color', 'font-weight', 'text-align', 'text-decoration', 'font-size',
     'padding-right', 'padding-left', 'background-color'

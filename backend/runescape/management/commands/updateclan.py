@@ -3,7 +3,7 @@ import csv
 import requests
 from django.core.management.base import BaseCommand, CommandError
 
-from runescape.models import ClanMember
+from ...models import ClanMember
 
 
 class Command(BaseCommand):

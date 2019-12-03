@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'guides',
     'users',
     'runescape',
+    'discord',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
