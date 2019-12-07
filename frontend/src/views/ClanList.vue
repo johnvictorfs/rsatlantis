@@ -21,16 +21,20 @@
             </h2>
           </v-toolbar-title>
 
-          <v-spacer/>
+          <v-spacer />
 
           <!-- Desktop Update Clans button -->
           <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
-            <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
+            <v-icon color="white" left small>
+              fa-sync-alt
+            </v-icon>Atualizar
           </v-btn>
 
           <!-- Mobile Update Clans icon -->
           <v-btn fab :loading="loading" :disabled="loading" class="hidden-md-and-up" @click="updateClanList" color="blue-grey darken-4">
-            <v-icon small color="white">fa-sync-alt</v-icon>
+            <v-icon small color="white">
+              fa-sync-alt
+            </v-icon>
           </v-btn>
         </v-toolbar>
         <v-text-field
@@ -75,22 +79,22 @@
           </template>
           <template v-slot:item.translated_rank="{ item }">
             <div class="mr-4">
-              <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
+              <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`">
               {{ item.translated_rank }}
             </div>
           </template>
           <template v-slot:progress>
-            <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
+            <v-progress-linear color="green" :height="4" indeterminate />
           </template>
           <v-alert slot="no-results" :value="true" color="error" class="mt-3">
             Nenhum resultado encontrado para "{{ search }}"
           </v-alert>
         </v-data-table>
         <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
-          <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
+          <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4" />
         </div>
         <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
-          <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
+          <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4" />
         </div>
       </v-card>
     </v-flex>

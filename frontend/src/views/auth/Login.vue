@@ -11,34 +11,63 @@
 
           <v-container fluid grid-list-md>
             <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="login">
-              <v-text-field autofocus v-model="credentials.username" prepend-icon="person" :rules="rules.username" :counter="20" type="text" label="Usuário" name="username" maxlength="20" required />
+              <v-text-field
+                autofocus
+                v-model="credentials.username"
+                prepend-icon="person"
+                :rules="rules.username"
+                :counter="20"
+                type="text"
+                label="Usuário"
+                name="username"
+                maxlength="20"
+                required
+              />
 
-              <v-text-field v-model="credentials.password" prepend-icon="lock" :rules="rules.password" counter type="password" label="Senha" name="password" maxlength="70" required />
+              <v-text-field
+                v-model="credentials.password"
+                prepend-icon="lock"
+                :rules="rules.password"
+                counter
+                type="password"
+                label="Senha"
+                name="password"
+                maxlength="70"
+                required
+              />
 
               <v-container>
                 <v-toolbar color="#2d2e2d" class="atl-round-toolbar hidden-sm-and-down">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
-                    <v-icon right small>fa-user-plus</v-icon>
+                    <v-icon right small>
+                      fa-user-plus
+                    </v-icon>
                   </v-btn>
-                  <v-spacer/>
+                  <v-spacer />
                   <v-btn color="success" :disabled="!valid" @click="login">
                     Entrar
-                    <v-icon right>check</v-icon>
+                    <v-icon right>
+                      check
+                    </v-icon>
                   </v-btn>
                 </v-toolbar>
                 <v-layout row class="hidden-md-and-up">
                   <v-flex xs12 offset-md8 class="mb-2">
                     <v-btn class="login-btn mt-4 mb-3" block color="success" :disabled="!valid" @click="login">
                       Entrar
-                      <v-icon right>check</v-icon>
+                      <v-icon right>
+                        check
+                      </v-icon>
                     </v-btn>
                   </v-flex>
                 </v-layout>
                 <v-layout row class="hidden-md-and-up">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
-                    <v-icon right small>fa-user-plus</v-icon>
+                    <v-icon right small>
+                      fa-user-plus
+                    </v-icon>
                   </v-btn>
                 </v-layout>
               </v-container>

@@ -1,4 +1,11 @@
 module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        data: '@import "@/scss/main.scss";'
+      }
+    }
+  },
   devServer: {
     watchOptions: {
       poll: true

@@ -6,7 +6,8 @@
   "extends": [
     "plugin:vue/essential",
     "plugin:es-beautifier/standard",
-    "@vue/typescript"
+    "@vue/typescript",
+    "plugin:vue/strongly-recommended"
   ],
   "rules": {
     "vue/html-indent": ["error", 2, {
@@ -15,6 +16,13 @@
       "closeBracket": 0,
       "alignAttributesVertically": true,
       "ignores": []
+    }],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": 6,
+      "multiline": {
+        "max": 1,
+        "allowFirstLine": false
+      }
     }],
     "comma-dangle": ["error", "never"],
     "linebreak-style": "off",

@@ -4,46 +4,54 @@
       <v-card class="elevation-12 mb-2 guide-card" color="grey darken-3" width="400">
         <v-toolbar color="light-blue darken-4">
           <v-btn color="light-green darken-3">
-            <v-icon left>{{ authorIcon }}</v-icon>
-            <strong>{{guide.author.name}}</strong>
+            <v-icon left>
+              {{ authorIcon }}
+            </v-icon>
+            <strong>{{ guide.author.name }}</strong>
           </v-btn>
 
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn small :color="categoryColor">
-            <v-icon small left>{{categoryIcon}}</v-icon>
-            <strong>{{guide.category}}</strong>
+            <v-icon small left>
+              {{ categoryIcon }}
+            </v-icon>
+            <strong>{{ guide.category }}</strong>
           </v-btn>
         </v-toolbar>
 
         <v-img
           v-if="guide.title == 'Guia Yakamaru'"
           height="200"
-          src="https://runescape.wiki/images/thumb/7/76/Raids_concept_art.png/441px-Raids_concept_art.png?92ae9">
-        </v-img>
+          src="https://runescape.wiki/images/thumb/7/76/Raids_concept_art.png/441px-Raids_concept_art.png?92ae9"
+        />
         <v-img
           v-if="guide.title == 'Guia de Jack of Trades'"
           height="200"
-          src="https://vignette.wikia.nocookie.net/runescape2/images/d/d2/Legendary_jack_of_trades_aura_detail.png/revision/latest?cb=20170722142749">
-        </v-img>
+          src="https://vignette.wikia.nocookie.net/runescape2/images/d/d2/Legendary_jack_of_trades_aura_detail.png/revision/latest?cb=20170722142749"
+        />
         <v-img
           v-if="guide.title == 'Guia AoD'"
           height="200"
-          src="http://legends-br.com/wp-content/uploads/2017/09/aod-760x490.jpg">
-        </v-img>
+          src="http://legends-br.com/wp-content/uploads/2017/09/aod-760x490.jpg"
+        />
         <v-card-text>
           {{ guide.description }}
         </v-card-text>
         <v-card-actions class="guide-actions hidden-md-and-up">
           <v-btn class="mb-1" style="height: 45px" large color="primary" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
             Ver Guia
-            <v-icon right>fa-book-open</v-icon>
+            <v-icon right>
+              fa-book-open
+            </v-icon>
           </v-btn>
         </v-card-actions>
         <v-fade-transition>
           <v-overlay v-if="hover" absolute class="hidden-sm-and-down">
             <v-btn class="mb-1" color="primary" :to="{name: 'guides.detail', params: {slug: guide.slug}}">
               Ver Guia
-              <v-icon right>fa-book-open</v-icon>
+              <v-icon right>
+                fa-book-open
+              </v-icon>
             </v-btn>
           </v-overlay>
         </v-fade-transition>

@@ -121,3 +121,6 @@ staticfiles/
 # Editor files
 .vscode/
 .idea/
+
+# DB Backups
+backups/

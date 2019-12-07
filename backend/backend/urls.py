@@ -31,9 +31,9 @@ router.register(r'guides', guide_views.GuideViewSet)
 router.register(r'players', runescape_views.ClanMemberViewSet)
 router.register(r'discord/raids', discord_views.RaidsStateViewSet)
 router.register(r'discord/users', discord_views.DiscordUserViewSet)
-# router.register(r'discord/amigosecreto', discord_views.AmigoSecretoStatusViewSet)
 router.register(r'discord/amigosecreto', discord_views.AmigoSecretoPersonViewSet)
 router.register(r'discord/disabled_commands', discord_views.DisabledCommandViewSet)
+router.register(r'discord/ingame_names', discord_views.DiscordIngameNameViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

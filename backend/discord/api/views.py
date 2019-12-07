@@ -84,3 +84,12 @@ class DiscordUserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DiscordUserSerializer
     queryset = models.DiscordUser.objects.all()
     permission_classes = (discord_permissions.AdminOrReadOnly,)
+
+
+class DiscordIngameNameViewSet(viewsets.ModelViewSet):
+    """
+    Discord RS3 Ingame Names
+    """
+    serializer_class = serializers.DiscordIngameNameSerializer
+    queryset = models.DiscordIngameName.objects.all()
+    permission_classes = (discord_permissions.IsSuperUser,)

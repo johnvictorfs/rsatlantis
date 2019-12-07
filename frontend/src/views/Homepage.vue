@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <DiscordStatus/>
+    <DiscordStatus />
   </v-layout>
 </template>
 

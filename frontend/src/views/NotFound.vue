@@ -7,9 +7,13 @@
             <strong>404 - Nada interessante acontece</strong>
           </v-alert>
           <v-card-text class="text-center">
-            <h3 class="mb-4">Página não encontrada :(</h3>
+            <h3 class="mb-4">
+              Página não encontrada :(
+            </h3>
             <v-btn color="light-blue" to="/" right>
-              <v-icon left>fa-home</v-icon>Ínicio
+              <v-icon left>
+                fa-home
+              </v-icon>Ínicio
             </v-btn>
           </v-card-text>
         </v-card>

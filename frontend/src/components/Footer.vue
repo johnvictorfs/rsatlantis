@@ -22,12 +22,15 @@
             v-for="item in items"
             icon
             target="_blank"
-            style="text-decoration: none;">
-            <v-icon :color="item.colorUse">{{ item.icon }}</v-icon>
+            style="text-decoration: none;"
+          >
+            <v-icon :color="item.colorUse">
+              {{ item.icon }}
+            </v-icon>
           </v-btn>
           <v-btn icon>
             <a :href="clanUrl" target="_blank" style="text-decoration: none;">
-              <RunescapeIcon/>
+              <RunescapeIcon />
             </a>
           </v-btn>
         </v-row>
@@ -40,7 +43,9 @@
           </a>
         </v-btn>
         <v-btn rounded small :to="{name: 'api-docs'}">
-          <v-icon small left>fa-code</v-icon>
+          <v-icon small left>
+            fa-code
+          </v-icon>
           API
         </v-btn>
       </v-card-actions>

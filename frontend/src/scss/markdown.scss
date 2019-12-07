@@ -28,11 +28,10 @@
     $hr-margin: 15px;
     border: none;
     height: 4px;
-    background-color: $light-gray;
     margin-bottom: $hr-margin;
     margin-top: $hr-margin;
     width: 100%;
-    background: linear-gradient(90deg,#2582df,rgba(42, 130, 218, 0));
+    background: $light-gray linear-gradient(90deg, #2582df, rgba(42, 130, 218, 0));
     border-radius: 3px;
   }
 
@@ -208,7 +207,6 @@
     line-height: 1.5;
 
     -moz-tab-size: 4;
-    -o-tab-size: 4;
     tab-size: 4;
 
     -webkit-hyphens: none;

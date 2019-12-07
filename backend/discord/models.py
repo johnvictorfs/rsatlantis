@@ -88,10 +88,14 @@ class DiscordUser(DiscordModel):
 
 class DiscordIngameName(DiscordModel):
     name = models.TextField(verbose_name='Nome RuneScape')
-    user = models.ForeignKey(
-        verbose_name='Usuário', to=DiscordUser, related_name='ingame_names', on_delete=models.CASCADE
-    )
     created_date = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(
+        to=DiscordUser,
+        verbose_name='Usuário',
+        related_name='ingame_names',
+        db_column='user',
+        on_delete=models.CASCADE
+    )
 
     class Meta:
         db_table = 'ingame_name'

@@ -4,31 +4,38 @@
       <v-toolbar color="light-blue darken-2">
         <v-spacer />
         <v-toolbar-title>
-          <h2 class="guide-title">{{guide.title}}</h2>
+          <h2 class="guide-title">
+            {{ guide.title }}
+          </h2>
         </v-toolbar-title>
         <v-spacer />
       </v-toolbar>
 
       <v-toolbar color="light-blue darken-4">
         <v-btn color="light-green darken-3 mr-3">
-          <v-icon left>{{ authorIcon }}</v-icon>
-          <strong>{{author.username}}</strong>
+          <v-icon left>
+            {{ authorIcon }}
+          </v-icon>
+          <strong>{{ author.username }}</strong>
         </v-btn>
 
         <v-spacer />
 
-        <p class="guide-description pt-4">{{guide.description}}</p>
+        <p class="guide-description pt-4">
+          {{ guide.description }}
+        </p>
 
         <v-spacer />
 
         <v-btn :color="categoryColor">
-          <v-icon left>{{categoryIcon}}</v-icon>
-          <strong>{{guideCategory}}</strong>
+          <v-icon left>
+            {{ categoryIcon }}
+          </v-icon>
+          <strong>{{ guideCategory }}</strong>
         </v-btn>
-
       </v-toolbar>
       <v-card-text>
-        <div class="markdown-render mb-0" v-html="markdownContent"></div>
+        <div class="markdown-render mb-0" v-html="markdownContent" />
       </v-card-text>
     </v-card>
   </v-container>
@@ -96,7 +103,8 @@ export default class GuideDetail extends Vue {
 </script>
 
 <style lang="scss">
-@import '@/assets/css/markdown.scss';
+@import '../scss/markdown.scss';
+
 
 .author-name {
   font-size: 19px;

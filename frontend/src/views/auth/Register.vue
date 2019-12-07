@@ -9,13 +9,17 @@
 
           <v-stepper v-model="registerStep">
             <v-stepper-header>
-              <v-stepper-step :complete="registerStep > 1" step="1">Detalhes de Usuário</v-stepper-step>
+              <v-stepper-step :complete="registerStep > 1" step="1">
+                Detalhes de Usuário
+              </v-stepper-step>
 
-              <v-divider/>
+              <v-divider />
 
-              <v-stepper-step :complete="registerStep > 2" step="2">Detalhes de Jogo</v-stepper-step>
+              <v-stepper-step :complete="registerStep > 2" step="2">
+                Detalhes de Jogo
+              </v-stepper-step>
 
-              <v-divider/>
+              <v-divider />
             </v-stepper-header>
 
             <v-stepper-items>
@@ -76,30 +80,37 @@
                   <v-toolbar color="grey darken-4" class="atl-round-toolbar hidden-sm-and-down">
                     <v-btn color="success" text small :to="{name: 'login'}">
                       Já tenho uma conta
-                      <v-icon right>fa-sign-in-alt</v-icon>
+                      <v-icon right>
+                        fa-sign-in-alt
+                      </v-icon>
                     </v-btn>
                     <v-spacer />
                     <v-btn color="primary" :disabled="!userFormValid" @click="secondPage">
                       Continuar
-                      <v-icon right>arrow_right</v-icon>
+                      <v-icon right>
+                        arrow_right
+                      </v-icon>
                     </v-btn>
                   </v-toolbar>
                   <v-layout row class="hidden-md-and-up">
                     <v-flex xs12 offset-md8 class="mb-2">
                       <v-btn color="primary" class="continue-btn mt-2 mb-3" block :disabled="!userFormValid" @click="secondPage">
                         Continuar
-                        <v-icon right>arrow_right</v-icon>
+                        <v-icon right>
+                          arrow_right
+                        </v-icon>
                       </v-btn>
                     </v-flex>
                   </v-layout>
                   <v-layout row class="hidden-md-and-up">
                     <v-btn color="success" text small :to="{name: 'login'}">
                       Já tenho uma conta
-                      <v-icon right small>fa-sign-in-alt</v-icon>
+                      <v-icon right small>
+                        fa-sign-in-alt
+                      </v-icon>
                     </v-btn>
                   </v-layout>
                 </v-container>
-
               </v-stepper-content>
 
               <v-stepper-content step="2">
@@ -121,14 +132,18 @@
                 <br>
                 <v-toolbar>
                   <v-btn text @click="registerStep = 1">
-                    <v-icon left>arrow_left</v-icon>Voltar
+                    <v-icon left>
+                      arrow_left
+                    </v-icon>Voltar
                   </v-btn>
 
                   <v-spacer />
 
                   <v-btn :disabled="!validForms" @click="register" color="success">
                     Registrar
-                    <v-icon right>check</v-icon>
+                    <v-icon right>
+                      check
+                    </v-icon>
                   </v-btn>
                 </v-toolbar>
               </v-stepper-content>

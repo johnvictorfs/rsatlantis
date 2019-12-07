@@ -1,17 +1,33 @@
 <template>
   <v-dialog v-model="activated" persistent max-width="500">
-    <v-card class="atl-round">
-      <v-card-title class="headline" v-if="title">{{title}}</v-card-title>
-      <v-card-text v-if="description">{{description}}</v-card-text>
+    <v-card class="atl-round text-wrap">
+      <!-- Dialog Title -->
+      <v-card-title class="headline mb-2 grey darken-3 text-justify" v-if="title">
+        {{ title }}
+      </v-card-title>
+
+      <!-- Dialog Description -->
+      <v-card-text class="text-justify" v-if="description">
+        {{ description }}
+      </v-card-text>
+
       <v-card-actions>
-        <v-spacer/>
+        <v-spacer />
+
+        <!-- Cancel Button -->
         <v-btn class="modal-btn" small text @click="cancelAction">
-          <v-icon left v-if="cancelIcon">{{cancelIcon}}</v-icon>
-          {{cancelText}}
+          <v-icon left v-if="cancelIcon">
+            {{ cancelIcon }}
+          </v-icon>
+          {{ cancelText }}
         </v-btn>
+
+        <!-- Confirm Button -->
         <v-btn class="modal-btn" small color="success darken-1" @click="confirmAction">
-          <v-icon left v-if="confirmIcon">{{confirmIcon}}</v-icon>
-          {{confirmText}}
+          <v-icon small left v-if="confirmIcon">
+            {{ confirmIcon }}
+          </v-icon>
+          {{ confirmText }}
         </v-btn>
       </v-card-actions>
     </v-card>
