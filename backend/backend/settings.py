@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'django_extensions',
+    'drf_yasg',
     'dynamic_preferences',
     'dynamic_preferences.users.apps.UserPreferencesConfig'
 ]
@@ -150,7 +151,7 @@ STATICFILES_DIRS = (
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
     )
 }
 

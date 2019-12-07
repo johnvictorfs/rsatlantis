@@ -78,7 +78,7 @@ class SecretSantaService extends Service {
     /**
      * Get current status of Discord's Secret Santa
      */
-    const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.get('discord/amigosecreto/status')
+    const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.get('discord/amigosecreto_status')
     return data
   }
 

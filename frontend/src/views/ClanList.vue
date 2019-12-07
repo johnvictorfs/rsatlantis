@@ -16,9 +16,12 @@
       <v-card class="clan-list-card" v-if="!apiError">
         <v-toolbar dark color="grey darken-2">
           <v-toolbar-title class="clan-list-title">
-            <h2 class="clan-list-title">
+            <h2 class="clan-list-title hidden-sm-and-down">
               Membros do Clã
             </h2>
+            <h4 class="clan-list-title hidden-md-and-up">
+              Membros do Clã
+            </h4>
           </v-toolbar-title>
 
           <v-spacer />
@@ -31,12 +34,21 @@
           </v-btn>
 
           <!-- Mobile Update Clans icon -->
-          <v-btn fab :loading="loading" :disabled="loading" class="hidden-md-and-up" @click="updateClanList" color="blue-grey darken-4">
+          <v-btn
+            small
+            fab
+            :loading="loading"
+            :disabled="loading"
+            class="hidden-md-and-up"
+            @click="updateClanList"
+            color="blue-grey darken-4"
+          >
             <v-icon small color="white">
               fa-sync-alt
             </v-icon>
           </v-btn>
         </v-toolbar>
+
         <v-text-field
           class="mx-4 mb-2"
           v-model="search"
@@ -45,6 +57,7 @@
           single-line
           hide-details
         />
+
         <v-data-table
           :loading="loading"
           :headers="headers"
@@ -79,7 +92,7 @@
           </template>
           <template v-slot:item.translated_rank="{ item }">
             <div class="mr-4">
-              <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`">
+              <img :src="getRankIcon(item.rank)" :alt="`rank_${item.rank}`">
               {{ item.translated_rank }}
             </div>
           </template>
@@ -135,6 +148,13 @@ export default class ClanList extends Vue {
      * '123456789' -> '123,456,789'
      */
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  getRankIcon(rank: string): string {
+    /**
+     * Get the Rank Icon image by name
+     */
+    return require(`../assets/clan_ranks/${rank}.png`)
   }
 
   memberSort(items: any[], sortBy: string[], sortDesc: boolean[]) {

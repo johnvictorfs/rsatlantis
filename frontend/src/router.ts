@@ -50,11 +50,6 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "guides-guidedetail" */ './views/guides/GuideView.vue')
     },
     {
-      path: '/docs/api',
-      name: 'api-docs',
-      component: () => import(/* webpackChunkName: "apidocs" */ './views/ApiDocs.vue')
-    },
-    {
       path: '/clan/list',
       name: 'clan-list',
       component: () => import(/* webpackChunkName: "clanlist" */ './views/ClanList.vue')

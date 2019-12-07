@@ -42,19 +42,19 @@ class DisabledCommandSerializer(serializers.HyperlinkedModelSerializer):
 class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AmigoSecretoPerson
-        fields = ('id', 'discord_id', 'discord_name', 'ingame_name', 'giving_to_id', 'giving_to_name', 'receiving')
+        fields = ('id', 'user', 'giving_to_user', 'receiving')
 
 
 class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
     registered = serializers.SerializerMethodField()
 
     @staticmethod
-    def get_registered():
+    def get_registered(obj):
         return AmigoSecretoPerson.objects.all().count()
 
     class Meta:
         model = AmigoSecretoState
-        fields = ('id', 'activated', 'registered')
+        fields = ('id', 'activated', 'registered', 'start_date', 'end_date')
 
 
 class DiscordIngameNameSerializer(DynamicFieldsModelSerializer):

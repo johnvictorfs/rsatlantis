@@ -15,16 +15,19 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls import include
-from rest_framework import routers
+from rest_framework import routers, permissions
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.urls import path, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 from users.api import views as user_views
 from guides.api import views as guide_views
 from runescape.api import views as runescape_views
 from discord.api import views as discord_views
 
+# Register API Routes
 router = routers.DefaultRouter()
 router.register(r'users', user_views.UserViewSet)
 router.register(r'guides', guide_views.GuideViewSet)
@@ -32,10 +35,30 @@ router.register(r'players', runescape_views.ClanMemberViewSet)
 router.register(r'discord/raids', discord_views.RaidsStateViewSet)
 router.register(r'discord/users', discord_views.DiscordUserViewSet)
 router.register(r'discord/amigosecreto', discord_views.AmigoSecretoPersonViewSet)
+router.register(r'discord/amigosecreto_status', discord_views.AmigoSecretoStatusViewSet)
 router.register(r'discord/disabled_commands', discord_views.DisabledCommandViewSet)
 router.register(r'discord/ingame_names', discord_views.DiscordIngameNameViewSet)
 
+# API Docs Schema
+schema_view = get_schema_view(
+    openapi.Info(
+        title="RsAtlantis API",
+        default_version='v1',
+        license=openapi.License(name="AGPL-3.0 License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,)
+)
+
+# API Doc Routes https://drf-yasg.readthedocs.io/en/stable/readme.html#usage
 urlpatterns = [
+    path('api/docs/swagger<str:format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/docs/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/docs/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
+
+# Admin and API routes
+urlpatterns += [
     path('admin/', admin.site.urls),
     path('api/auth/', include('rest_auth.urls')),
     path('api/', include(router.urls)),

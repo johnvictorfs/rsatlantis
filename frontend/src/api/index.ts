@@ -5,6 +5,28 @@ import UserService from '@/api/users'
 import PlayerService from '@/api/players'
 import DiscordService from '@/api/discord'
 
+
+class ApiDocs {
+  baseURL: string
+
+  constructor(baseURL: string) {
+    this.baseURL = baseURL
+  }
+
+  public redoc() {
+    return this.baseURL + '/api/docs/redoc/'
+  }
+
+  public swagger() {
+    return this.baseURL + '/api/docs/swagger/'
+  }
+
+  public swaggerJson() {
+    return this.baseURL + '/api/docs/swagger.json/'
+  }
+}
+
+
 export class Api {
   public axios: AxiosInstance
   public baseURL: string = process.env.VUE_APP_API_URL || ''
@@ -12,19 +34,24 @@ export class Api {
   public users: UserService
   public players: PlayerService
   public discord: DiscordService
+  public docs: ApiDocs
 
   constructor() {
     // Full config:  https://github.com/axios/axios#request-config
     this.axios = axios.create({
-      baseURL: this.baseURL + '/api' || '',
+      baseURL: this.baseURL + '/api',
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFToken'
     })
 
+    // API Routes Services
     this.guides = new GuideService(this)
     this.users = new UserService(this)
     this.players = new PlayerService(this)
     this.discord = new DiscordService(this)
+
+    // API Docs Routes
+    this.docs = new ApiDocs(this.baseURL)
 
     this.setupMiddleware()
   }

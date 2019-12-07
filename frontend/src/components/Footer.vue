@@ -42,7 +42,7 @@
             <v-icon color="white">fab fa-github</v-icon>
           </a>
         </v-btn>
-        <v-btn rounded small :to="{name: 'api-docs'}">
+        <v-btn rounded small :href="apiDocsUrl">
           <v-icon small left>
             fa-code
           </v-icon>
@@ -54,13 +54,14 @@
 </template>
 
 <script>
+import api from '@/api'
 import RunescapeIcon from '@/icons/Runescape'
 
 export default {
   name: 'Footer',
   components: { RunescapeIcon },
   data: () => ({
-    facebook_text: '',
+    apiDocsUrl: api.docs.redoc(),
     clanUrl: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
     items: [
       {

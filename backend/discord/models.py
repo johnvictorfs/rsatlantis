@@ -43,6 +43,19 @@ class RaidsState(DiscordModel):
         self.notifications = not self.notifications
         self.save()
 
+    @classmethod
+    def object(cls):
+        # Get the First Item
+        return cls._default_manager.all().first()
+
+    def save(self, *args, **kwargs):
+        """
+        https://stackoverflow.com/a/54722087/10416161
+        """
+        # Can't create more than one of the Model
+        self.id = 1
+        return super().save(*args, **kwargs)
+
 
 class DisabledCommand(DiscordModel):
     name = models.TextField(verbose_name='Nome', unique=True)
@@ -51,20 +64,10 @@ class DisabledCommand(DiscordModel):
         db_table = 'disabled_command'
 
 
-class AmigoSecretoPerson(DiscordModel):
-    discord_id = models.TextField(verbose_name='ID Discord', unique=True)
-    discord_name = models.TextField(verbose_name='Nome Discord')
-    ingame_name = models.TextField(verbose_name='Nome RuneScape')
-    giving_to_id = models.IntegerField(null=True, default=None, unique=True)
-    giving_to_name = models.TextField(null=True, default=None, unique=True)
-    receiving = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = 'amigosecreto'
-
-
 class AmigoSecretoState(DiscordModel):
     activated = models.BooleanField(default=False)
+    start_date = models.DateTimeField(null=True)
+    end_date = models.DateTimeField(null=True)
 
     class Meta:
         db_table = 'amigosecretostate'
@@ -72,6 +75,19 @@ class AmigoSecretoState(DiscordModel):
     def toggle(self):
         self.activated = not self.activated
         self.save()
+
+    @classmethod
+    def object(cls):
+        # Get the First Item
+        return cls._default_manager.all().first()
+
+    def save(self, *args, **kwargs):
+        """
+        https://stackoverflow.com/a/54722087/10416161
+        """
+        # Can't create more than one of the Model
+        self.id = 1
+        return super().save(*args, **kwargs)
 
 
 class DiscordUser(DiscordModel):
@@ -84,6 +100,36 @@ class DiscordUser(DiscordModel):
 
     class Meta:
         db_table = 'user'
+
+
+class AmigoSecretoPerson(DiscordModel):
+    user = models.ForeignKey(
+        to=DiscordUser,
+        verbose_name='Usuário',
+        related_name='discord_user',
+        on_delete=models.CASCADE
+    )
+
+    giving_to_user = models.ForeignKey(
+        to=DiscordUser,
+        verbose_name='Presenteando',
+        related_name='giving_to_discord_user',
+        on_delete=models.CASCADE,
+        null=True
+    )
+
+    receiving = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'amigosecreto'
+
+    def save(self, *args, **kwargs):
+        """
+        Prevent user from rolling himself on Secret Santa
+        """
+        if self.user == self.giving_to_user:
+            raise Exception('Um Usuário não pode presentear a si mesmo')
+        super(AmigoSecretoPerson, self).save(*args, **kwargs)
 
 
 class DiscordIngameName(DiscordModel):

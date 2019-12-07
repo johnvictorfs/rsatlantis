@@ -1,10 +1,12 @@
 <template>
   <v-dialog v-model="activated" persistent max-width="500">
-    <v-card class="atl-round text-wrap">
+    <v-card>
       <!-- Dialog Title -->
-      <v-card-title class="headline mb-2 grey darken-3 text-justify" v-if="title">
-        {{ title }}
-      </v-card-title>
+      <v-toolbar class="text-wrap headline mb-2" color="grey darken-2">
+        <v-toolbar-title class="text-wrap">
+          {{ title }}
+        </v-toolbar-title>
+      </v-toolbar>
 
       <!-- Dialog Description -->
       <v-card-text class="text-justify" v-if="description">
