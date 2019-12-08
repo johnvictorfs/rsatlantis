@@ -38,9 +38,7 @@ export default class App extends Vue {
   ]
 
   async created() {
-    if (this.$store.getters.isAuthenticated) {
-      await this.$store.dispatch('accountDetails')
-    }
+    await this.$store.dispatch('accountDetails')
   }
 
   get filteredToolbarItems() {

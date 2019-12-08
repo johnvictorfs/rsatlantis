@@ -1,0 +1,35 @@
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <title>Atlantis</title>
+  <link
+          rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous"
+  />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Muli|PT+Sans+Narrow|Roboto|Roboto+Condensed|Rubik|Source+Code+Pro&display=swap" rel="stylesheet">
+  <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Material+Icons"
+  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+</head>
+<body>
+<noscript>
+  <strong>
+    Esse site não fuciona corretamente com JavaScript desabilitado. Por
+    favor ative-o no seu Browser para continuar.
+  </strong>
+</noscript>
+<div id="app"></div>
+
+{% render_bundle 'app' %}
+</body>
+</html>

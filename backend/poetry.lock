@@ -196,6 +196,14 @@ with_social = ["django-allauth (>=0.25.0)"]
 
 [[package]]
 category = "main"
+description = "Transparently use webpack with django"
+name = "django-webpack-loader"
+optional = false
+python-versions = "*"
+version = "0.6.0"
+
+[[package]]
+category = "main"
 description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
@@ -1003,7 +1011,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pathlib2", "contextlib2", "unittest2"]
 
 [metadata]
-content-hash = "c50a08082297ce37b64ea51be626378517844786b1d2ab30f4336476d261c0b0"
+content-hash = "ca3bc08b259a10ec48338570129af13482260b277db08399d105ee3d521f404d"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1107,6 +1115,10 @@ django-extensions = [
 ]
 django-rest-auth = [
     {file = "django-rest-auth-0.9.5.tar.gz", hash = "sha256:f11e12175dafeed772f50d740d22caeab27e99a3caca24ec65e66a8d6de16571"},
+]
+django-webpack-loader = [
+    {file = "django-webpack-loader-0.6.0.tar.gz", hash = "sha256:60bab6b9a037a5346fad12d2a70a6bc046afb33154cf75ed640b93d3ebd5f520"},
+    {file = "django_webpack_loader-0.6.0-py2.py3-none-any.whl", hash = "sha256:970b968c2a8975fb7eff56a3bab5d0d90d396740852d1e0c50c5cfe2b824199a"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.10.3-py3-none-any.whl", hash = "sha256:5488aed8f8df5ec1d70f04b2114abc52ae6729748a176c453313834a9ee179c8"},

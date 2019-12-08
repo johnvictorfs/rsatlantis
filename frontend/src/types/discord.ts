@@ -6,8 +6,8 @@ export interface Discord {
 
   DiscordUser: {
     id: number
-    updated?: string
-    warningDate?: string
+    updated: string | null
+    warningDate: string | null
     disabled: boolean
     ingameName: string
     discordId: number
@@ -17,6 +17,8 @@ export interface Discord {
   SecretSantaStatus: {
     activated: boolean
     registered: number
+    startDate: string | null
+    endDate: string | null
   }
 }
 
@@ -33,9 +35,9 @@ export interface DiscordMember {
   discriminator: string
   status: string
   avatar_url: string
-  game?: {
+  game: {
     name: string
-  }
+  } | null
 }
 
 export interface DiscordApi {
@@ -47,8 +49,8 @@ export interface DiscordApi {
 
   DiscordUser: {
     id: number
-    updated?: string
-    warning_date?: string
+    updated: string | null
+    warning_date: string | null
     disabled: boolean
     ingame_name: string
     discord_id: string
@@ -58,6 +60,8 @@ export interface DiscordApi {
   SecretSantaStatus: {
     activated: boolean
     registered: number
+    start_date: string | null
+    end_date: string | null
   }
 
   Widget: {

@@ -5,7 +5,6 @@ import UserService from '@/api/users'
 import PlayerService from '@/api/players'
 import DiscordService from '@/api/discord'
 
-
 class ApiDocs {
   baseURL: string
 
@@ -79,16 +78,6 @@ export class Api {
     })
     this.axios.interceptors.request.use(response => response, error => Promise.reject(error))
     this.axios.interceptors.response.use(response => response, error => Promise.reject(error))
-
-    this.axios.interceptors.request.use(async config => {
-      const token = localStorage.getItem('TOKEN')
-
-      if (token) {
-        config.headers.Authorization = `Token ${token}`
-      }
-
-      return config
-    })
   }
 }
 

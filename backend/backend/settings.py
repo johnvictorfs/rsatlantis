@@ -15,6 +15,10 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# https://medium.com/@rodrigosmaniotto/integrating-django-and-vuejs-with-vue-cli-3-and-webpack-loader-145c3b98501a
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+FRONTEND_DIR = os.path.join(BASE_DIR, 'vue_frontend')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -22,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('RSATLANTIS_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -48,7 +52,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'drf_yasg',
     'dynamic_preferences',
-    'dynamic_preferences.users.apps.UserPreferencesConfig'
+    'dynamic_preferences.users.apps.UserPreferencesConfig',
+    'webpack_loader'
 ]
 
 MIDDLEWARE = [
@@ -70,9 +75,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'static')
-        ],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -162,3 +165,22 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+# Development Vue App with hot-reload
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': False,
+        'BUNDLE_DIR_NAME': '/bundles/',
+        'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
+    }
+}
+
+# Production Vue App at /dist/
+if not DEBUG:
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'CACHE': False,
+            'BUNDLE_DIR_NAME': '/bundles/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'static/webpack-stats-prod.json')
+        }
+    }

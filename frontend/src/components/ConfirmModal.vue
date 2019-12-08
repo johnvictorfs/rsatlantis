@@ -1,23 +1,22 @@
 <template>
   <v-dialog v-model="activated" persistent max-width="500">
-    <v-card>
+    <ModalCard>
       <!-- Dialog Title -->
-      <v-toolbar class="text-wrap headline mb-2" color="grey darken-2">
-        <v-toolbar-title class="text-wrap">
-          {{ title }}
-        </v-toolbar-title>
-      </v-toolbar>
+      <template #title v-if="title">
+        {{ title }}
+      </template>
 
       <!-- Dialog Description -->
-      <v-card-text class="text-justify" v-if="description">
+      <template #description v-if="description">
         {{ description }}
-      </v-card-text>
+      </template>
 
-      <v-card-actions>
+      <!-- Dialog Actions -->
+      <template #actions>
         <v-spacer />
 
         <!-- Cancel Button -->
-        <v-btn class="modal-btn" small text @click="cancelAction">
+        <v-btn class="modal-btn" small text @click.end="cancelAction">
           <v-icon left v-if="cancelIcon">
             {{ cancelIcon }}
           </v-icon>
@@ -25,14 +24,14 @@
         </v-btn>
 
         <!-- Confirm Button -->
-        <v-btn class="modal-btn" small color="success darken-1" @click="confirmAction">
+        <v-btn class="modal-btn" small color="success darken-1" @click.end="confirmAction">
           <v-icon small left v-if="confirmIcon">
             {{ confirmIcon }}
           </v-icon>
           {{ confirmText }}
         </v-btn>
-      </v-card-actions>
-    </v-card>
+      </template>
+    </ModalCard>
   </v-dialog>
 </template>
 
@@ -40,8 +39,11 @@
 import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
 
+const ModalCard = () => import('@/components/ModalCard.vue')
 
-@Component({})
+@Component({
+  components: { ModalCard }
+})
 export default class ConfirmModal extends Vue {
   @Prop() private activated!: boolean
   @Prop() private title?: string

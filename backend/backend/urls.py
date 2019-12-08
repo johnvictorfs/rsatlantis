@@ -54,14 +54,14 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('api/docs/swagger<str:format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('api/docs/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('api/docs/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('api/docs/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
 ]
 
 # Admin and API routes
 urlpatterns += [
     path('admin/', admin.site.urls),
     path('api/auth/', include('rest_auth.urls')),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls))
 ]
 
 if settings.DEBUG:
@@ -69,4 +69,4 @@ if settings.DEBUG:
 
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
 
-urlpatterns += [re_path(r'^.*$', TemplateView.as_view(template_name='index.html'))]
+urlpatterns += [re_path(r'^.*$', TemplateView.as_view(template_name='application.html'), name='app')]

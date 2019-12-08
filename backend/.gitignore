@@ -124,3 +124,6 @@ staticfiles/
 
 # DB Backups
 backups/
+
+# Vue server files
+vue_frontend/

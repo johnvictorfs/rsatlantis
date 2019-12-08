@@ -73,7 +73,7 @@ class AmigoSecretoStatusViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
     def update_dates(self, request):
         """
-        Update Secret Santa Status
+        Update Secret Santa Start and Date Dates
         """
         secret_santa_status = models.AmigoSecretoState.object()
 
@@ -99,7 +99,7 @@ class AmigoSecretoStatusViewSet(viewsets.ViewSet):
         """
         Toggle Status of Discord's Secret Santa
         """
-        secret_santa_status = models.AmigoSecretoState.object()
+        secret_santa_status = models.AmigoSecretoState.objects.first()
         secret_santa_status.toggle()
         return Response('Status do Amigo Secreto atualizado com sucesso')
 

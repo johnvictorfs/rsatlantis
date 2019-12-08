@@ -8,7 +8,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-const DiscordStatus = () => import('@/components/DiscordStatus.vue')
+const DiscordStatus = () => import('@/components/discord/DiscordStatus.vue')
 
 @Component({
   components: { DiscordStatus }

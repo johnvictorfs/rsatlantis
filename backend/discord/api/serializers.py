@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-from discord.models import RaidsState, DisabledCommand, DiscordUser, AmigoSecretoPerson, AmigoSecretoState, \
-    DiscordIngameName
+from discord import models
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -29,19 +28,19 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
 class RaidsStateSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = RaidsState
+        model = models.RaidsState
         fields = ('id', 'notifications', 'time_to_next_message')
 
 
 class DisabledCommandSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = DisabledCommand
+        model = models.DisabledCommand
         fields = ('id', 'name')
 
 
 class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = AmigoSecretoPerson
+        model = models.AmigoSecretoPerson
         fields = ('id', 'user', 'giving_to_user', 'receiving')
 
 
@@ -50,22 +49,26 @@ class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
 
     @staticmethod
     def get_registered(obj):
-        return AmigoSecretoPerson.objects.all().count()
+        """
+        Count the number of Users registered in the Discord's Secret Santa
+        """
+        return models.AmigoSecretoPerson.objects.all().count()
 
     class Meta:
-        model = AmigoSecretoState
+        model = models.AmigoSecretoState
         fields = ('id', 'activated', 'registered', 'start_date', 'end_date')
 
 
 class DiscordIngameNameSerializer(DynamicFieldsModelSerializer):
     class Meta:
-        model = DiscordIngameName
+        model = models.DiscordIngameName
         fields = ('user', 'name', 'created_date')
 
 
 class DiscordUserSerializer(serializers.ModelSerializer):
+    # Get all the Ingame Names of a User
     ingame_names = DiscordIngameNameSerializer(many=True, read_only=True, fields=('name', 'created_date'))
 
     class Meta:
-        model = DiscordUser
+        model = models.DiscordUser
         fields = ('updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name', 'ingame_names')

@@ -59,8 +59,7 @@ export default class Toolbar extends Vue {
   }
 
   get isAdmin() {
-    const { auth } = this.$store.state
-    if (auth) return auth.user.isAdmin
+    return this.$store.getters.isAdmin
   }
 
   get username() {

@@ -36,7 +36,13 @@
 
           <v-card-text>
             <!-- Notificações de Raids -->
-            <StatusCard :admin-actions="true" :user-actions="true" color="success" icon="mdi-sword-cross" v-if="raidsStatus && raidsStatus.notifications && !errors.raidsStatus">
+            <StatusCard
+              :admin-actions="true"
+              :user-actions="true"
+              color="success"
+              icon="mdi-sword-cross"
+              v-if="raidsStatus && raidsStatus.notifications && !errors.raidsStatus"
+            >
               <template #content>
                 Notificações de Raids Ativas
               </template>
@@ -104,7 +110,12 @@
             </StatusCard>
 
             <!-- Membros Autenticados do Discord -->
-            <StatusCard :admin-actions="true" color="primary" icon="fas fa-user" v-if="users.length > 0 && !errors.users">
+            <StatusCard
+              :admin-actions="true"
+              color="primary"
+              icon="fas fa-user"
+              v-if="users.length > 0 && !errors.users"
+            >
               <template #content>
                 Membros Autenticados: {{ users.length }}
               </template>
@@ -136,9 +147,22 @@
             </StatusCard>
 
             <!-- Amigo Secreto -->
-            <StatusCard color="success" :user-actions="true" :admin-actions="true" icon="fas fa-gifts" v-if="secretSanta && secretSanta.activated && !errors.secretSanta">
+            <StatusCard
+              color="success"
+              :user-actions="true"
+              :admin-actions="true"
+              icon="fas fa-gifts"
+              v-if="secretSanta && secretSanta.activated && !errors.secretSanta"
+            >
               <template #content>
                 Amigo Secreto Ativo
+                <div v-if="secretSanta.startDate">
+                  <strong>Ínicio:</strong> {{ formattedSecretSantaStartDate }}
+                </div>
+
+                <div v-if="secretSanta.endDate">
+                  <strong>Sorteio:</strong> {{ formattedSecretSantaEndDate }}
+                </div>
               </template>
 
               <template #user-actions class="shrink">
@@ -151,6 +175,7 @@
               </template>
 
               <template #admin-actions v-if="isAdmin">
+                <!-- Disable Secret Santa Modal -->
                 <ConfirmModal
                   title="Desabilitar Amigo Secreto"
                   description="Tem certeza que deseja deixar o Amigo Secreto do Discord inativo?"
@@ -160,13 +185,43 @@
                   :cancel-icon="false"
                 />
 
+                <!-- Edit Secret Santa Modal -->
+                <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
+                  <EditSecretSanta :cancel="() => editSecretSantaModal = false" :after-update="getSecretSantaStatus" />
+                </v-dialog>
+
                 <v-tooltip bottom>
                   <template #activator="{ on }">
-                    <v-btn color="error" fab small dark v-on="on" @click.end="disableSecretSantaModal = true">
+                    <v-btn
+                      class="mb-2"
+                      color="error"
+                      fab
+                      small
+                      dark
+                      v-on="on"
+                      @click.end="disableSecretSantaModal = true"
+                    >
                       <v-icon>fas fa-times</v-icon>
                     </v-btn>
                   </template>
                   <span>Desabilitar</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template #activator="{ on }">
+                    <v-btn
+                      icon
+                      color="primary"
+                      fab
+                      small
+                      dark
+                      v-on="on"
+                      @click.end="editSecretSantaModal = true"
+                    >
+                      <v-icon>fas fa-edit</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Editar</span>
                 </v-tooltip>
               </template>
             </StatusCard>
@@ -216,116 +271,152 @@ import Component from 'vue-class-component'
 
 import { Discord } from '@/types'
 import api from '@/api'
+
 const StatusCard = () => import('@/components/StatusCard.vue')
 const ConfirmModal = () => import('@/components/ConfirmModal.vue')
+const ModalCard = () => import('@/components/ModalCard.vue')
+const EditSecretSanta = () => import('@/components/discord/EditSecretSanta.vue')
+
 
 @Component({
-  components: { StatusCard, ConfirmModal }
+  components: { StatusCard, ConfirmModal, ModalCard, EditSecretSanta }
 })
 export default class DiscordStatus extends Vue {
-  raidsStatus: Discord['RaidsStatus'] | null = null
+    raidsStatus: Discord['RaidsStatus'] | null = null
 
-  users: Discord['DiscordUser'][] = []
+    users: Discord['DiscordUser'][] = []
 
-  secretSanta: Discord['SecretSantaStatus'] | null = null
+    secretSanta: Discord['SecretSantaStatus'] | null = null
 
-  inviteUrl: string = 'https://discord.gg/2aYDY8N'
+    inviteUrl: string = 'https://discord.gg/2aYDY8N'
 
-  loading: boolean = false
+    loading: boolean = false
 
-  enableRaidsModal = false
-  disableRaidsModal = false
-  disableSecretSantaModal = false
-  enableSecretSantaModal = false
+    enableRaidsModal = false
+    disableRaidsModal = false
 
-  errors = {
-    raidsStatus: false,
-    users: false,
-    secretSanta: false
-  }
+    disableSecretSantaModal = false
+    enableSecretSantaModal = false
+    editSecretSantaModal = false
 
-  async mounted() {
-    this.getData()
-  }
-
-  async getRaidsStatus() {
-    try {
-      this.raidsStatus = await api.discord.raids.status()
-      this.errors.raidsStatus = false
-    } catch (error) {
-      this.errors.raidsStatus = true
+    errors = {
+      raidsStatus: false,
+      users: false,
+      secretSanta: false
     }
-  }
 
-  async getUsersData() {
-    try {
-      this.users = await api.discord.users()
-      this.errors.users = false
-    } catch (error) {
-      this.errors.users = true
+    async mounted() {
+      this.getData()
     }
-  }
 
-  async getSecretSantaStatus() {
-    try {
-      this.secretSanta = await api.discord.secretSanta.status()
-      this.errors.secretSanta = false
-    } catch (error) {
-      this.errors.secretSanta = true
+    async getRaidsStatus() {
+      try {
+        this.raidsStatus = await api.discord.raids.status()
+        this.errors.raidsStatus = false
+      } catch (error) {
+        this.errors.raidsStatus = true
+      }
     }
-  }
 
-  async getData() {
+    async getUsersData() {
+      try {
+        this.users = await api.discord.users()
+        this.errors.users = false
+      } catch (error) {
+        this.errors.users = true
+      }
+    }
+
+    async getSecretSantaStatus() {
+      try {
+        this.secretSanta = await api.discord.secretSanta.status()
+        this.errors.secretSanta = false
+      } catch (error) {
+        this.errors.secretSanta = true
+      }
+    }
+
+    async getData() {
+      /**
+       * Get all Discord Status Data from API
+       */
+      this.loading = true
+
+      await this.getRaidsStatus()
+      await this.getUsersData()
+      await this.getSecretSantaStatus()
+
+      this.loading = false
+    }
+
+    async toggleRaidsStatus() {
+      try {
+        await api.discord.raids.toggle()
+        this.getRaidsStatus()
+        this.$toasted.global.success('Status de Notificações de Raids atualizado com sucesso!')
+      } catch (error) {
+        this.$toasted.global.error('Erro ao atualizar Status de Notificações de Raids')
+      } finally {
+        this.enableRaidsModal = false
+        this.disableRaidsModal = false
+      }
+    }
+
+    async toggleSecretSantaStatus() {
+      try {
+        await api.discord.secretSanta.toggle()
+        this.getSecretSantaStatus()
+        this.$toasted.global.success('Status do Amigo Secreto atualizado com sucesso!')
+      } catch (error) {
+        this.$toasted.global.error('Erro ao atualizar Status do Amigo Secreto')
+      } finally {
+        this.enableSecretSantaModal = false
+        this.disableSecretSantaModal = false
+      }
+    }
+
+    formatDate(date: string | null): string | null {
     /**
-     * Get all Discord Status Data from API
+     * Format date as /d/m/y
      */
-    this.loading = true
+      if (!date) return null
 
-    await this.getRaidsStatus()
-    await this.getUsersData()
-    await this.getSecretSantaStatus()
-
-    this.loading = false
-  }
-
-  async toggleRaidsStatus() {
-    try {
-      await api.discord.raids.toggle()
-      this.getRaidsStatus()
-      this.$toasted.global.success('Status de Notificações de Raids atualizado com sucesso!')
-    } catch (error) {
-      this.$toasted.global.error('Erro ao atualizar Status de Notificações de Raids')
-    } finally {
-      this.enableRaidsModal = false
-      this.disableRaidsModal = false
+      const [year, month, day] = date.split('-')
+      return `${day}/${month}/${year}`
     }
-  }
 
-  async toggleSecretSantaStatus() {
-    try {
-      await api.discord.secretSanta.toggle()
-      this.getSecretSantaStatus()
-      this.$toasted.global.success('Status do Amigo Secreto atualizado com sucesso!')
-    } catch (error) {
-      this.$toasted.global.error('Erro ao atualizar Status do Amigo Secreto')
-    } finally {
-      this.enableSecretSantaModal = false
-      this.disableSecretSantaModal = false
+    get isAdmin() {
+      return this.$store.getters.isAdmin
     }
-  }
 
-  get isAdmin() {
-    return this.$store.state.auth.user.isAdmin
-  }
+    get formattedSecretSantaStartDate(): string | null {
+      /**
+       * Start Date of Secret Santa as d/m/y
+       */
+      if (this.secretSanta) {
+        return this.formatDate(this.secretSanta.startDate)
+      }
+      return null
+    }
+
+    get formattedSecretSantaEndDate(): string | null {
+      /**
+       * End Date of Secret Santa as d/m/y
+       */
+      if (this.secretSanta) {
+        return this.formatDate(this.secretSanta.endDate)
+      }
+      return null
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-.discord-title {
-  font-family: Rubik, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
-  Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
-  sans-serif;
+  .discord-title {
+    font-family: Rubik, "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 
-  font-size: 23px;
-}
+    font-size: 23px;
+  }
 </style>

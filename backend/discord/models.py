@@ -66,8 +66,8 @@ class DisabledCommand(DiscordModel):
 
 class AmigoSecretoState(DiscordModel):
     activated = models.BooleanField(default=False)
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
 
     class Meta:
         db_table = 'amigosecretostate'

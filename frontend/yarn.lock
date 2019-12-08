@@ -9241,6 +9241,15 @@ webpack-bundle-analyzer@^3.3.0:
     opener "^1.5.1"
     ws "^6.0.0"
 
+webpack-bundle-tracker@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-tracker/-/webpack-bundle-tracker-0.4.3.tgz#48a3e2226ddb9d24d704640ab4168c2d120f4526"
+  integrity sha512-Sl/+OsNhFAH3/c6XADupRu8jLvGojfXX0pZIIm3O5ZcJqkHHqlY4nLG+NVRcbDgM/jOeWimKDGQMVEa8FBeJ2g==
+  dependencies:
+    deep-extend "^0.6.0"
+    mkdirp "^0.5.1"
+    strip-ansi "^5.2.0"
+
 webpack-chain@^4.11.0:
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/webpack-chain/-/webpack-chain-4.12.1.tgz#6c8439bbb2ab550952d60e1ea9319141906c02a6"
