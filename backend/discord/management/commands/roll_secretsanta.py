@@ -17,8 +17,8 @@ class Command(BaseCommand):
         if not secret_santa_state.end_date:
             raise CommandError('Sem data de sorteio configurada.')
 
-        if secret_santa_state.end_date.date != now.date:
-            raise CommandError(f'Secret santa is supposed to run only at {secret_santa_state.end_date}')
+        #if secret_santa_state.end_date.date != now.date:
+        #    raise CommandError(f'Secret santa is supposed to run only at {secret_santa_state.end_date}')
 
         not_receiving = AmigoSecretoPerson.objects.filter(receiving=False).count()
 
@@ -43,7 +43,7 @@ class Command(BaseCommand):
         AmigoSecretoPerson.objects.all().update(receiving=False, giving_to_user=None)
 
     def roll_secret_santa(self):
-        exclude = []
+        exclude: List[int] = []
 
         person: AmigoSecretoPerson
         for person in AmigoSecretoPerson.objects.filter(giving_to_user=None).all():
@@ -56,7 +56,11 @@ class Command(BaseCommand):
             )
 
             person.giving_to_user = random.user
+            person.save()
             exclude.append(random.id)
+
+        for person_id in exclude:
+            AmigoSecretoPerson.objects.filter(id=person_id).update(receiving=True)
 
     @staticmethod
     def random_person_to(pk: int, exclude: List[int]) -> AmigoSecretoPerson:
