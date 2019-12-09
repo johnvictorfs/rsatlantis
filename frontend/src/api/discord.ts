@@ -83,7 +83,9 @@ class SecretSantaService extends Service {
       startDate: data.start_date,
       endDate: data.end_date,
       activated: data.activated,
-      registered: data.registered
+      registered: data.registered,
+      premioMaximo: data.premio_maximo,
+      premioMinimo: data.premio_minimo
     }
   }
 
@@ -110,7 +112,9 @@ class SecretSantaService extends Service {
       startDate: data.start_date,
       endDate: data.end_date,
       activated: data.activated,
-      registered: data.registered
+      registered: data.registered,
+      premioMinimo: data.premio_minimo,
+      premioMaximo: data.premio_maximo
     }
   }
 }

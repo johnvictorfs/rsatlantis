@@ -37,7 +37,7 @@
           <v-card-text>
             <!-- Notificações de Raids -->
             <StatusCard
-              :admin-actions="true"
+              :admin-actions="isAdmin"
               :user-actions="true"
               color="success"
               icon="mdi-sword-cross"
@@ -58,7 +58,7 @@
                 />
                 <v-tooltip bottom>
                   <template #activator="{ on }">
-                    <v-btn color="error" fab small dark v-on="on" @click.end="disableRaidsModal = true">
+                    <v-btn icon fab small dark v-on="on" @click.end="disableRaidsModal = true">
                       <v-icon>fas fa-times</v-icon>
                     </v-btn>
                   </template>
@@ -84,7 +84,7 @@
             </StatusCard>
 
             <!-- Notificações Raids Desabilitadas -->
-            <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="true" v-else>
+            <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="isAdmin" v-else>
               <template #content>
                 Notificações de Raids Desabilitadas
               </template>
@@ -100,7 +100,7 @@
                 />
                 <v-tooltip bottom>
                   <template #activator="{ on }">
-                    <v-btn color="success" fab small dark v-on="on" @click.end="enableRaidsModal = true">
+                    <v-btn icon fab small dark v-on="on" @click.end="enableRaidsModal = true">
                       <v-icon>fas fa-check</v-icon>
                     </v-btn>
                   </template>
@@ -111,7 +111,7 @@
 
             <!-- Membros Autenticados do Discord -->
             <StatusCard
-              :admin-actions="true"
+              :admin-actions="isAdmin"
               color="primary"
               icon="fas fa-user"
               v-if="users.length > 0 && !errors.users"
@@ -150,14 +150,22 @@
             <StatusCard
               color="success"
               :user-actions="true"
-              :admin-actions="true"
+              :admin-actions="isAdmin"
               icon="fas fa-gifts"
               v-if="secretSanta && secretSanta.activated && !errors.secretSanta"
             >
               <template #content>
-                Amigo Secreto Ativo
+                <div class="mb-3">
+                  <strong>
+                    Amigo Secreto
+                  </strong>
+                </div>
+
                 <div v-if="secretSanta.startDate">
-                  <strong>Ínicio:</strong> {{ formattedSecretSantaStartDate }}
+                  <strong>Ínicio das Inscrições:</strong> {{ formattedSecretSantaStartDate }}
+                </div>
+                <div v-else>
+                  Amigo Secreto Ativo, inscrições abertas em breve
                 </div>
 
                 <div v-if="secretSanta.endDate">
@@ -165,13 +173,26 @@
                 </div>
               </template>
 
-              <template #user-actions class="shrink">
-                <v-btn outlined small>
-                  Participar
-                  <v-icon right small>
-                    fas fa-plus
-                  </v-icon>
-                </v-btn>
+              <template #user-actions>
+                <v-row justify="center">
+                  <v-btn outlined small class="mb-2">
+                    Entrar
+                    <v-icon right small>
+                      fas fa-plus
+                    </v-icon>
+                  </v-btn>
+
+                  <v-tooltip bottom>
+                    <template #activator="{ on }">
+                      <v-btn rounded outlined small v-on="on">
+                        <v-icon small>
+                          fas fa-info
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Informações</span>
+                  </v-tooltip>
+                </v-row>
               </template>
 
               <template #admin-actions v-if="isAdmin">
@@ -194,7 +215,7 @@
                   <template #activator="{ on }">
                     <v-btn
                       class="mb-2"
-                      color="error"
+                      icon
                       fab
                       small
                       dark
@@ -211,7 +232,6 @@
                   <template #activator="{ on }">
                     <v-btn
                       icon
-                      color="primary"
                       fab
                       small
                       dark
@@ -234,7 +254,7 @@
             </StatusCard>
 
             <!-- Amigo Secreto Inativo -->
-            <StatusCard :admin-actions="true" color="error" icon="fas fa-gifts" v-else>
+            <StatusCard :admin-actions="isAdmin" color="error" icon="fas fa-gifts" v-else>
               <template #content>
                 Amigo Secreto Inativo
               </template>
@@ -250,7 +270,7 @@
                 />
                 <v-tooltip bottom>
                   <template #activator="{ on }">
-                    <v-btn color="success" fab small dark v-on="on" @click.end="enableSecretSantaModal = true">
+                    <v-btn icon fab small dark v-on="on" @click.end="enableSecretSantaModal = true">
                       <v-icon>fas fa-check</v-icon>
                     </v-btn>
                   </template>
@@ -268,6 +288,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 import { Discord } from '@/types'
 import api from '@/api'
@@ -381,8 +403,11 @@ export default class DiscordStatus extends Vue {
      */
       if (!date) return null
 
-      const [year, month, day] = date.split('-')
-      return `${day}/${month}/${year}`
+      const formattedDate = new Date(date)
+
+      const timeLeft = moment(formattedDate, '', 'pt').fromNow()
+
+      return moment(formattedDate, '', 'pt').format('dddd, D [de] MMMM [às] HH:mm') + ', ' + timeLeft
     }
 
     get isAdmin() {

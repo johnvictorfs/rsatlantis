@@ -19,6 +19,8 @@ export interface Discord {
     registered: number
     startDate: string | null
     endDate: string | null
+    premioMinimo: number | null
+    premioMaximo: number | null
   }
 }
 
@@ -62,6 +64,8 @@ export interface DiscordApi {
     registered: number
     start_date: string | null
     end_date: string | null
+    premio_minimo: number | null
+    premio_maximo: number | null
   }
 
   Widget: {

@@ -28,6 +28,43 @@
 
         <v-row justify="center">
           <v-menu
+            ref="startTimeMenu"
+            v-model="startTimeMenu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            :return-value.sync="startTime"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="startTime"
+                :disabled="!startDate"
+                label="Tempo de Ínicio das Inscrições"
+                prepend-icon="access_time"
+                readonly
+                v-on="on"
+              />
+            </template>
+            <v-time-picker
+              light
+              :disabled="!startDate"
+              color="primary"
+              header-color="primary"
+              v-if="startTimeMenu"
+              v-model="startTime"
+              full-width
+              @click:minute="$refs.startTimeMenu.save(startTime)"
+            />
+          </v-menu>
+        </v-row>
+
+        <hr class="mt-3 mb-3">
+
+        <v-row justify="center">
+          <v-menu
             v-model="endDateMenu"
             :close-on-content-click="false"
             transition="scale-transition"
@@ -45,6 +82,45 @@
             </template>
             <v-date-picker :min="startDate" light header-color="primary" color="primary" v-model="endDate" @input="endDateMenu = false" />
           </v-menu>
+        </v-row>
+
+        <v-row justify="center">
+          <v-menu
+            ref="endTimeMenu"
+            v-model="endTimeMenu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            :return-value.sync="endTime"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="endTime"
+                :disabled="!endDate"
+                label="Tempo do Sorteio"
+                prepend-icon="access_time"
+                readonly
+                v-on="on"
+              />
+            </template>
+            <v-time-picker
+              light
+              :disabled="!endDate"
+              color="primary"
+              header-color="primary"
+              v-if="endTimeMenu"
+              v-model="endTime"
+              full-width
+              @click:minute="$refs.endTimeMenu.save(endTime)"
+            />
+          </v-menu>
+        </v-row>
+
+        <v-row class="mt-3">
+          <v-text-field v-model="premioMinimo" maxlength="12" type="number" label="Valor Mínimo do Presente" filled />
         </v-row>
       </v-container>
     </template>
@@ -71,6 +147,8 @@
 <script lang="ts">
 import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 import { Discord } from '@/types'
 import api from '@/api'
@@ -98,11 +176,19 @@ export default class ConfirmModal extends Vue {
 
   today: string = new Date().toISOString().substr(0, 10)
 
+  premioMinimo: string = '0'
+
+  startTime: string = ''
   startDate: string = ''
+
+  endTime: string = ''
   endDate: string = ''
 
   startDateMenu: boolean = false
+  startTimeMenu: boolean = false
+
   endDateMenu: boolean = false
+  endTimeMenu: boolean = false
 
   async mounted() {
     this.getSecretSantaStatus()
@@ -113,11 +199,19 @@ export default class ConfirmModal extends Vue {
       this.secretSantaStatus = await api.discord.secretSanta.status()
 
       if (this.secretSantaStatus.startDate) {
-        this.startDate = new Date(this.secretSantaStatus.startDate).toISOString().substr(0, 10)
+        const startDate = new Date(this.secretSantaStatus.startDate)
+        this.startTime = moment(startDate, '', 'pt').format('HH:mm')
+        this.startDate = startDate.toISOString().substr(0, 10)
       }
 
       if (this.secretSantaStatus.endDate) {
-        this.endDate = new Date(this.secretSantaStatus.endDate).toISOString().substr(0, 10)
+        const endDate = new Date(this.secretSantaStatus.endDate)
+        this.endTime = moment(endDate, '', 'pt').format('HH:mm')
+        this.endDate = endDate.toISOString().substr(0, 10)
+      }
+
+      if (this.secretSantaStatus.premioMinimo) {
+        this.premioMinimo = this.secretSantaStatus.premioMinimo.toString()
       }
     } catch (error) {
       this.$toasted.global.error('Erro ao atualizar dados do Amigo Secreto')
@@ -140,7 +234,11 @@ export default class ConfirmModal extends Vue {
      */
     try {
       if (this.startDate && this.endDate) {
-        await api.discord.secretSanta.updateDates(this.startDate, this.endDate)
+        // Convert date formats to ISO DateTime
+        const isoStartDate = new Date(`${this.startDate} ${this.startTime}`).toISOString()
+        const isoEndDate = new Date(`${this.endDate} ${this.endTime}`).toISOString()
+
+        await api.discord.secretSanta.updateDates(isoStartDate, isoEndDate)
         this.$toasted.global.success('Datas do Amigo Secreto atualizadas com sucesso!')
         this.cancel()
         this.afterUpdate()
@@ -163,7 +261,7 @@ export default class ConfirmModal extends Vue {
 </script>
 
 <style lang="scss" scoped>
-  .modal-btn {
-    border-radius: 8px !important;
-  }
+.modal-btn {
+  border-radius: 8px !important;
+}
 </style>

@@ -100,4 +100,18 @@ body {
 .atl-round-toolbar {
   border-radius: 18px !important;
 }
+
+/**
+ * Remove arrows from input with type 'number'
+ *
+ * https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 </style>
