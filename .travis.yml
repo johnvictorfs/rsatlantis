@@ -20,7 +20,7 @@ before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
   - pip install poetry
-  - oetry --version
+  - poetry --version
 
 install:
   - poetry install -vv
