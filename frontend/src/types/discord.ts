@@ -6,13 +6,8 @@ export interface Discord {
 
   DiscordUser: {
     id: number
-<<<<<<< HEAD
-    updated?: string
-    warningDate?: string
-=======
     updated: string | null
     warningDate: string | null
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
     disabled: boolean
     ingameName: string
     discordId: number
@@ -22,13 +17,10 @@ export interface Discord {
   SecretSantaStatus: {
     activated: boolean
     registered: number
-<<<<<<< HEAD
-=======
     startDate: string | null
     endDate: string | null
     premioMinimo: number | null
     premioMaximo: number | null
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
   }
 }
 
@@ -45,15 +37,9 @@ export interface DiscordMember {
   discriminator: string
   status: string
   avatar_url: string
-<<<<<<< HEAD
-  game?: {
-    name: string
-  }
-=======
   game: {
     name: string
   } | null
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 }
 
 export interface DiscordApi {
@@ -65,13 +51,8 @@ export interface DiscordApi {
 
   DiscordUser: {
     id: number
-<<<<<<< HEAD
-    updated?: string
-    warning_date?: string
-=======
     updated: string | null
     warning_date: string | null
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
     disabled: boolean
     ingame_name: string
     discord_id: string
@@ -81,13 +62,10 @@ export interface DiscordApi {
   SecretSantaStatus: {
     activated: boolean
     registered: number
-<<<<<<< HEAD
-=======
     start_date: string | null
     end_date: string | null
     premio_minimo: number | null
     premio_maximo: number | null
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
   }
 
   Widget: {

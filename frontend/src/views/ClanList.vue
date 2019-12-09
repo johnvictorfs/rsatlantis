@@ -24,11 +24,7 @@
             </h4>
           </v-toolbar-title>
 
-<<<<<<< HEAD
-          <v-spacer/>
-=======
           <v-spacer />
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
           <!-- Desktop Update Clans button -->
           <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">

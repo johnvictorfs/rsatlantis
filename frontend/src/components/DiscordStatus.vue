@@ -5,7 +5,9 @@
         <v-card class="atl-round-card" raised :loading="loading">
           <v-toolbar dark color="#363636">
             <v-toolbar-title class="discord-title">
-              <v-icon left size="30" color="#668fcb">fab fa-discord</v-icon>
+              <v-icon left size="30" color="#668fcb">
+                fab fa-discord
+              </v-icon>
               Discord
             </v-toolbar-title>
 
@@ -13,11 +15,13 @@
               <v-icon>fa-sync-alt</v-icon>
             </v-btn>
 
-            <v-spacer/>
+            <v-spacer />
 
             <v-btn outlined color="#668fcb" target="_blank" :href="inviteUrl">
               Entrar
-              <v-icon small right>fas fa-external-link-alt</v-icon>
+              <v-icon small right>
+                fas fa-external-link-alt
+              </v-icon>
             </v-btn>
           </v-toolbar>
 
@@ -25,12 +29,16 @@
             <!-- Notificações de Raids -->
             <DiscordStatusAlert type="success" icon="mdi-sword-cross" v-if="raidsStatus && raidsStatus.notifications">
               <v-row align="center">
-                <v-col class="grow">Notificações de Raids Habilitadas</v-col>
+                <v-col class="grow">
+                  Notificações de Raids Habilitadas
+                </v-col>
 
                 <v-col class="shrink">
                   <v-btn outlined small>
                     Aplicar
-                    <v-icon right small>fas fa-angle-right</v-icon>
+                    <v-icon right small>
+                      fas fa-angle-right
+                    </v-icon>
                   </v-btn>
                 </v-col>
 
@@ -39,11 +47,10 @@
                     title="Desabilitar Notificações de Raids"
                     description="Tem certeza que deseja desabilitar as Notificações de Raids do Discord?"
                     :activated="disableRaidsModal"
-                    :confirmAction="toggleRaidsStatus"
-                    :cancelAction="() => disableRaidsModal = false"
-                    :cancelIcon="false"
-                  >
-                  </ConfirmModal>
+                    :confirm-action="toggleRaidsStatus"
+                    :cancel-action="() => disableRaidsModal = false"
+                    :cancel-icon="false"
+                  />
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-btn color="error" fab small dark v-on="on" @click="disableRaidsModal = true">
@@ -64,16 +71,18 @@
             <!-- Notificações Raids Desabilitadas -->
             <DiscordStatusAlert type="error" icon="mdi-sword-cross" v-else>
               <v-row align="center">
-                <v-col class="grow">Notificações de Raids Desabilitadas</v-col>
+                <v-col class="grow">
+                  Notificações de Raids Desabilitadas
+                </v-col>
 
                 <v-col class="shrink" v-show="isAdmin">
                   <ConfirmModal
                     title="Habilitar Notificações de Raids"
                     description="Tem certeza que deseja habilitar as Notificações de Raids do Discord?"
                     :activated="enableRaidsModal"
-                    :confirmAction="toggleRaidsStatus"
-                    :cancelAction="() => enableRaidsModal = false"
-                    :cancelIcon="false"
+                    :confirm-action="toggleRaidsStatus"
+                    :cancel-action="() => enableRaidsModal = false"
+                    :cancel-icon="false"
                   />
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -90,7 +99,9 @@
             <!-- Membros Autenticados do Discord -->
             <DiscordStatusAlert color="primary" icon="fas fa-user" v-if="users.length > 0">
               <v-row align="center">
-                <v-col class="grow">Membros Autenticados: {{users.length}}</v-col>
+                <v-col class="grow">
+                  Membros Autenticados: {{ users.length }}
+                </v-col>
 
                 <v-col class="shrink" v-show="isAdmin">
                   <v-tooltip bottom>
@@ -118,12 +129,16 @@
             <!-- Amigo Secreto -->
             <DiscordStatusAlert color="success" icon="fas fa-gifts" v-if="secretSanta && secretSanta.activated">
               <v-row align="center">
-                <v-col class="grow">Amigo Secreto Ativo! {{secretSanta.registered}} Membros Registrados</v-col>
+                <v-col class="grow">
+                  Amigo Secreto Ativo! {{ secretSanta.registered }} Membros Registrados
+                </v-col>
 
                 <v-col class="shrink">
                   <v-btn outlined small>
                     Entrar
-                    <v-icon right small>fas fa-plus</v-icon>
+                    <v-icon right small>
+                      fas fa-plus
+                    </v-icon>
                   </v-btn>
                 </v-col>
 
@@ -132,9 +147,9 @@
                     title="Desabilitar Amigo Secreto"
                     description="Tem certeza que deseja deixar o Amigo Secreto do Discord inativo?"
                     :activated="disableSecretSantaModal"
-                    :confirmAction="toggleSecretSantaStatus"
-                    :cancelAction="() => disableSecretSantaModal = false"
-                    :cancelIcon="false"
+                    :confirm-action="toggleSecretSantaStatus"
+                    :cancel-action="() => disableSecretSantaModal = false"
+                    :cancel-icon="false"
                   />
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -156,16 +171,18 @@
             <!-- Amigo Secreto Inativo -->
             <DiscordStatusAlert type="error" icon="fas fa-gifts" v-else>
               <v-row align="center">
-                <v-col class="grow">Amigo Secreto Inativo</v-col>
+                <v-col class="grow">
+                  Amigo Secreto Inativo
+                </v-col>
 
                 <v-col class="shrink" v-show="isAdmin">
                   <ConfirmModal
                     title="Desabilitar Amigo Secreto"
                     description="Tem certeza que deseja habilitar o Amigo Secreto do Discord?"
                     :activated="enableSecretSantaModal"
-                    :confirmAction="toggleSecretSantaStatus"
-                    :cancelAction="() => enableSecretSantaModal = false"
-                    :cancelIcon="false"
+                    :confirm-action="toggleSecretSantaStatus"
+                    :cancel-action="() => enableSecretSantaModal = false"
+                    :cancel-icon="false"
                   />
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
@@ -182,7 +199,6 @@
         </v-card>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 

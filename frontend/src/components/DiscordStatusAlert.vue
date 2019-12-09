@@ -1,8 +1,17 @@
 <template>
   <v-row>
     <v-col class="ml-3 mr-3 mb-0">
-      <v-alert border="left" prominent class="atl-round" dense transition="scale-transition" :type="type" :color="color" :icon="icon">
-        <slot/>
+      <v-alert
+        border="left"
+        prominent
+        class="atl-round"
+        dense
+        transition="scale-transition"
+        :type="type"
+        :color="color"
+        :icon="icon"
+      >
+        <slot />
       </v-alert>
     </v-col>
   </v-row>

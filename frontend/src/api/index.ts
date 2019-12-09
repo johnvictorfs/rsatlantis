@@ -4,8 +4,6 @@ import GuideService from '@/api/guides'
 import UserService from '@/api/users'
 import PlayerService from '@/api/players'
 import DiscordService from '@/api/discord'
-<<<<<<< HEAD
-=======
 
 class ApiDocs {
   baseURL: string
@@ -27,7 +25,6 @@ class ApiDocs {
   }
 }
 
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
 export class Api {
   public axios: AxiosInstance
@@ -36,10 +33,7 @@ export class Api {
   public users: UserService
   public players: PlayerService
   public discord: DiscordService
-<<<<<<< HEAD
-=======
   public docs: ApiDocs
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
   constructor() {
     // Full config:  https://github.com/axios/axios#request-config
@@ -54,12 +48,9 @@ export class Api {
     this.users = new UserService(this)
     this.players = new PlayerService(this)
     this.discord = new DiscordService(this)
-<<<<<<< HEAD
-=======
 
     // API Docs Routes
     this.docs = new ApiDocs(this.baseURL)
->>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
     this.setupMiddleware()
   }
