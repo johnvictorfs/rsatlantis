@@ -114,10 +114,16 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/media
-/static
-/staticfiles
+media/
+static/
+staticfiles/
 
 # Editor files
 .vscode/
 .idea/
+
+# DB Backups
+backups/
+
+# Vue server files
+vue_frontend/

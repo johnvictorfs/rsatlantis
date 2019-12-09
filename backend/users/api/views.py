@@ -1,7 +1,8 @@
+from django.contrib.auth import get_user_model, login
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
 
 from users.api.serializers import UserSerializer
 from users.api.permissions import UserPermission
@@ -29,3 +30,22 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(request.user, context={'request': request})
         return Response(serializer.data)
 
+    # @action(detail=False, methods=['post'])
+    # def authenticate(self, request):
+    #     """
+    #     User Authentication
+    #
+    #     https://stackoverflow.com/a/23695442/10416161
+    #     """
+    #     user, _ = super(UserAuthentication, self).authenticate(request)
+    #     login(request, user)
+    #
+    #     return user, _
+
+
+# class MyBasicAuthentication(BasicAuthentication):
+#
+#     def authenticate(self, request):
+#         user, _ = super(MyBasicAuthentication, self).authenticate(request)
+#         login(request, user)
+#         return user, _

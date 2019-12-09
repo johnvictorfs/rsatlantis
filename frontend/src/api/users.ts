@@ -87,7 +87,6 @@ export default class UserService extends Service {
      */
     try {
       await this.api.axios.post('auth/logout')
-      localStorage.removeItem('TOKEN')
       Vue.toasted.global.success('Você saiu da sua conta com sucesso')
     } catch (error) {
       Vue.toasted.global.error(formatError(error))

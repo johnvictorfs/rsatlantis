@@ -43,7 +43,7 @@ class Guide(models.Model):
     description = models.TextField(verbose_name='Descrição', max_length=40)
     content = models.TextField(verbose_name='Conteúdo')
     approved = models.BooleanField(verbose_name='Aprovado', default=False)
-    date_posted = models.DateTimeField(verbose_name="Data", default=timezone.now)
+    date_posted = models.DateTimeField(verbose_name='Data', default=timezone.now)
 
     class Meta:
         verbose_name = 'Guia'

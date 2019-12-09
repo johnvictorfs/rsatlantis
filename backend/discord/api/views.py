@@ -1,7 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 
 from discord import models
 from discord.api import serializers, permissions as discord_permissions
@@ -36,8 +35,8 @@ class RaidsStateViewSet(StatusViewSet):
         """
         Toggle Status of Discord's Raids Notifications
         """
-        status = models.RaidsState.objects.first()
-        status.toggle()
+        raids_status = models.RaidsState.objects.first()
+        raids_status.toggle()
         return Response('Status do Amigo Secreto atualizado com sucesso')
 
 
@@ -50,6 +49,61 @@ class DisabledCommandViewSet(viewsets.ModelViewSet):
     permission_classes = (discord_permissions.AdminOrReadOnly,)
 
 
+class AmigoSecretoStatusViewSet(viewsets.ViewSet):
+    """
+    Discord's Secret Santa Status
+    """
+    queryset = models.AmigoSecretoState.objects.all()
+
+    @staticmethod
+    def list(request):
+        """
+        Get Secret Santa Status
+        """
+        secret_santa_status = models.AmigoSecretoState.object()
+
+        if not secret_santa_status:
+            # Create Status if it does not exist already
+            secret_santa_status = models.AmigoSecretoState(activated=False)
+            secret_santa_status.save()
+
+        serializer = serializers.AmigoSecretoStateSerializer(secret_santa_status)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
+    def update_dates(self, request):
+        """
+        Update Secret Santa Start and Date Dates
+        """
+        secret_santa_status = models.AmigoSecretoState.object()
+
+        if not secret_santa_status:
+            # Create status if it does not exist already
+            secret_santa_status = models.AmigoSecretoState(activated=False)
+            secret_santa_status.save()
+
+        serializer = serializers.AmigoSecretoStateSerializer(data=request.data)
+
+        if serializer.is_valid():
+            # Update Start and End dates for Secret Santa
+            secret_santa_status.start_date = serializer.data['start_date']
+            secret_santa_status.end_date = serializer.data['end_date']
+            secret_santa_status.save()
+
+            return Response(serializers.AmigoSecretoStateSerializer(secret_santa_status).data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
+    def toggle(self, request):
+        """
+        Toggle Status of Discord's Secret Santa
+        """
+        secret_santa_status = models.AmigoSecretoState.objects.first()
+        secret_santa_status.toggle()
+        return Response('Status do Amigo Secreto atualizado com sucesso')
+
+
 class AmigoSecretoPersonViewSet(viewsets.ModelViewSet):
     """
     Discord's Secret Sant entries
@@ -57,24 +111,6 @@ class AmigoSecretoPersonViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AmigoSecretoPersonSerializer
     queryset = models.AmigoSecretoPerson.objects.all()
     permission_classes = (discord_permissions.IsSuperUser,)
-
-    @action(detail=False, methods=['get'], permission_classes=[discord_permissions.AdminOrReadOnly])
-    def status(self, request):
-        """
-        Current Discord's Secret Santa status
-        """
-        status = models.AmigoSecretoState.objects.first()
-        serializer = serializers.AmigoSecretoStateSerializer(status)
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['post'], permission_classes=[discord_permissions.AdminOrReadOnly])
-    def toggle(self, request):
-        """
-        Toggle Status of Discord's Secret Santa
-        """
-        status = models.AmigoSecretoState.objects.first()
-        status.toggle()
-        return Response('Status do Amigo Secreto atualizado com sucesso')
 
 
 class DiscordUserViewSet(viewsets.ModelViewSet):
@@ -84,3 +120,12 @@ class DiscordUserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DiscordUserSerializer
     queryset = models.DiscordUser.objects.all()
     permission_classes = (discord_permissions.AdminOrReadOnly,)
+
+
+class DiscordIngameNameViewSet(viewsets.ModelViewSet):
+    """
+    Discord RS3 Ingame Names
+    """
+    serializer_class = serializers.DiscordIngameNameSerializer
+    queryset = models.DiscordIngameName.objects.all()
+    permission_classes = (discord_permissions.IsSuperUser,)

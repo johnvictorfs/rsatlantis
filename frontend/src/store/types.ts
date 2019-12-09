@@ -12,7 +12,6 @@ export interface User {
 
 export interface AuthState {
   user: User
-  token: string | null
 }
 
 export interface ApiUserDetails {

@@ -16,23 +16,43 @@
       <v-card class="clan-list-card" v-if="!apiError">
         <v-toolbar dark color="grey darken-2">
           <v-toolbar-title class="clan-list-title">
-            <h2 class="clan-list-title">
+            <h2 class="clan-list-title hidden-sm-and-down">
               Membros do Clã
             </h2>
+            <h4 class="clan-list-title hidden-md-and-up">
+              Membros do Clã
+            </h4>
           </v-toolbar-title>
 
+<<<<<<< HEAD
           <v-spacer/>
+=======
+          <v-spacer />
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
           <!-- Desktop Update Clans button -->
           <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
-            <v-icon color="white" left small>fa-sync-alt</v-icon>Atualizar
+            <v-icon color="white" left small>
+              fa-sync-alt
+            </v-icon>Atualizar
           </v-btn>
 
           <!-- Mobile Update Clans icon -->
-          <v-btn fab :loading="loading" :disabled="loading" class="hidden-md-and-up" @click="updateClanList" color="blue-grey darken-4">
-            <v-icon small color="white">fa-sync-alt</v-icon>
+          <v-btn
+            small
+            fab
+            :loading="loading"
+            :disabled="loading"
+            class="hidden-md-and-up"
+            @click="updateClanList"
+            color="blue-grey darken-4"
+          >
+            <v-icon small color="white">
+              fa-sync-alt
+            </v-icon>
           </v-btn>
         </v-toolbar>
+
         <v-text-field
           class="mx-4 mb-2"
           v-model="search"
@@ -41,6 +61,7 @@
           single-line
           hide-details
         />
+
         <v-data-table
           :loading="loading"
           :headers="headers"
@@ -75,22 +96,22 @@
           </template>
           <template v-slot:item.translated_rank="{ item }">
             <div class="mr-4">
-              <img :src="require(`../assets/clan_ranks/${item.rank}.png`)" :alt="`rank_${item.rank}`" />
+              <img :src="getRankIcon(item.rank)" :alt="`rank_${item.rank}`">
               {{ item.translated_rank }}
             </div>
           </template>
           <template v-slot:progress>
-            <v-progress-linear color="green" :height="4" indeterminate></v-progress-linear>
+            <v-progress-linear color="green" :height="4" indeterminate />
           </template>
           <v-alert slot="no-results" :value="true" color="error" class="mt-3">
             Nenhum resultado encontrado para "{{ search }}"
           </v-alert>
         </v-data-table>
         <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-sm-and-down">
-          <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4"></v-pagination>
+          <v-pagination v-model="page" :length="pageCount" :total-visible="10" color="grey darken-4" />
         </div>
         <div class="text-xs-center pt-2 pb-2 light-grey-background hidden-md-and-up">
-          <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4"></v-pagination>
+          <v-pagination v-model="page" :length="pageCount" :total-visible="6" color="grey darken-4" />
         </div>
       </v-card>
     </v-flex>
@@ -131,6 +152,13 @@ export default class ClanList extends Vue {
      * '123456789' -> '123,456,789'
      */
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  getRankIcon(rank: string): string {
+    /**
+     * Get the Rank Icon image by name
+     */
+    return require(`../assets/clan_ranks/${rank}.png`)
   }
 
   memberSort(items: any[], sortBy: string[], sortDesc: boolean[]) {

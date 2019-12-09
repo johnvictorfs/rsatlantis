@@ -1,15 +1,15 @@
 <template>
   <v-app>
-    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"/>
+    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems" />
     <v-content>
       <v-container fluid class="mb-3">
-        <Loading/>
+        <Loading />
         <transition name="fade" mode="out-in">
-          <router-view/>
+          <router-view />
         </transition>
       </v-container>
     </v-content>
-    <Footer/>
+    <Footer />
   </v-app>
 </template>
 
@@ -38,12 +38,7 @@ export default class App extends Vue {
   ]
 
   async created() {
-    // Turn on vuetify dark theme
-    this.$vuetify.theme.dark = true
-
-    if (this.$store.getters.isAuthenticated) {
-      await this.$store.dispatch('accountDetails')
-    }
+    await this.$store.dispatch('accountDetails')
   }
 
   get filteredToolbarItems() {
@@ -106,11 +101,17 @@ body {
   border-radius: 18px !important;
 }
 
-.atl-round-card {
-  border-radius: 18px !important;
+/**
+ * Remove arrows from input with type 'number'
+ *
+ * https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-
-.atl-round {
-  border-radius: 12px !important;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>

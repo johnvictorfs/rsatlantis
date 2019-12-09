@@ -78,14 +78,52 @@ class SecretSantaService extends Service {
     /**
      * Get current status of Discord's Secret Santa
      */
+<<<<<<< HEAD
     const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.get('discord/amigosecreto/status')
     return data
+=======
+    const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.get('discord/amigosecreto_status')
+    return {
+      startDate: data.start_date,
+      endDate: data.end_date,
+      activated: data.activated,
+      registered: data.registered,
+      premioMaximo: data.premio_maximo,
+      premioMinimo: data.premio_minimo
+    }
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
   }
 
   public async toggle(): Promise<void> {
     /**
      * Toggle status of Discord's Secret Santa
      */
+<<<<<<< HEAD
     await this.api.axios.post('discord/amigosecreto/toggle')
+=======
+    await this.api.axios.post('discord/amigosecreto_status/toggle')
+  }
+
+  public async updateDates(startDate: string, endDate: string): Promise<Discord['SecretSantaStatus']> {
+    /**
+     * Update Discord's Secret Santa Start and End Dates
+     */
+    const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.post(
+      'discord/amigosecreto_status/update_dates',
+      {
+        start_date: startDate,
+        end_date: endDate
+      }
+    )
+
+    return {
+      startDate: data.start_date,
+      endDate: data.end_date,
+      activated: data.activated,
+      registered: data.registered,
+      premioMinimo: data.premio_minimo,
+      premioMaximo: data.premio_maximo
+    }
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
   }
 }

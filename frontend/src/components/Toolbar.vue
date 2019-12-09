@@ -9,7 +9,9 @@
     </v-toolbar-title>
 
     <v-btn outlined v-for="item in sidebarItems" :key="item.text" class="hidden-sm-and-down ml-2" :color="item.color" :to="item.path">
-      <v-icon left :color="item.color">{{ item.icon }}</v-icon>
+      <v-icon left :color="item.color">
+        {{ item.icon }}
+      </v-icon>
       {{ item.text }}
     </v-btn>
 
@@ -17,13 +19,17 @@
 
     <v-chip class="user-label hidden-sm-and-down" label color="indigo" text-color="white" v-if="isAuthenticated">
       <v-avatar left class="indigo darken-2">
-        <v-icon small>{{ userIcon }}</v-icon>
+        <v-icon small>
+          {{ userIcon }}
+        </v-icon>
       </v-avatar>
       {{ username }}
     </v-chip>
 
     <v-btn rounded class="ml-3 shadow-hover hidden-sm-and-down" v-for="item in toolbarItems" :key="item.text" :color="item.color" :to="item.path">
-      <v-icon :left="!!item.text" class="ml-1" v-if="item.icon">{{ item.icon }}</v-icon>
+      <v-icon :left="!!item.text" class="ml-1" v-if="item.icon">
+        {{ item.icon }}
+      </v-icon>
       {{ item.text }}
     </v-btn>
   </v-app-bar>
@@ -53,8 +59,7 @@ export default class Toolbar extends Vue {
   }
 
   get isAdmin() {
-    const { auth } = this.$store.state
-    if (auth) return auth.user.isAdmin
+    return this.$store.getters.isAdmin
   }
 
   get username() {

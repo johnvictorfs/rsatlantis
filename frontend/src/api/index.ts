@@ -4,6 +4,30 @@ import GuideService from '@/api/guides'
 import UserService from '@/api/users'
 import PlayerService from '@/api/players'
 import DiscordService from '@/api/discord'
+<<<<<<< HEAD
+=======
+
+class ApiDocs {
+  baseURL: string
+
+  constructor(baseURL: string) {
+    this.baseURL = baseURL
+  }
+
+  public redoc() {
+    return this.baseURL + '/api/docs/redoc/'
+  }
+
+  public swagger() {
+    return this.baseURL + '/api/docs/swagger/'
+  }
+
+  public swaggerJson() {
+    return this.baseURL + '/api/docs/swagger.json/'
+  }
+}
+
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
 export class Api {
   public axios: AxiosInstance
@@ -12,19 +36,30 @@ export class Api {
   public users: UserService
   public players: PlayerService
   public discord: DiscordService
+<<<<<<< HEAD
+=======
+  public docs: ApiDocs
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
   constructor() {
     // Full config:  https://github.com/axios/axios#request-config
     this.axios = axios.create({
-      baseURL: this.baseURL + '/api' || '',
+      baseURL: this.baseURL + '/api',
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFToken'
     })
 
+    // API Routes Services
     this.guides = new GuideService(this)
     this.users = new UserService(this)
     this.players = new PlayerService(this)
     this.discord = new DiscordService(this)
+<<<<<<< HEAD
+=======
+
+    // API Docs Routes
+    this.docs = new ApiDocs(this.baseURL)
+>>>>>>> d0f5c5527e7cb58e908630f686b0338aa1adaeb1
 
     this.setupMiddleware()
   }
@@ -52,16 +87,6 @@ export class Api {
     })
     this.axios.interceptors.request.use(response => response, error => Promise.reject(error))
     this.axios.interceptors.response.use(response => response, error => Promise.reject(error))
-
-    this.axios.interceptors.request.use(async config => {
-      const token = localStorage.getItem('TOKEN')
-
-      if (token) {
-        config.headers.Authorization = `Token ${token}`
-      }
-
-      return config
-    })
   }
 }
 
