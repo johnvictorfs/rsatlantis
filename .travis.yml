@@ -19,11 +19,11 @@ before_script:
 before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
+  - rm -rf $HOME/.poetry
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
 
 install:
   - source $HOME/.poetry/env
-  - poetry self:update 0.9.0
   - python -m poetry install
 
 script:
