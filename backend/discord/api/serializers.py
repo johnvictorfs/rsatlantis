@@ -38,12 +38,6 @@ class DisabledCommandSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name')
 
 
-class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.AmigoSecretoPerson
-        fields = ('id', 'user', 'giving_to_user', 'receiving')
-
-
 class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
     registered = serializers.SerializerMethodField()
 
@@ -56,7 +50,7 @@ class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.AmigoSecretoState
-        fields = ('id', 'activated', 'registered', 'start_date', 'end_date')
+        fields = ('id', 'activated', 'registered', 'start_date', 'end_date', 'premio_minimo', 'premio_maximo')
 
 
 class DiscordIngameNameSerializer(DynamicFieldsModelSerializer):
@@ -65,10 +59,19 @@ class DiscordIngameNameSerializer(DynamicFieldsModelSerializer):
         fields = ('user', 'name', 'created_date')
 
 
-class DiscordUserSerializer(serializers.ModelSerializer):
+class DiscordUserSerializer(DynamicFieldsModelSerializer):
     # Get all the Ingame Names of a User
     ingame_names = DiscordIngameNameSerializer(many=True, read_only=True, fields=('name', 'created_date'))
 
     class Meta:
         model = models.DiscordUser
-        fields = ('updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name', 'ingame_names')
+        fields = ('id', 'updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name', 'ingame_names')
+
+
+class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
+    user = DiscordUserSerializer(many=False, read_only=False, fields=('id', 'ingame_name', 'discord_name'))
+    giving_to_user = DiscordUserSerializer(many=False, read_only=False, fields=('id', 'ingame_name', 'discord_name'))
+
+    class Meta:
+        model = models.AmigoSecretoPerson
+        fields = ('id', 'user', 'giving_to_user', 'receiving')

@@ -8,10 +8,10 @@ services:
   - postgresql
 
 python:
-  - 3.7
+  - 3.8
 
 env:
-  - DJANGO=2.1.5
+  - DJANGO=2.2.6
 
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
@@ -23,9 +23,9 @@ before_install:
 
 install:
   - source $HOME/.poetry/env
-  - poetry install
+  - python -m poetry install
 
 script:
   - poetry run python manage.py test
   - cd ../frontend
-  - yarn install && yarn lint
+  - yarn install && yarn lint && yarn test

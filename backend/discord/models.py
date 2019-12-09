@@ -1,17 +1,19 @@
 from django.utils import timezone
+from django.db.models.aggregates import Count
 from django.db import models
+
+from random import randint
 
 
 class DiscordManager(models.Manager):
-    """
-    Model Manager that will use the 'use_db' attribute from Model if it exists
-
-    Used to set the Db used to be the Discord one
-
-    https://stackoverflow.com/a/55754529/10416161
-    """
-
     def get_queryset(self):
+        """
+        Uuse the 'use_db' attribute from Model if it exists
+
+        Used to set the Db used to be the Discord one
+
+        https://stackoverflow.com/a/55754529/10416161
+        """
         qs = super().get_queryset()
 
         # if `use_db` is set on model use that for choosing the DB
@@ -19,6 +21,17 @@ class DiscordManager(models.Manager):
             qs = qs.using(self.model.use_db)
 
         return qs
+
+    def random(self):
+        """
+        Get random object from database
+
+        https://stackoverflow.com/a/2118712/10416161
+        """
+        count = self.aggregate(count=Count('id'))['count']
+        random_index = randint(0, count - 1)
+
+        return self.all()[random_index]
 
 
 class DiscordModel(models.Model):
@@ -46,7 +59,14 @@ class RaidsState(DiscordModel):
     @classmethod
     def object(cls):
         # Get the First Item
-        return cls._default_manager.all().first()
+        item = cls._default_manager.all().first()
+
+        # Create Item if one does not exist
+        if not item:
+            item = cls._default_manager.create(notifications=False)
+            item.save()
+
+        return item
 
     def save(self, *args, **kwargs):
         """
@@ -66,8 +86,10 @@ class DisabledCommand(DiscordModel):
 
 class AmigoSecretoState(DiscordModel):
     activated = models.BooleanField(default=False)
-    start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    start_date = models.DateTimeField(null=True)
+    end_date = models.DateTimeField(null=True)
+    premio_minimo = models.BigIntegerField(null=True)
+    premio_maximo = models.BigIntegerField(null=True)
 
     class Meta:
         db_table = 'amigosecretostate'
@@ -79,7 +101,14 @@ class AmigoSecretoState(DiscordModel):
     @classmethod
     def object(cls):
         # Get the First Item
-        return cls._default_manager.all().first()
+        item = cls._default_manager.all().first()
+
+        # Create Item if one does not exist
+        if not item:
+            item = cls._default_manager.create(activated=False)
+            item.save()
+
+        return item
 
     def save(self, *args, **kwargs):
         """
@@ -129,6 +158,7 @@ class AmigoSecretoPerson(DiscordModel):
         """
         if self.user == self.giving_to_user:
             raise Exception('Um Usuário não pode presentear a si mesmo')
+
         super(AmigoSecretoPerson, self).save(*args, **kwargs)
 
 
