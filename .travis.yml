@@ -20,6 +20,7 @@ before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
+  - source $HOME/.poetry/env
   - poetry --version
 
 install:
