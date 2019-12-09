@@ -1,17 +1,12 @@
 import Vue from 'vue'
 
-import { Api } from './index'
+import Service from '@/api/service'
+import { Api } from '@/api'
 import { IUser, IGuide } from '@/types'
 import { formatError } from '@/helpers/errors'
 
-export default class UserService {
-  private api: Api
-
-  constructor(api: Api) {
-    this.api = api
-  }
-
-  async all(): Promise<IUser[]> {
+export default class UserService extends Service {
+  public async all(): Promise<IUser[]> {
     /**
      * Get all Users
      */
@@ -19,7 +14,7 @@ export default class UserService {
     return data
   }
 
-  async get(id: number): Promise<IUser> {
+  public async get(id: number): Promise<IUser> {
     /**
      * Get specific User by ID
      */
@@ -32,7 +27,7 @@ export default class UserService {
     }
   }
 
-  async delete(id: number): Promise<void> {
+  public async delete(id: number): Promise<void> {
     /**
      * Delete User by ID
      */
@@ -44,7 +39,7 @@ export default class UserService {
     }
   }
 
-  async create(guide: IUser): Promise<void> {
+  public async create(guide: IUser): Promise<void> {
     /**
      * Create new User
      */
@@ -56,7 +51,7 @@ export default class UserService {
     }
   }
 
-  async guides(id: number): Promise<IGuide[]> {
+  public async guides(id: number): Promise<IGuide[]> {
     /**
      * Get all Guides by specific User by ID
      */
@@ -69,7 +64,7 @@ export default class UserService {
     }
   }
 
-  async login({ username, password }: { username: string, password: string }): Promise<string> {
+  public async login({ username, password }: { username: string, password: string }): Promise<string> {
     /**
      * User Login with Username and Password and add Token to localStorage
      */
@@ -86,13 +81,12 @@ export default class UserService {
     }
   }
 
-  async logout(): Promise<void> {
+  public async logout(): Promise<void> {
     /**
      * Logout User and remove Token from localStorage
      */
     try {
       await this.api.axios.post('auth/logout')
-      localStorage.removeItem('TOKEN')
       Vue.toasted.global.success('Você saiu da sua conta com sucesso')
     } catch (error) {
       Vue.toasted.global.error(formatError(error))

@@ -1,13 +1,8 @@
-import { Api } from './index'
+import Service from '@/api/service'
+import { Api } from '@/api'
 import { IGuide, IGuideWithAuthor, IUser } from '@/types'
 
-export default class GuideService {
-  private api: Api
-
-  constructor(api: Api) {
-    this.api = api
-  }
-
+export default class GuideService extends Service {
   private async getAuthor(url: string): Promise<IUser | null> {
     /**
      * Get the Author User from an author API URI and returns it, if it exists, or null, otherwise
@@ -22,7 +17,7 @@ export default class GuideService {
     }
   }
 
-  async all(): Promise<IGuideWithAuthor[]> {
+  public async all(): Promise<IGuideWithAuthor[]> {
     /**
      * Get all Guides
      */
@@ -38,7 +33,7 @@ export default class GuideService {
     return data
   }
 
-  async get(slug: string): Promise<IGuideWithAuthor> {
+  public async get(slug: string): Promise<IGuideWithAuthor> {
     /**
      * Get specific Guide by Slug
      */
@@ -52,21 +47,21 @@ export default class GuideService {
     return { ...data, getAuthor }
   }
 
-  async delete(slug: string): Promise<void> {
+  public async delete(slug: string): Promise<void> {
     /**
      * Delete Guide by Slug
      */
     await this.api.axios.delete(`guides/${slug}`)
   }
 
-  async create(guide: IGuide): Promise<void> {
+  public async create(guide: IGuide): Promise<void> {
     /**
      * Create new Guide
      */
     await this.api.axios.post('guides', guide)
   }
 
-  async approve(slug: string): Promise<void> {
+  public async approve(slug: string): Promise<void> {
     /**
      * Approve Guide by Slug
      */

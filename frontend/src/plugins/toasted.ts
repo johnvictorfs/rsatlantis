@@ -8,7 +8,8 @@ Vue.toasted.register(
   'error',
   message => message ? message : 'Erro Inesperado :(',
   {
-    theme: 'bubble',
+    className: 'vue-toasted vue-toasted-error',
+    theme: 'toasted-primary',
     position: 'top-center',
     type: 'error',
     // @ts-ignore https://github.com/shakee93/vue-toasted/issues/132
@@ -21,7 +22,8 @@ Vue.toasted.register(
   'success',
   message => message ? message : 'Sucesso :)',
   {
-    theme: 'bubble',
+    className: 'vue-toasted vue-toasted-success',
+    theme: 'toasted-primary',
     position: 'top-center',
     type: 'success',
     // @ts-ignore https://github.com/shakee93/vue-toasted/issues/132

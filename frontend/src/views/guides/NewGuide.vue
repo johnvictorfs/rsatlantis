@@ -8,14 +8,13 @@
           </v-toolbar>
 
           <v-container fluid grid-list-md>
-
             <v-card-text>
               <v-form ref="form" v-model="valid">
-                <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25"/>
+                <v-text-field filled required label="Título" v-model="guide.title" :counter="25" maxlength="25" />
 
-                <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40" maxlength="40"/>
+                <v-text-field filled required label="Descrição" v-model="guide.description" :counter="40" maxlength="40" />
 
-                <v-select filled required label="Categoria" :items="categories" v-model="guide.category"/>
+                <v-select filled required label="Categoria" :items="categories" v-model="guide.category" />
               </v-form>
 
               <v-layout>
@@ -33,24 +32,34 @@
                 </v-flex>
                 <v-flex xs6>
                   <v-toolbar style="border-radius: 12px;" dark color="yellow darken-4">
-                    <v-spacer/>
+                    <v-spacer />
                     <v-toolbar-title>
                       <h3>Preview</h3>
                     </v-toolbar-title>
-                    <v-spacer/>
+                    <v-spacer />
                   </v-toolbar>
-                  <GuideDetail :guide="guide" :author="currentUser"/>
+                  <GuideDetail :guide="guide" :author="currentUser" />
                 </v-flex>
               </v-layout>
-              <v-divider class="my-2"/>
+              <v-divider class="my-2" />
             </v-card-text>
 
             <v-card-actions>
               <v-layout>
                 <v-flex xs10 offset-xs1 lg6 offset-lg3>
-                  <v-btn height="40" outlined rounded block color="success" :disabled="!valid" @click="submit">
+                  <v-btn
+                    height="40"
+                    outlined
+                    rounded
+                    block
+                    color="success"
+                    :disabled="!valid"
+                    @click="submit"
+                  >
                     Enviar
-                    <v-icon right>check</v-icon>
+                    <v-icon right>
+                      check
+                    </v-icon>
                   </v-btn>
                 </v-flex>
               </v-layout>

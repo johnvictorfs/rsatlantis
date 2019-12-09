@@ -3,7 +3,7 @@ import csv
 import requests
 from django.core.management.base import BaseCommand, CommandError
 
-from ...models import ClanMember
+from runescape.models import ClanMember
 
 
 class Command(BaseCommand):
@@ -21,6 +21,7 @@ class Command(BaseCommand):
                 old_member.save()
             else:
                 ClanMember.objects.create(name=member[0], rank=member[1], exp=member[2])
+
         # Removing all members from database that are not currently in the Clan
         for member in ClanMember.objects.all():
             if member.name not in [clan_member[0] for clan_member in clan_list]:

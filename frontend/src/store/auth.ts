@@ -5,7 +5,6 @@ import api from '@/api'
 import { IUser } from '@/types'
 
 export const state: AuthState = {
-  token: localStorage.getItem('TOKEN') || '',
   user: {
     username: '',
     ingameName: '',
@@ -18,14 +17,6 @@ export const state: AuthState = {
 }
 
 export const mutations: MutationTree<AuthState> = {
-  SET_TOKEN(state, token: string) {
-    localStorage.setItem('TOKEN', token)
-    state.token = token
-  },
-  REMOVE_TOKEN(state) {
-    localStorage.removeItem('TOKEN')
-    state.token = null
-  },
   SET_ACCOUNT_DETAILS(state, details: ApiUserDetails) {
     state.user = {
       username: details.username,
@@ -55,11 +46,9 @@ const actions: ActionTree<AuthState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const token = await api.users.login(credentials)
-
-        commit('SET_TOKEN', token)
+        await api.users.login(credentials)
         dispatch('accountDetails')
-        resolve(token)
+        resolve()
       } catch (error) {
         reject(error)
       } finally {
@@ -70,7 +59,6 @@ const actions: ActionTree<AuthState, RootState> = {
   async logout({ commit }) {
     try {
       commit('SET_LOADING')
-      commit('REMOVE_TOKEN')
       commit('CLEAR_ACCOUNT_DETAILS')
 
       await api.users.logout()
@@ -80,10 +68,17 @@ const actions: ActionTree<AuthState, RootState> = {
   },
   accountDetails({ commit }) {
     return new Promise(async (resolve, reject) => {
+      /**
+       * Set or Clear User's account details based on if
+       * he is logged in or not
+       */
       try {
         const user = await api.users.current()
-
-        commit('SET_ACCOUNT_DETAILS', user)
+        if (user) {
+          commit('SET_ACCOUNT_DETAILS', user)
+        } else {
+          commit('CLEAR_ACCOUNT_DETAILS')
+        }
         resolve(user)
       } catch (error) {
         reject(error)
@@ -107,7 +102,9 @@ const actions: ActionTree<AuthState, RootState> = {
 }
 
 const getters: GetterTree<AuthState, RootState> = {
-  isAuthenticated: (state): boolean => !!state.token
+  isAuthenticated: (state): boolean => !!(state.user && state.user.username),
+  isAdmin: (state): boolean => !!(state.user && state.user.isAdmin),
+  isSuperUser: (state): boolean => !!(state.user && state.user.isSuperUser)
 }
 
 export const auth: Module<AuthState, RootState> = {

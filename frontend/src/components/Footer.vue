@@ -22,12 +22,15 @@
             v-for="item in items"
             icon
             target="_blank"
-            style="text-decoration: none;">
-            <v-icon :color="item.colorUse">{{ item.icon }}</v-icon>
+            style="text-decoration: none;"
+          >
+            <v-icon :color="item.colorUse">
+              {{ item.icon }}
+            </v-icon>
           </v-btn>
           <v-btn icon>
             <a :href="clanUrl" target="_blank" style="text-decoration: none;">
-              <RunescapeIcon/>
+              <RunescapeIcon />
             </a>
           </v-btn>
         </v-row>
@@ -39,8 +42,10 @@
             <v-icon color="white">fab fa-github</v-icon>
           </a>
         </v-btn>
-        <v-btn rounded small :to="{name: 'api-docs'}">
-          <v-icon small left>fa-code</v-icon>
+        <v-btn rounded small :href="apiDocsUrl">
+          <v-icon small left>
+            fa-code
+          </v-icon>
           API
         </v-btn>
       </v-card-actions>
@@ -49,18 +54,19 @@
 </template>
 
 <script>
+import api from '@/api'
 import RunescapeIcon from '@/icons/Runescape'
 
 export default {
   name: 'Footer',
   components: { RunescapeIcon },
   data: () => ({
-    facebook_text: '',
+    apiDocsUrl: api.docs.redoc(),
     clanUrl: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
     items: [
       {
         icon: 'fab fa-discord',
-        path: 'https://discordapp.com/invite/d7gquc',
+        path: 'https://discord.gg/2aYDY8N',
         color: '#7289da',
         colorUse: ''
       },

@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <v-alert border="top" type="error" transition="scale-transition" v-if="apiError">
-      Guia '{{slug}}' não encontrado.
+      Guia '{{ slug }}' não encontrado.
     </v-alert>
 
     <v-alert border="top" type="error" transition="scale-transition" v-if="!apiError && !guide.approved">
       Esse Guia não foi aprovado ainda.
     </v-alert>
 
-    <GuideDetail :guide="guide" :author="author"/>
+    <GuideDetail :guide="guide" :author="author" />
   </v-container>
 </template>
 

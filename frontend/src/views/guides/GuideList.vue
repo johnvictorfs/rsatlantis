@@ -3,11 +3,20 @@
     <v-alert border="top" type="error" transition="scale-transition" v-if="(notFound || visibleGuides.length == 0) && !loading">
       Nenhum Guia Encontrado
     </v-alert>
-    <v-flex v-for="guide in visibleGuides" :key="guide.slug" justify-center xs12 sm8 md4 offset-xs4 class="pt-5">
-      <Guide :guide="guide" :content="false" :details-button="true"/>
+    <v-flex
+      v-for="guide in visibleGuides"
+      :key="guide.slug"
+      justify-center
+      xs12
+      sm8
+      md4
+      offset-xs4
+      class="pt-5"
+    >
+      <Guide :guide="guide" :content="false" :details-button="true" />
     </v-flex>
     <v-layout>
-      <v-pagination v-if="visibleGuides.length > 5" v-model="page" :length="pageLength" circle/>
+      <v-pagination v-if="visibleGuides.length > 5" v-model="page" :length="pageLength" circle />
     </v-layout>
   </v-container>
 </template>
