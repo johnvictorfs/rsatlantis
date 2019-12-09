@@ -21,7 +21,6 @@ before_install:
   - cd backend/
   - rm -rf $HOME/.poetry
   - pip install poetry
-  - cp -r $HOME/.poetry/lib/poetry/_vendor/py3.7 $HOME/.poetry/lib/poetry/_vendor/py3.8
   - poetry --version
   - poetry self:update --preview
   - poetry --version
