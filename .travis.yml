@@ -19,10 +19,15 @@ before_script:
 before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
+  - rm -rf $HOME/.poetry
   - pip install poetry
+  - cp -r $HOME/.poetry/lib/poetry/_vendor/py3.7 $HOME/.poetry/lib/poetry/_vendor/py3.8
+  - poetry --version
+  - poetry self:update --preview
   - poetry --version
 
 install:
+  - poetry config settings.virtualenvs.in-project true
   - poetry install -vv
 
 script:
