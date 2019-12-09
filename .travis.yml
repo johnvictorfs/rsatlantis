@@ -23,6 +23,7 @@ before_install:
 
 install:
   - source $HOME/.poetry/env
+  - poetry self:update 0.8.0
   - python -m poetry install
 
 script:
