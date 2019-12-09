@@ -19,15 +19,10 @@ before_script:
 before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
-  - rm -rf $HOME/.poetry
-#  - pip install poetry
-  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-  - source $HOME/.poetry/env
-  - poetry self:update --preview
+  - pip install poetry
   - poetry --version
 
 install:
-  - poetry config settings.virtualenvs.in-project true
   - poetry install -vv
 
 script:
