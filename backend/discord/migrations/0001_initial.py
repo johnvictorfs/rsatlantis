@@ -14,6 +14,18 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='AmigoSecretoPerson',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('receiving', models.BooleanField(default=False)),
+                ('giving_to_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='giving_to_discord_user', to='discord.DiscordUser', verbose_name='Presenteando')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='discord_user', to='discord.DiscordUser', verbose_name='Usuário')),
+            ],
+            options={
+                'db_table': 'amigosecreto',
+            },
+        ),
+        migrations.CreateModel(
             name='AmigoSecretoState',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -35,21 +47,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'disabled_command',
-            },
-        ),
-        migrations.CreateModel(
-            name='DiscordUser',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('updated', models.DateTimeField(default=django.utils.timezone.now)),
-                ('warning_date', models.DateTimeField(null=True)),
-                ('disabled', models.BooleanField(default=False)),
-                ('ingame_name', models.TextField(unique=True)),
-                ('discord_id', models.TextField()),
-                ('discord_name', models.TextField()),
-            ],
-            options={
-                'db_table': 'user',
             },
         ),
         migrations.CreateModel(
@@ -76,15 +73,18 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='AmigoSecretoPerson',
+            name='DiscordUser',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('receiving', models.BooleanField(default=False)),
-                ('giving_to_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='giving_to_discord_user', to='discord.DiscordUser', verbose_name='Presenteando')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='discord_user', to='discord.DiscordUser', verbose_name='Usuário')),
+                ('updated', models.DateTimeField(default=django.utils.timezone.now)),
+                ('warning_date', models.DateTimeField(null=True)),
+                ('disabled', models.BooleanField(default=False)),
+                ('ingame_name', models.TextField(unique=True)),
+                ('discord_id', models.TextField()),
+                ('discord_name', models.TextField()),
             ],
             options={
-                'db_table': 'amigosecreto',
+                'db_table': 'user',
             },
         ),
     ]
