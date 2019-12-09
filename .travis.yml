@@ -23,7 +23,9 @@ before_install:
 install:
   - rm -rf $HOME/.poetry
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+  - cp -r $HOME/.poetry/lib/poetry/_vendor/py3.7 $HOME/.poetry/lib/poetry/_vendor/py3.8
   - source $HOME/.poetry/env
+  - poetry --version
   - poetry install
 
 script:
