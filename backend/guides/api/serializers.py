@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from guides.models import Guide
+from rest_framework import serializers
 
 
 class GuideSerializer(serializers.HyperlinkedModelSerializer):

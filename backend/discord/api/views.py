@@ -1,9 +1,9 @@
-from rest_framework import viewsets, status
+from discord import models
+from discord.api import permissions as discord_permissions
+from discord.api import serializers
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-from discord import models
-from discord.api import serializers, permissions as discord_permissions
 
 
 class StatusViewSet(viewsets.ModelViewSet):

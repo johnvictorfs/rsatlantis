@@ -28,5 +28,6 @@ install:
 
 script:
   - poetry run python manage.py test
+  - flake8
   - cd ../frontend
   - yarn install && yarn lint && yarn test

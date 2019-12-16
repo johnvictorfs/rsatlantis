@@ -1,9 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.urls import reverse
+from guides.models import Guide
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth import get_user_model
-
-from guides.models import Guide
 
 User = get_user_model()
 

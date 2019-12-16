@@ -2,15 +2,15 @@ import csv
 
 import requests
 from django.core.management.base import BaseCommand, CommandError
-
 from runescape.models import ClanMember
 
 
 class Command(BaseCommand):
-    help = 'Updates all Clan Members info using RuneScape\'s API'
+    help = "Updates all Clan Members info using RuneScape's API"
 
     def handle(self, *args, **options):
         clan_list = self.parsed_clan_list(self.grab_clan_list())
+
         # Updating the details of every clan member in the database, or creating new entries for new Clan Members
         for member in clan_list[1:]:
             # Format of 'member': ['Clanmate', 'Clan Rank', 'Total XP', 'Kills']
@@ -41,8 +41,12 @@ class Command(BaseCommand):
     @staticmethod
     def parsed_clan_list(clan_list) -> list:
         parsed_list = list(csv.reader(clan_list.splitlines(), delimiter=','))
-        if parsed_list[0][0] != "Clanmate":
+
+        if parsed_list[0][0] != 'Clanmate':
             raise CommandError('Lista de Membros do clã inválida.')
+
         for row in parsed_list:
-            row[0] = row[0].replace(r"\xa0", " ")
+            # Remove non-breaking spaces
+            row[0] = row[0].replace(r'\xa0', ' ')
+
         return parsed_list

@@ -1,10 +1,9 @@
-from rest_framework import viewsets, permissions, status
+from guides.api.permissions import GuidePermission
+from guides.api.serializers import GuideSerializer
+from guides.models import Guide
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-from guides.models import Guide
-from guides.api.serializers import GuideSerializer
-from guides.api.permissions import GuidePermission
 
 
 class GuideViewSet(viewsets.ModelViewSet):

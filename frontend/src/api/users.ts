@@ -45,7 +45,6 @@ export default class UserService extends Service {
      */
     try {
       await this.api.axios.post('users', guide)
-      Vue.toasted.global.success('Seu guia foi publicado com sucesso! Ele estará disponível quando aprovado')
     } catch (error) {
       Vue.toasted.global.error(formatError(error))
     }
