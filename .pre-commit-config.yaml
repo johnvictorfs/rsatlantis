@@ -1,9 +1,9 @@
 repos:
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.1
+    rev: 3.7.9
     hooks:
       - id: flake8
-        args: ['backend', '--config', 'backend/setup.cfg']
+        args: ['--config=backend/setup.cfg']
 
   - repo: https://github.com/timothycrosley/isort
     rev: 4.3.21
