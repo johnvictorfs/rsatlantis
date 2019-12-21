@@ -1,0 +1,48 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "plugin:vue/essential",
+    "plugin:es-beautifier/standard",
+    "@vue/typescript",
+    "plugin:vue/strongly-recommended"
+  ],
+  "rules": {
+    "vue/html-indent": ["error", 2, {
+      "attribute": 1,
+      "baseIndent": 1,
+      "closeBracket": 0,
+      "alignAttributesVertically": true,
+      "ignores": []
+    }],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": 6,
+      "multiline": {
+        "max": 1,
+        "allowFirstLine": false
+      }
+    }],
+    "comma-dangle": ["error", "never"],
+    "linebreak-style": "off",
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "lines-around-comment": "off",
+    "arrow-parens": 0,
+    "es-beautifier/multiline-object-properties": {
+      "allowSingleLine": true,
+      "maxPropertiesInSingleLine": 8,
+      "maxLenInSingleLine": 120
+    },
+    "es-beautifier/multiline-import-specifiers": {
+      "allowSingleLine": true,
+      "maxLenInSingleLine": 120,
+      "maxSpecifiersInSingleLine": 10
+    },
+    "newline-per-chained-call": 0,
+    "semi": [2, "never"]
+  },
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  }
+}

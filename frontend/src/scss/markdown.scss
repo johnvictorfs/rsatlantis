@@ -1,0 +1,312 @@
+.markdown-render {
+  $dark-gray: rgb(100, 99, 99);
+  $darker-gray: rgb(48, 47, 47);
+  $even-darker-gray: rgb(32, 32, 32);
+  $white-gray: #fafafa;
+  $dark-light-gray: rgb(73, 72, 72);
+  $light-gray: rgb(122, 121, 121);
+  $table-border-radius: 20px;
+  $standard-font-size: 20px;
+
+  margin-top: 15px;
+  margin-right: 18px;
+  margin-left: 18px;
+
+  font-family: Muli;
+
+  img {
+    max-height: 350px;
+    max-width: 800px;
+  }
+
+  p {
+    font-size: $standard-font-size;
+    display: unset; // Fix <li> showing icons in different lines, idk why
+  }
+
+  hr {
+    $hr-margin: 15px;
+    border: none;
+    height: 4px;
+    margin-bottom: $hr-margin;
+    margin-top: $hr-margin;
+    width: 100%;
+    background: $light-gray linear-gradient(90deg, #2582df, rgba(42, 130, 218, 0));
+    border-radius: 3px;
+  }
+
+  h1, h2, h3, h4 {
+    margin-bottom: 15px;
+  }
+
+  h5, h6 {
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: $standard-font-size + 13;
+  }
+
+  h2 {
+    font-size: $standard-font-size + 8;
+  }
+
+  h3 {
+    font-size: $standard-font-size + 4;
+  }
+
+  h4 {
+    font-size: $standard-font-size;
+  }
+
+  ul, li {
+    position: relative;
+    padding-bottom: 5px;
+  }
+
+  ul {
+    list-style: none;
+    font-size: 20px;
+  }
+
+  li:before {
+    content: "›";
+    color: rgb(233, 229, 229);
+    font-size: 23px;
+    margin-right: 7px;
+  }
+
+  .table-caption {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: $even-darker-gray;
+    margin-top: 2px;
+    border-top-left-radius: $table-border-radius;
+    border-top-right-radius: $table-border-radius;
+  }
+
+  .table-success {
+    background-color: rgb(39, 126, 39);
+  }
+
+  .table-error {
+    background-color: rgb(179, 57, 57);
+  }
+
+  table {
+    overflow: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    empty-cells: hide;
+
+    tbody {
+      display: table-row-group;
+      border-bottom-left-radius: $table-border-radius;
+      border-bottom-right-radius: $table-border-radius;
+    }
+
+    td, th {
+      /* border: 1px solid black; */
+      padding: 8px;
+      display: table-cell;
+      font-family: Muli;
+    }
+
+    tr {
+      td:nth-child(2) {
+        font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        color: lightskyblue;
+      }
+      background-color: $dark-light-gray;
+    }
+
+    tr:nth-child(even) {
+      background-color: $dark-gray;
+    }
+
+    tr:hover {
+      background-color: $light-gray;
+    }
+
+    tr:last-child {
+      td:first-child {
+        border-bottom-left-radius: $table-border-radius;
+      }
+
+      td:last-child {
+        border-bottom-right-radius: $table-border-radius;
+      }
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      background-color: $darker-gray;
+      color: white;
+    }
+  }
+
+  blockquote {
+    background-color: rgb(100, 99, 99);
+    border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    border-radius: 10px;
+
+    p {
+      display: inline;
+    }
+  }
+
+  blockquote:before {
+    color: #ccc;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+  }
+
+  :not(pre) > code {
+    // Inline-code with ``
+    font-family: 'Source Code Pro', Consolas, monospace;
+    margin-left: 6px;
+    border-radius: 8px;
+    color: #d8dae4;
+    background-color: rgb(100, 100, 100);
+    border: 1px solid rgb(87, 87, 87);
+  }
+
+  :not(pre) > code:hover {
+    background-color: rgb(88, 87, 87);
+  }
+
+  /**
+    * PrismJS 1.17.1
+    * https://prismjs.com/download.html#themes=prism-tomorrow&languages=clike+javascript+json+python
+    * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML
+    * Based on https://github.com/chriskempson/tomorrow-theme
+    * @author Rose Pritchard
+    */
+  code[class*="language-"],
+  pre[class*="language-"] {
+    color: #ccc;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  /* Code blocks */
+  pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+  }
+
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    background: #2d2d2d;
+  }
+
+  /* Inline code */
+  :not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em;
+    white-space: normal;
+  }
+
+  .hljs-comment,
+  .hljs-block-comment,
+  .hljs-prolog,
+  .hljs-doctype,
+  .hljs-cdata {
+    color: #999;
+  }
+
+  .hljs-punctuation {
+    color: #ccc;
+  }
+
+  .hljs-tag,
+  .hljs-attr,
+  .hljs-attr-name,
+  .hljs-namespace,
+  .hljs-deleted {
+    color: #e2777a;
+  }
+
+  .hljs-function-name {
+    color: #6196cc;
+  }
+
+  .hljs-boolean,
+  .hljs-literal,
+  .hljs-number,
+  .hljs-function {
+    color: #f08d49;
+  }
+
+  .hljs-property,
+  .hljs-class-name,
+  .hljs-constant,
+  .hljs-symbol {
+    color: #f8c555;
+  }
+
+  .hljs-selector,
+  .hljs-important,
+  .hljs-atrule,
+  .hljs-keyword,
+  .hljs-builtin {
+    color: #cc99cd;
+  }
+
+  .hljs-string,
+  .hljs-char,
+  .hljs-attr-value,
+  .hljs-regex,
+  .hljs-variable {
+    color: #7ec699;
+  }
+
+  .hljs-operator,
+  .hljs-entity,
+  .hljs-url {
+    color: #67cdcc;
+  }
+
+  .hljs-important,
+  .hljs-bold {
+    font-weight: bold;
+  }
+  .hljs-italic {
+    font-style: italic;
+  }
+
+  .hljs-entity {
+    cursor: help;
+  }
+
+  .hljs-inserted {
+    color: green;
+  }
+}

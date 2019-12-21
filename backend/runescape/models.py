@@ -1,5 +1,5 @@
-import re
 import json
+import re
 
 import requests
 from django.db import models
@@ -96,11 +96,13 @@ class ClanMember(models.Model):
 
         Has to be parsed before usage with ClanMember.parse_player_details()
         """
-        base_url = "http://services.runescape.com/m=website-data/"
-        url = f"{base_url}playerDetails.ws?names=%5B%22{self.name}%22%5D&callback=jQuery000000000000000_0000000000&_=0"
+        base_url = 'http://services.runescape.com/m=website-data/'
+        url = f'{base_url}playerDetails.ws?names=%5B%22{self.name}%22%5D&callback=jQuery000000000000000_0000000000&_=0'
         r = requests.get(url)
+
         if r.status_code == 200:
             return str(r.content)
+        return ''
 
     @staticmethod
     def parse_player_details(details: str) -> dict:
@@ -109,6 +111,5 @@ class ClanMember(models.Model):
         """
         parsed = re.search(r'{([^)]+)}', details)  # Searchs for everything inside curly brackets -> {}
         if parsed:
-            parsed = parsed.group()
-            return json.loads(parsed)
+            return json.loads(parsed.group())
         return {}

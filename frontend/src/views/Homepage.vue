@@ -1,6 +1,12 @@
 <template>
-  <v-layout justify-center align-center>
-    <img src="../assets/home_image_1.jpg" alt="home_image">
+  <v-layout>
+    <v-container>
+      <v-row justify="end">
+        <v-col xs="12" sm="10" md="8" lg="8" xl="6">
+          <DiscordStatus />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-layout>
 </template>
 
@@ -8,6 +14,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-@Component({})
+const DiscordStatus = () => import('@/components/discord/DiscordStatus.vue')
+
+@Component({
+  components: { DiscordStatus }
+})
 export default class HomePage extends Vue {}
 </script>

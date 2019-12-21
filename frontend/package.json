@@ -1,25 +1,36 @@
 {
-  "name": "frontend",
+  "name": "rsatlantis-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build --modern",
+    "report": "vue-cli-service build --report --modern",
+    "lint": "vue-cli-service lint",
+    "test": "echo \"No tests to run.\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn test"
+    }
   },
   "dependencies": {
     "core-js": "^2.6.5",
     "marked": "^0.6.2",
+    "moment": "^2.24.0",
     "vue": "^2.6.10",
     "vue-clipboard2": "^0.3.0",
+    "vue-markdown-loader": "^2.4.1",
+    "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.0.3",
     "vue-toasted": "^1.1.27",
-    "vuetify": "^2.0.0-beta.0",
+    "vuetify": "^2.1.12",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^12.0.7",
     "@fortawesome/fontawesome-free": "^5.8.2",
+    "@types/marked": "^0.6.5",
+    "@types/node": "^12.7.8",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-eslint": "^3.8.0",
     "@vue/cli-plugin-typescript": "^3.8.0",
@@ -31,6 +42,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-es-beautifier": "^1.0.1",
     "eslint-plugin-vue": "^5.0.0",
+    "husky": "^3.1.0",
     "lint-staged": "^8.1.5",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
@@ -39,12 +51,13 @@
     "typescript": "^3.4.3",
     "vue-class-component": "^7.1.0",
     "vue-cli-plugin-axios": "^0.0.4",
-    "vue-cli-plugin-vuetify": "https://github.com/vuetifyjs/vue-cli-plugin-vuetify.git#dev",
+    "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.2.2"
+    "vuetify-loader": "^1.2.2",
+    "webpack-bundle-tracker": "^0.4.3"
   },
   "gitHooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged && test"
   },
   "lint-staged": {
     "*.{js,vue}": [

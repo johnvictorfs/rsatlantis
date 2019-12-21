@@ -1,28 +1,27 @@
 <template>
-  <v-app dark>
-    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems"></Toolbar>
+  <v-app>
+    <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems" />
     <v-content>
-      <v-container fluid>
-        <Loading></Loading>
+      <v-container fluid class="mb-3">
+        <Loading />
         <transition name="fade" mode="out-in">
-          <router-view></router-view>
+          <router-view />
         </transition>
       </v-container>
     </v-content>
-    <Footer></Footer>
+    <Footer />
   </v-app>
 </template>
-
 
 <script lang="ts">
 import Component from 'vue-class-component'
 import Vue from 'vue'
 
-import { ToolbarItem } from '../types'
+import { ToolbarItem } from '@/types'
 
-const Toolbar = () => import('./components/Toolbar.vue')
-const Footer = () => import('./components/Footer.vue')
-const Loading = () => import('./components/Loading.vue')
+const Toolbar = () => import('@/components/Toolbar.vue')
+const Footer = () => import('@/components/Footer.vue')
+const Loading = () => import('@/components/Loading.vue')
 
 @Component({ components: { Footer, Toolbar, Loading } })
 export default class App extends Vue {
@@ -30,33 +29,32 @@ export default class App extends Vue {
   toolbarItems: Array<ToolbarItem> = [
     { text: 'Entrar', path: { name: 'login' }, color: 'success', auth: false, icon: 'fa-sign-in-alt' },
     { text: 'Cadastro', path: { name: 'register' }, color: 'primary', auth: false, icon: 'fa-user-plus' },
-    { text: 'Sair', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
+    { text: '', path: { name: 'logout' }, color: 'error', auth: true, icon: 'fa-sign-out-alt' }
   ]
   sidebarItems: Array<ToolbarItem> = [
     { text: 'Novo Guia', path: { name: 'guides.new' }, color: 'success', auth: true, icon: 'fa-plus-square' },
-    { text: 'Guias', path: { name: 'guides.list' }, color: 'orange', auth: 'any', icon: 'fa-list' },
+    { text: 'Guias', path: { name: 'guides.list' }, color: '#7ba658', auth: 'any', icon: 'fa-list' },
     { text: 'Membros', path: { name: 'clan-list' }, color: 'primary', auth: 'any', icon: 'fa-users' }
   ]
 
   async created() {
-    if (this.$store.getters.isAuthenticated) {
-      await this.$store.dispatch('accountDetails')
-    }
+    await this.$store.dispatch('accountDetails')
   }
 
   get filteredToolbarItems() {
     /**
-     * Filters items based on if they are shown to authenticated users or not, according to if the user is
-     * authenticated or not.
+     * Filters items based on if they are shown to authenticated users or not
      */
     const items = []
+
     for (let i = 0; i < this.toolbarItems.length; i++) {
-      if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
-        items.push(this.toolbarItems[i])
-      } else if (this.toolbarItems[i].auth === 'any') {
+      const auth = this.toolbarItems[i].auth
+
+      if (auth === this.$store.getters.isAuthenticated || auth === 'any') {
         items.push(this.toolbarItems[i])
       }
     }
+
     return items
   }
 
@@ -99,5 +97,23 @@ body {
 .fade-enter,
 .fade-leave-active {
   opacity: 0
+}
+
+.atl-round-toolbar {
+  border-radius: 18px !important;
+}
+
+/**
+ * Remove arrows from input with type 'number'
+ *
+ * https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>

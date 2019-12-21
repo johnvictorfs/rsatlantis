@@ -1,7 +1,6 @@
 import json
 
 from django.test import TestCase
-
 from runescape.models import ClanMember
 
 

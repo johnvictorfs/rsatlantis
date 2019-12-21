@@ -8,10 +8,10 @@ services:
   - postgresql
 
 python:
-  - 3.7
+  - 3.8
 
 env:
-  - DJANGO=2.1.5
+  - DJANGO=2.2.6
 
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
@@ -19,13 +19,16 @@ before_script:
 before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
   - cd backend/
-  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
+  - source $HOME/.poetry/env
+  - poetry --version
 
 install:
-  - source $HOME/.poetry/env
-  - poetry install
+  - poetry install -vv
 
 script:
   - poetry run python manage.py test
+  - isort -sp setup.cfg -rc --atomic backend
+  - flake8 --config=setup.cfg
   - cd ../frontend
-  - yarn install && yarn lint
+  - yarn install && yarn lint && yarn test

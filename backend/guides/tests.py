@@ -1,7 +1,6 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils.text import slugify
-from django.contrib.auth import get_user_model
-
 from guides.models import Guide
 
 User = get_user_model()

@@ -1,8 +1,18 @@
 <template>
   <v-footer dark padless>
     <v-card class="flex" text tile>
+      <v-sparkline
+        fill
+        class="wave"
+        :smooth="25"
+        :gradient="['#424242']"
+        :line-width="4"
+        :padding="0"
+        :height="7"
+        :value="[4, 3, 4, 5, 4, 5, 3, 4, 5, 4]"
+      />
       <v-card-title>
-        <v-flex text-xs-center>
+        <v-row align="center" justify="center">
           <v-btn
             @mouseleave="item.colorUse = 'white'"
             @mouseover="item.colorUse = item.color"
@@ -12,46 +22,51 @@
             v-for="item in items"
             icon
             target="_blank"
-            style="text-decoration: none;">
-            <v-icon :color="item.colorUse">{{ item.icon }}</v-icon>
+            style="text-decoration: none;"
+          >
+            <v-icon :color="item.colorUse">
+              {{ item.icon }}
+            </v-icon>
           </v-btn>
           <v-btn icon>
-            <a :href="clanUrl" target="_blank" style="text-decoration: none;" >
+            <a :href="clanUrl" target="_blank" style="text-decoration: none;">
               <RunescapeIcon />
             </a>
           </v-btn>
-        </v-flex>
+        </v-row>
       </v-card-title>
       <v-card-actions class="blue darken-1 justify-center">
-        &copy;{{ new Date().getFullYear() }} —
-        <strong>
-          Atlantis
-          <v-btn icon>
-            <a href="https://github.com/johnvictorfs/" target="_blank" style="text-decoration: none;">
-              <v-icon color="white">fab fa-github</v-icon>
-            </a>
-          </v-btn>
-          <v-btn rounded small :to="{name: 'api-docs'}">
-            <v-icon small left>fa-code</v-icon>API
-          </v-btn>
-        </strong>
+        <strong>&copy;{{ new Date().getFullYear() }} — Atlantis</strong>
+        <v-btn icon>
+          <a href="https://github.com/johnvictorfs/rsatlantis" target="_blank" style="text-decoration: none;">
+            <v-icon color="white">fab fa-github</v-icon>
+          </a>
+        </v-btn>
+        <v-btn rounded small :href="apiDocsUrl">
+          <v-icon small left>
+            fa-code
+          </v-icon>
+          API
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-footer>
 </template>
 
 <script>
-import RunescapeIcon from '../icons/Runescape'
+import api from '@/api'
+import RunescapeIcon from '@/icons/Runescape'
 
 export default {
   name: 'Footer',
   components: { RunescapeIcon },
   data: () => ({
+    apiDocsUrl: api.docs.redoc(),
     clanUrl: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
     items: [
       {
         icon: 'fab fa-discord',
-        path: 'https://discordapp.com/invite/d7gquc',
+        path: 'https://discord.gg/2aYDY8N',
         color: '#7289da',
         colorUse: ''
       },
@@ -77,3 +92,9 @@ export default {
   })
 }
 </script>
+
+<style lang="scss" scoped>
+  .wave {
+    background-color: rgb(48, 48, 48);
+  }
+</style>

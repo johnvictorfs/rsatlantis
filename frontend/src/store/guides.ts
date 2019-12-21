@@ -1,7 +1,8 @@
 import { Module, MutationTree, ActionTree, GetterTree } from 'vuex'
 
 import { GuideState, RootState } from './types'
-import api from '../api'
+import { IGuideWithAuthor } from '@/types'
+import api from '@/api'
 
 export const state: GuideState = {}
 
@@ -10,8 +11,8 @@ const actions: ActionTree<GuideState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.post('guides/', guideDetails)
-        resolve(response)
+        const guides = await api.guides.create(guideDetails)
+        resolve(guides)
       } catch (error) {
         reject(error)
       } finally {
@@ -19,12 +20,12 @@ const actions: ActionTree<GuideState, RootState> = {
       }
     })
   },
-  guideList({ commit }) {
+  guideList({ commit }): Promise<IGuideWithAuthor[]> {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.get('guides')
-        resolve(response)
+        const guides = await api.guides.all()
+        resolve(guides)
       } catch (error) {
         reject(error)
       } finally {
@@ -36,8 +37,8 @@ const actions: ActionTree<GuideState, RootState> = {
     return new Promise(async (resolve, reject) => {
       try {
         commit('SET_LOADING')
-        const response = await api.get(`guides/${slug}`)
-        resolve(response)
+        const guide = await api.guides.get(slug)
+        resolve(guide)
       } catch (error) {
         reject(error)
       } finally {

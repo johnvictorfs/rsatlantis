@@ -1,26 +1,29 @@
 <template>
-  <v-container>
-    <v-layout justify-center>
-      <v-flex xs12 sm8 lg5 md5>
-        <v-card dark>
-          <v-toolbar color="red">
-            <v-toolbar-title>
-              <strong>
-                <v-icon left>warning</v-icon>404 - Nada interessante acontece
-              </strong>
-            </v-toolbar-title>
+  <v-container class="fill-height" fluid>
+    <v-row align="center" justify="center">
+      <v-col cols="12" sm="8" md="4">
+        <v-card>
+          <v-toolbar color="error">
+            <v-icon left>
+              fas fa-exclamation-triangle
+            </v-icon>
+            <strong>Nada interessante acontece.</strong>
           </v-toolbar>
-          <v-layout justify-center class="text-xs-center">
-            <v-container fluid grid-list-md>
-              <h3 class="mb-2">Página não encontrada :(</h3>
-              <v-btn color="light-blue" to="/" right>
-                <v-icon left dark>fa-home</v-icon>Ínicio
-              </v-btn>
-            </v-container>
-          </v-layout>
+
+          <v-card-text class="text-center">
+            <h3 class="mb-4">
+              Página não encontrada :(
+            </h3>
+            <v-btn color="light-blue" to="/" right>
+              <v-icon left>
+                fa-home
+              </v-icon>
+              Ínicio
+            </v-btn>
+          </v-card-text>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
