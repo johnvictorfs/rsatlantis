@@ -99,14 +99,15 @@ import Component from 'vue-class-component'
 
 const DiscordStatus = () => import('@/components/discord/DiscordStatus.vue')
 import api from '@/api'
+import { DiscordApi } from '@/types'
 
 @Component({
   components: { DiscordStatus }
 })
 export default class AmigoSecretoUsers extends Vue {
-  private users = []
-  private apiError = false
-  private apiErrorMessage = ''
+  private users: DiscordApi['SecretSantaUser'][] = []
+  private apiError: boolean = false
+  private apiErrorMessage: string = ''
 
   async mounted() {
     this.getUsers()
@@ -115,16 +116,6 @@ export default class AmigoSecretoUsers extends Vue {
   async getUsers() {
     try {
       this.users = await api.discord.secretSanta.users()
-      this.users.push({
-        'id': 28,
-        'user': {
-          'id': 94,
-          'ingame_name': 'just mad',
-          'discord_name': 'Just Mad#2234'
-        },
-        'giving_to_user': null,
-        'receiving': false
-      })
       this.apiError = false
     } catch (error) {
       this.apiError = true

@@ -89,11 +89,12 @@ class SecretSantaService extends Service {
     }
   }
 
-  public async users() {
+
+  public async users(): Promise<DiscordApi['SecretSantaUser'][]> {
     /**
      * Get currently registered Secret Santa Users
      */
-    const { data } = await this.api.axios.get('discord/amigosecreto')
+    const { data }: { data: DiscordApi['SecretSantaUser'][] } = await this.api.axios.get('discord/amigosecreto')
     return data
   }
 
