@@ -1,8 +1,7 @@
 from bleach import clean
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-
 from guides.utils import get_unique_slug
 
 User = get_user_model()

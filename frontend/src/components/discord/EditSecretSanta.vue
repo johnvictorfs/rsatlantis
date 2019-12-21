@@ -6,122 +6,128 @@
 
     <template #description>
       <v-container>
-        <v-row justify="center">
-          <v-menu
-            v-model="startDateMenu"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="formattedStartDate"
-                label="Data de Ínicio das Inscrições"
-                prepend-icon="event"
-                readonly
-                v-on="on"
-              />
-            </template>
-            <v-date-picker :min="today" light header-color="primary" color="primary" v-model="startDate" @input="startDateMenu = false" />
-          </v-menu>
-        </v-row>
+        <v-form ref="form" v-model="valid" lazy-validation @keyup.native.enter="save">
+          <v-row justify="center">
+            <v-menu
+              v-model="startDateMenu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="formattedStartDate"
+                  :rules="rules.startDate"
+                  label="Data de Ínicio das Inscrições"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker :min="today" light header-color="primary" color="primary" v-model="startDate" @input="startDateMenu = false" />
+            </v-menu>
+          </v-row>
 
-        <v-row justify="center">
-          <v-menu
-            ref="startTimeMenu"
-            v-model="startTimeMenu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            :return-value.sync="startTime"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
+          <v-row justify="center">
+            <v-menu
+              ref="startTimeMenuRef"
+              v-model="startTimeMenu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="startTime"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="startTime"
+                  :rules="rules.startTime"
+                  :disabled="!startDate"
+                  label="Tempo de Ínicio das Inscrições"
+                  prepend-icon="access_time"
+                  readonly
+                  v-on="on"
+                />
+              </template>
+              <v-time-picker
+                light
+                :disabled="!startDate"
+                color="primary"
+                header-color="primary"
+                v-if="startTimeMenu"
                 v-model="startTime"
-                :disabled="!startDate"
-                label="Tempo de Ínicio das Inscrições"
-                prepend-icon="access_time"
-                readonly
-                v-on="on"
+                full-width
+                @click:minute="$refs.startTimeMenuRef.save(startTime)"
               />
-            </template>
-            <v-time-picker
-              light
-              :disabled="!startDate"
-              color="primary"
-              header-color="primary"
-              v-if="startTimeMenu"
-              v-model="startTime"
-              full-width
-              @click:minute="$refs.startTimeMenu.save(startTime)"
-            />
-          </v-menu>
-        </v-row>
+            </v-menu>
+          </v-row>
 
-        <hr class="mt-3 mb-3">
+          <hr class="mt-3 mb-3">
 
-        <v-row justify="center">
-          <v-menu
-            v-model="endDateMenu"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                :disabled="!startDate"
-                v-model="formattedEndDate"
-                label="Data do Sorteio"
-                prepend-icon="event"
-                readonly
-                v-on="on"
-              />
-            </template>
-            <v-date-picker :min="startDate" light header-color="primary" color="primary" v-model="endDate" @input="endDateMenu = false" />
-          </v-menu>
-        </v-row>
+          <v-row justify="center">
+            <v-menu
+              v-model="endDateMenu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  :disabled="!startDate"
+                  :rules="rules.endDate"
+                  v-model="formattedEndDate"
+                  label="Data do Sorteio"
+                  prepend-icon="event"
+                  readonly
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker :min="startDate" light header-color="primary" color="primary" v-model="endDate" @input="endDateMenu = false" />
+            </v-menu>
+          </v-row>
 
-        <v-row justify="center">
-          <v-menu
-            ref="endTimeMenu"
-            v-model="endTimeMenu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            :return-value.sync="endTime"
-            transition="scale-transition"
-            offset-y
-            max-width="290px"
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="endTime"
+          <v-row justify="center">
+            <v-menu
+              ref="endTimeMenuRef"
+              v-model="endTimeMenu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              :return-value.sync="endTime"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="endTime"
+                  :rules="rules.endTime"
+                  :disabled="!endDate"
+                  label="Tempo do Sorteio"
+                  prepend-icon="access_time"
+                  readonly
+                  v-on="on"
+                />
+              </template>
+              <v-time-picker
+                light
                 :disabled="!endDate"
-                label="Tempo do Sorteio"
-                prepend-icon="access_time"
-                readonly
-                v-on="on"
+                color="primary"
+                header-color="primary"
+                v-if="endTimeMenu"
+                v-model="endTime"
+                full-width
+                @click:minute="$refs.endTimeMenuRef.save(endTime)"
               />
-            </template>
-            <v-time-picker
-              light
-              :disabled="!endDate"
-              color="primary"
-              header-color="primary"
-              v-if="endTimeMenu"
-              v-model="endTime"
-              full-width
-              @click:minute="$refs.endTimeMenu.save(endTime)"
-            />
-          </v-menu>
-        </v-row>
+            </v-menu>
+          </v-row>
 
-        <v-row class="mt-3">
-          <v-text-field v-model="premioMinimo" maxlength="12" type="number" label="Valor Mínimo do Presente" filled />
-        </v-row>
+          <v-row class="mt-3">
+            <v-text-field v-model="premioMinimo" :rules="rules.premioMinimo" maxlength="12" type="number" label="Valor Mínimo do Presente" filled />
+          </v-row>
+        </v-form>
       </v-container>
     </template>
 
@@ -129,12 +135,12 @@
       <v-spacer />
 
       <!-- Cancel Button -->
-      <v-btn class="modal-btn ml-2" small text @click.end="cancel">
+      <v-btn class="modal-btn ml-2" small text @click.stop="$emit('close')">
         Cancelar
       </v-btn>
 
       <!-- Save Button -->
-      <v-btn class="modal-btn" small color="success darken-1" @click.end="save">
+      <v-btn class="modal-btn" small color="success darken-1" @click.stop="save">
         <v-icon small left>
           fas fa-save
         </v-icon>
@@ -168,13 +174,22 @@ interface IEditSecretSantaModal {
 @Component({
   components: { ModalCard }
 })
-export default class ConfirmModal extends Vue {
-  @Prop() cancel!: Function
-  @Prop() afterUpdate!: Function
-
+export default class EditSecretSanta extends Vue {
   secretSantaStatus: Discord['SecretSantaStatus'] | null = null
 
   today: string = new Date().toISOString().substr(0, 10)
+
+  requiredField = (value: string) => !!value || 'Esse campo é obrigatório'
+
+  valid: boolean = true
+
+  rules: Record<string, Function[]> = {
+    startTime: [this.requiredField],
+    startDate: [this.requiredField],
+    endTime: [this.requiredField],
+    endDate: [this.requiredField],
+    premioMinimo: [this.requiredField]
+  }
 
   premioMinimo: string = '0'
 
@@ -233,17 +248,15 @@ export default class ConfirmModal extends Vue {
      * Save Secret Santa with Updated Dates
      */
     try {
-      if (this.startDate && this.endDate) {
+      if ((this.$refs.form as any).validate()) {
         // Convert date formats to ISO DateTime
         const isoStartDate = new Date(`${this.startDate} ${this.startTime}`).toISOString()
         const isoEndDate = new Date(`${this.endDate} ${this.endTime}`).toISOString()
 
-        await api.discord.secretSanta.updateDates(isoStartDate, isoEndDate)
+        await api.discord.secretSanta.updateDates(isoStartDate, isoEndDate, this.premioMinimo)
         this.$toasted.global.success('Datas do Amigo Secreto atualizadas com sucesso!')
-        this.cancel()
-        this.afterUpdate()
-      } else {
-        this.$toasted.global.error('Você precisa selecionar uma Data de Ínicio e uma Data de Sorteio!')
+        this.$emit('close')
+        this.$emit('update')
       }
     } catch (error) {
       this.$toasted.global.error('Erro ao atualizar Datas do Amigo Secreto')

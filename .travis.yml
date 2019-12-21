@@ -28,5 +28,7 @@ install:
 
 script:
   - poetry run python manage.py test
+  - isort -sp setup.cfg -rc --atomic backend
+  - flake8 --config=setup.cfg
   - cd ../frontend
   - yarn install && yarn lint && yarn test

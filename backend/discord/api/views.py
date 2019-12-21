@@ -1,9 +1,9 @@
-from rest_framework import viewsets, status
+from discord import models
+from discord.api import permissions as discord_permissions
+from discord.api import serializers
+from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-from discord import models
-from discord.api import serializers, permissions as discord_permissions
 
 
 class StatusViewSet(viewsets.ModelViewSet):
@@ -120,6 +120,8 @@ class DiscordUserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DiscordUserSerializer
     queryset = models.DiscordUser.objects.all()
     permission_classes = (discord_permissions.AdminOrReadOnly,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['$discord_name', '$ingame_name', '$ingame_names__name', 'discord_id', 'id']
 
 
 class DiscordIngameNameViewSet(viewsets.ModelViewSet):

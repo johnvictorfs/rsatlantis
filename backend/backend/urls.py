@@ -13,19 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from discord.api import views as discord_views
 from django.conf import settings
 from django.conf.urls import include
-from rest_framework import routers, permissions
-from django.views.generic import TemplateView
 from django.contrib import admin
 from django.urls import path, re_path
+from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-
-from users.api import views as user_views
 from guides.api import views as guide_views
+from rest_framework import permissions, routers
 from runescape.api import views as runescape_views
-from discord.api import views as discord_views
+from users.api import views as user_views
 
 # Register API Routes
 router = routers.DefaultRouter()
@@ -42,9 +41,9 @@ router.register(r'discord/ingame_names', discord_views.DiscordIngameNameViewSet)
 # API Docs Schema
 schema_view = get_schema_view(
     openapi.Info(
-        title="RsAtlantis API",
+        title='RsAtlantis API',
         default_version='v1',
-        license=openapi.License(name="AGPL-3.0 License"),
+        license=openapi.License(name='AGPL-3.0 License'),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,)

@@ -202,7 +202,7 @@ export default class Register extends Vue {
           try {
             this.$store.dispatch('createAccount', this.credentials)
             this.$router.push({ name: 'login' })
-            this.$toasted.global.success('Conta criada com sucesso, entre agora!')
+            this.$toasted.global.success('Sua conta foi criada com sucesso!')
           } catch (error) {
             this.registerStep = 1
             this.$toasted.global.error(formatError(error))

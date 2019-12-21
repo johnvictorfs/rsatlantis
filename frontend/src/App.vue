@@ -46,13 +46,15 @@ export default class App extends Vue {
      * Filters items based on if they are shown to authenticated users or not
      */
     const items = []
+
     for (let i = 0; i < this.toolbarItems.length; i++) {
-      if (this.toolbarItems[i].auth === this.$store.getters.isAuthenticated) {
-        items.push(this.toolbarItems[i])
-      } else if (this.toolbarItems[i].auth === 'any') {
+      const auth = this.toolbarItems[i].auth
+
+      if (auth === this.$store.getters.isAuthenticated || auth === 'any') {
         items.push(this.toolbarItems[i])
       }
     }
+
     return items
   }
 

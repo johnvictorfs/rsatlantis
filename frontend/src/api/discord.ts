@@ -89,6 +89,14 @@ class SecretSantaService extends Service {
     }
   }
 
+  public async users() {
+    /**
+     * Get currently registered Secret Santa Users
+     */
+    const { data } = await this.api.axios.get('discord/amigosecreto')
+    return data
+  }
+
   public async toggle(): Promise<void> {
     /**
      * Toggle status of Discord's Secret Santa
@@ -96,15 +104,17 @@ class SecretSantaService extends Service {
     await this.api.axios.post('discord/amigosecreto_status/toggle')
   }
 
-  public async updateDates(startDate: string, endDate: string): Promise<Discord['SecretSantaStatus']> {
+  public async updateDates(startDate: string, endDate: string, premioMinimo: string): Promise<Discord['SecretSantaStatus']> {
     /**
      * Update Discord's Secret Santa Start and End Dates
      */
+
     const { data }: { data: DiscordApi['SecretSantaStatus'] } = await this.api.axios.post(
       'discord/amigosecreto_status/update_dates',
       {
         start_date: startDate,
-        end_date: endDate
+        end_date: endDate,
+        premio_minimo: Number.parseInt(premioMinimo)
       }
     )
 

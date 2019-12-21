@@ -1,9 +1,12 @@
-from django.contrib import admin
-
 from discord.models import (
-    AmigoSecretoPerson, AmigoSecretoState, DisabledCommand, DiscordIngameName,
-    DiscordUser, RaidsState
+    AmigoSecretoPerson,
+    AmigoSecretoState,
+    DisabledCommand,
+    DiscordIngameName,
+    DiscordUser,
+    RaidsState
 )
+from django.contrib import admin
 
 admin.site.register(AmigoSecretoState)
 admin.site.register(AmigoSecretoPerson)

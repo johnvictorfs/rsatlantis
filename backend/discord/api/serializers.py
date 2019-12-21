@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from discord import models
+from rest_framework import serializers
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -65,7 +64,9 @@ class DiscordUserSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = models.DiscordUser
-        fields = ('id', 'updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name', 'ingame_names')
+        fields = (
+            'id', 'updated', 'warning_date', 'disabled', 'ingame_name', 'discord_id', 'discord_name', 'ingame_names'
+        )
 
 
 class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
@@ -75,3 +76,4 @@ class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.AmigoSecretoPerson
         fields = ('id', 'user', 'giving_to_user', 'receiving')
+        read_only_fields = ('id', 'user_ingame_name', 'user', 'user__discord_name', 'giving_to_user')

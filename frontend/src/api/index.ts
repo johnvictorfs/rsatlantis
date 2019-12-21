@@ -36,7 +36,7 @@ export class Api {
   public docs: ApiDocs
 
   constructor() {
-    // Full config:  https://github.com/axios/axios#request-config
+    // Full config: https://github.com/axios/axios#request-config
     this.axios = axios.create({
       baseURL: this.baseURL + '/api',
       xsrfCookieName: 'csrftoken',

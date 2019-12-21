@@ -30,15 +30,21 @@
     "path-intellisense.mappings": {
       "@": "${workspaceRoot}/frontend/src"
     },
-	},
-	"extensions": {
-		"recommendations": [
-			"dbaeumer.vscode-eslint",
-			"octref.vetur",
-			"necinc.elmmet",
-			"ms-python.python",
-            "christian-kohler.path-intellisense",
-            "mishannn.vuex-suggest"
-		]
-	}
+
+    // Enable Python Linting and Type-checking
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "octref.vetur",
+      "necinc.elmmet",
+      "ms-python.python",
+      "christian-kohler.path-intellisense",
+      "mishannn.vuex-suggest",
+      "shamanu4.django-intellisense"
+    ]
+  }
 }

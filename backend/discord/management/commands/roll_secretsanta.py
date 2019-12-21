@@ -1,23 +1,22 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.utils import timezone
-from django.db.models import Q
-
 from typing import List
 
-from discord.models import AmigoSecretoState, AmigoSecretoPerson
+from discord.models import AmigoSecretoPerson, AmigoSecretoState
+from django.core.management.base import BaseCommand, CommandError
+# from django.utils import timezone
+from django.db.models import Q
 
 
 class Command(BaseCommand):
     help = 'Make pairs for Secret Santa'
 
     def handle(self, *args, **options):
-        now = timezone.now()
+        # now = timezone.now()
         secret_santa_state: AmigoSecretoState = AmigoSecretoState.object()
 
         if not secret_santa_state.end_date:
             raise CommandError('Sem data de sorteio configurada.')
 
-        #if secret_santa_state.end_date.date != now.date:
+        # if secret_santa_state.end_date.date != now.date:
         #    raise CommandError(f'Secret santa is supposed to run only at {secret_santa_state.end_date}')
 
         not_receiving = AmigoSecretoPerson.objects.filter(receiving=False).count()
@@ -49,11 +48,8 @@ class Command(BaseCommand):
         for person in AmigoSecretoPerson.objects.filter(giving_to_user=None).all():
             random = self.random_person_to(person.id, exclude)
 
-            self.stdout.write(
-                self.style.SUCCESS(person.user.ingame_name) +
-                ' is giving to ' +
-                self.style.SUCCESS(random.user.ingame_name)
-            )
+            success = self.style.SUCCESS
+            self.stdout.write(success(person.user.ingame_name) + ' is giving to ' + success(random.user.ingame_name))
 
             person.giving_to_user = random.user
             person.save()
@@ -73,9 +69,6 @@ class Command(BaseCommand):
         ).filter(
             Q(receiving=False) & ~Q(id=pk) & ~Q(id__in=exclude)
         ).order_by('?').first()
-
-        if not random_person:
-            pass
 
         random_person.receiving = True
         random_person.save()
