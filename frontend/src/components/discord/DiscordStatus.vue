@@ -1,315 +1,317 @@
 <template>
-  <v-container>
-    <v-row justify="end">
-      <v-col xs="12" sm="10" md="8" lg="8" xl="6">
-        <v-card class="atl-round-card" raised :loading="loading">
-          <!-- Discord Status Toolbar -->
-          <v-toolbar dark color="#363636">
-            <v-toolbar-title class="discord-title">
-              <v-icon left size="32" color="#668fcb">
-                fab fa-discord
-              </v-icon>
-              Discord
-            </v-toolbar-title>
+  <v-card class="atl-round-card" raised :loading="loading">
+    <!-- Discord Status Toolbar -->
+    <v-toolbar dark color="#363636">
+      <v-toolbar-title class="discord-title">
+        <v-icon left size="32" color="#668fcb">
+          fab fa-discord
+        </v-icon>
+        Discord
+      </v-toolbar-title>
 
-            <v-btn icon :loading="loading" :disabled="loading" @click.end="getData" class="ml-2">
-              <v-icon height="18" width="18">
-                fa-sync-alt
-              </v-icon>
-            </v-btn>
+      <v-btn icon :loading="loading" :disabled="loading" @click.end="getData" class="ml-2">
+        <v-icon height="18" width="18">
+          fa-sync-alt
+        </v-icon>
+      </v-btn>
 
-            <v-spacer />
+      <v-spacer />
 
-            <!-- Mobile Discord Invite -->
-            <v-btn icon class="hidden-md-and-up" color="#668fcb" target="_blank" :href="inviteUrl">
-              <v-icon>fas fa-external-link-alt</v-icon>
-            </v-btn>
+      <!-- Mobile Discord Invite -->
+      <v-btn icon class="hidden-md-and-up" color="#668fcb" target="_blank" :href="inviteUrl">
+        <v-icon>fas fa-external-link-alt</v-icon>
+      </v-btn>
 
-            <!-- PC Discord Invite -->
-            <v-btn outlined class="hidden-sm-and-down" color="#668fcb" target="_blank" :href="inviteUrl">
+      <!-- PC Discord Invite -->
+      <v-btn outlined class="hidden-sm-and-down" color="#668fcb" target="_blank" :href="inviteUrl">
+        Entrar
+        <v-icon small right>
+          fas fa-external-link-alt
+        </v-icon>
+      </v-btn>
+    </v-toolbar>
+
+    <v-card-text>
+      <!-- Notificações de Raids -->
+      <StatusCard
+        :admin-actions="isAdmin"
+        :user-actions="isAuthenticated"
+        color="success"
+        icon="mdi-sword-cross"
+        v-if="raidsStatus && raidsStatus.notifications && !errors.raidsStatus"
+      >
+        <template #content>
+          Notificações de Raids Ativas
+        </template>
+
+        <template #admin-actions>
+          <v-dialog v-model="disableRaidsModal" max-width="500">
+            <template #activator="data">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn icon fab small dark v-on="on" @click.stop="disableRaidsModal = true">
+                    <v-icon>fas fa-times</v-icon>
+                  </v-btn>
+                </template>
+                <span>Desabilitar</span>
+              </v-tooltip>
+            </template>
+            <ConfirmModal
+              title="Desabilitar Notificações de Raids"
+              description="Tem certeza que deseja desabilitar as Notificações de Raids do Discord?"
+              v-model="disableRaidsModal"
+              @confirm="toggleRaidsStatus"
+              @close="disableRaidsModal = false"
+              :cancel-icon="false"
+            />
+          </v-dialog>
+        </template>
+
+        <template #user-actions>
+          <v-btn outlined small>
+            Aplicar
+            <v-icon right small>
+              fas fa-angle-right
+            </v-icon>
+          </v-btn>
+        </template>
+      </StatusCard>
+
+
+      <!-- Notificações Raids Desabilitadas -->
+      <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="isAdmin" v-else-if="raidsStatus && !raidsStatus.notifications && !errors.raidsStatus">
+        <template #content>
+          Notificações de Raids Desabilitadas
+        </template>
+
+        <template #admin-actions>
+          <v-dialog v-model="enableRaidsModal" max-width="500">
+            <template #activator="data">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn icon fab small dark v-on="on" @click.stop="enableRaidsModal = true">
+                    <v-icon>fas fa-check</v-icon>
+                  </v-btn>
+                </template>
+                <span>Habilitar</span>
+              </v-tooltip>
+            </template>
+            <ConfirmModal
+              title="Habilitar Notificações de Raids"
+              description="Tem certeza que deseja habilitar as Notificações de Raids do Discord?"
+              v-model="enableRaidsModal"
+              @confirm="toggleRaidsStatus"
+              @close="enableRaidsModal = false"
+              :cancel-icon="false"
+            />
+          </v-dialog>
+        </template>
+      </StatusCard>
+
+      <!-- Erro Notificações Raids -->
+      <StatusCard color="error" icon="mdi-sword-cross" v-else>
+        <template #content>
+          Erro ao atualizar informações de Notificações de Raids
+        </template>
+      </StatusCard>
+
+      <!-- Membros Autenticados do Discord -->
+      <StatusCard
+        :admin-actions="isAdmin"
+        color="primary"
+        icon="fas fa-user"
+        v-if="users.length > 0 && !errors.users"
+      >
+        <template #content>
+          Membros Autenticados: {{ users.length }}
+        </template>
+
+        <template #admin-actions>
+          <v-tooltip bottom>
+            <template #activator="{ on }">
+              <v-btn icon v-on="on">
+                <v-icon>fas fa-list</v-icon>
+              </v-btn>
+            </template>
+            <span>Ver Usuários</span>
+          </v-tooltip>
+        </template>
+      </StatusCard>
+
+      <!-- Nenhum Membro Autenticado -->
+      <StatusCard color="error" icon="fas fa-user" v-else-if="users.length === 0 && !errors.users">
+        <template #content>
+          Nenhum Membro Autenticado
+        </template>
+      </StatusCard>
+
+      <!-- Erro Membros Autenticados -->
+      <StatusCard color="error" icon="fas fa-user" v-else>
+        <template #content>
+          Erro ao atualizar informações de Membros Autenticados
+        </template>
+      </StatusCard>
+
+      <!-- Amigo Secreto -->
+      <StatusCard
+        color="success"
+        :user-actions="isAuthenticated"
+        :admin-actions="isAdmin"
+        icon="fas fa-gifts"
+        v-if="secretSanta && secretSanta.activated && !errors.secretSanta"
+      >
+        <template #content>
+          <div class="mb-3">
+            <strong>
+              Amigo Secreto
+            </strong>
+            ({{ secretSanta.registered }} membros registrados)
+          </div>
+
+          <div v-if="secretSanta.startDate">
+            <strong>Ínicio das Inscrições:</strong> {{ formattedSecretSantaStartDate }}
+          </div>
+          <div v-else>
+            Amigo Secreto Ativo, inscrições abertas em breve
+          </div>
+
+          <div v-if="secretSanta.endDate">
+            <strong>Evento:</strong> {{ formattedSecretSantaEndDate }}
+          </div>
+          <div v-if="secretSanta.endDate">
+            <strong>Local:</strong> Fortaleza do Clã
+          </div>
+          <div v-if="secretSanta.endDate && secretSanta.premioMinimo">
+            <strong>Prêmio Mínimo:</strong> {{ secretSanta.premioMinimo }}
+          </div>
+        </template>
+
+        <template #user-actions>
+          <v-row justify="center">
+            <v-btn outlined small class="mb-2 mr-2">
               Entrar
-              <v-icon small right>
-                fas fa-external-link-alt
+              <v-icon right small>
+                fas fa-plus
               </v-icon>
             </v-btn>
-          </v-toolbar>
 
-          <v-card-text>
-            <!-- Notificações de Raids -->
-            <StatusCard
-              :admin-actions="isAdmin"
-              :user-actions="isAuthenticated"
-              color="success"
-              icon="mdi-sword-cross"
-              v-if="raidsStatus && raidsStatus.notifications && !errors.raidsStatus"
-            >
-              <template #content>
-                Notificações de Raids Ativas
-              </template>
-
-              <template #admin-actions>
-                <v-dialog v-model="disableRaidsModal" max-width="500">
-                  <template #activator="data">
-                    <v-tooltip bottom>
-                      <template #activator="{ on }">
-                        <v-btn icon fab small dark v-on="on" @click.stop="disableRaidsModal = true">
-                          <v-icon>fas fa-times</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Desabilitar</span>
-                    </v-tooltip>
-                  </template>
-                  <ConfirmModal
-                    title="Desabilitar Notificações de Raids"
-                    description="Tem certeza que deseja desabilitar as Notificações de Raids do Discord?"
-                    v-model="disableRaidsModal"
-                    @confirm="toggleRaidsStatus"
-                    @close="disableRaidsModal = false"
-                    :cancel-icon="false"
-                  />
-                </v-dialog>
-              </template>
-
-              <template #user-actions>
-                <v-btn outlined small>
-                  Aplicar
-                  <v-icon right small>
-                    fas fa-angle-right
+            <v-tooltip bottom>
+              <template #activator="{ on }">
+                <v-btn rounded outlined small v-on="on">
+                  <v-icon small>
+                    fas fa-info
                   </v-icon>
                 </v-btn>
               </template>
-            </StatusCard>
+              <span>Informações</span>
+            </v-tooltip>
+          </v-row>
+        </template>
 
-
-            <!-- Notificações Raids Desabilitadas -->
-            <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="isAdmin" v-else-if="raidsStatus && !raidsStatus.notifications && !errors.raidsStatus">
-              <template #content>
-                Notificações de Raids Desabilitadas
-              </template>
-
-              <template #admin-actions>
-                <v-dialog v-model="enableRaidsModal" max-width="500">
-                  <template #activator="data">
-                    <v-tooltip bottom>
-                      <template #activator="{ on }">
-                        <v-btn icon fab small dark v-on="on" @click.stop="enableRaidsModal = true">
-                          <v-icon>fas fa-check</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Habilitar</span>
-                    </v-tooltip>
-                  </template>
-                  <ConfirmModal
-                    title="Habilitar Notificações de Raids"
-                    description="Tem certeza que deseja habilitar as Notificações de Raids do Discord?"
-                    v-model="enableRaidsModal"
-                    @confirm="toggleRaidsStatus"
-                    @close="enableRaidsModal = false"
-                    :cancel-icon="false"
-                  />
-                </v-dialog>
-              </template>
-            </StatusCard>
-
-            <!-- Erro Notificações Raids -->
-            <StatusCard color="error" icon="mdi-sword-cross" v-else>
-              <template #content>
-                Erro ao atualizar informações de Notificações de Raids
-              </template>
-            </StatusCard>
-
-            <!-- Membros Autenticados do Discord -->
-            <StatusCard
-              :admin-actions="isAdmin"
-              color="primary"
-              icon="fas fa-user"
-              v-if="users.length > 0 && !errors.users"
-            >
-              <template #content>
-                Membros Autenticados: {{ users.length }}
-              </template>
-
-              <template #admin-actions>
-                <v-tooltip bottom>
-                  <template #activator="{ on }">
-                    <v-btn icon v-on="on">
-                      <v-icon>fas fa-list</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Listar Membros</span>
-                </v-tooltip>
-              </template>
-            </StatusCard>
-
-            <!-- Nenhum Membro Autenticado -->
-            <StatusCard color="error" icon="fas fa-user" v-else-if="users.length === 0 && !errors.users">
-              <template #content>
-                Nenhum Membro Autenticado
-              </template>
-            </StatusCard>
-
-            <!-- Erro Membros Autenticados -->
-            <StatusCard color="error" icon="fas fa-user" v-else>
-              <template #content>
-                Erro ao atualizar informações de Membros Autenticados
-              </template>
-            </StatusCard>
-
-            <!-- Amigo Secreto -->
-            <StatusCard
-              color="success"
-              :user-actions="isAuthenticated"
-              :admin-actions="isAdmin"
-              icon="fas fa-gifts"
-              v-if="secretSanta && secretSanta.activated && !errors.secretSanta"
-            >
-              <template #content>
-                <div class="mb-3">
-                  <strong>
-                    Amigo Secreto
-                  </strong>
-                  ({{ secretSanta.registered }} membros registrados)
-                </div>
-
-                <div v-if="secretSanta.startDate">
-                  <strong>Ínicio das Inscrições:</strong> {{ formattedSecretSantaStartDate }}
-                </div>
-                <div v-else>
-                  Amigo Secreto Ativo, inscrições abertas em breve
-                </div>
-
-                <div v-if="secretSanta.endDate">
-                  <strong>Evento:</strong> {{ formattedSecretSantaEndDate }}
-                </div>
-                <div v-if="secretSanta.endDate">
-                  <strong>Local:</strong> Fortaleza do Clã
-                </div>
-                <div v-if="secretSanta.endDate && secretSanta.premioMinimo">
-                  <strong>Prêmio Mínimo:</strong> {{ secretSanta.premioMinimo }}
-                </div>
-              </template>
-
-              <template #user-actions>
-                <v-row justify="center">
-                  <v-btn outlined small class="mb-2 mr-2">
-                    Entrar
-                    <v-icon right small>
-                      fas fa-plus
-                    </v-icon>
+        <template #admin-actions>
+          <v-tooltip bottom v-if="isSuperUser">
+            <template #activator="{ on }">
+              <v-btn icon v-on="on" :to="{ name: 'amigo-secreto-users' }">
+                <v-icon>fas fa-list</v-icon>
+              </v-btn>
+            </template>
+            <span>Ver Inscritos</span>
+          </v-tooltip>
+          <v-dialog v-model="disableSecretSantaModal" max-width="500px">
+            <template #activator="data">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn
+                    class="mb-2"
+                    icon
+                    fab
+                    small
+                    dark
+                    v-on="on"
+                    @click.stop="disableSecretSantaModal = true"
+                  >
+                    <v-icon>fas fa-times</v-icon>
                   </v-btn>
+                </template>
+                <span>Desabilitar</span>
+              </v-tooltip>
+            </template>
 
-                  <v-tooltip bottom>
-                    <template #activator="{ on }">
-                      <v-btn rounded outlined small v-on="on">
-                        <v-icon small>
-                          fas fa-info
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Informações</span>
-                  </v-tooltip>
-                </v-row>
-              </template>
+            <!-- Disable Secret Santa Modal -->
+            <ConfirmModal
+              title="Desabilitar Amigo Secreto"
+              description="Tem certeza que deseja deixar o Amigo Secreto do Discord inativo?"
+              v-model="disableSecretSantaModal"
+              @confirm="toggleSecretSantaStatus"
+              @close="disableSecretSantaModal = false"
+              :cancel-icon="false"
+            />
+          </v-dialog>
 
-              <template #admin-actions v-if="isAdmin">
-                <v-dialog v-model="disableSecretSantaModal" max-width="500px">
-                  <template #activator="data">
-                    <v-tooltip bottom>
-                      <template #activator="{ on }">
-                        <v-btn
-                          class="mb-2"
-                          icon
-                          fab
-                          small
-                          dark
-                          v-on="on"
-                          @click.stop="disableSecretSantaModal = true"
-                        >
-                          <v-icon>fas fa-times</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Desabilitar</span>
-                    </v-tooltip>
-                  </template>
+          <!-- Edit Secret Santa Modal -->
+          <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
+            <template #activator="data">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn
+                    icon
+                    fab
+                    small
+                    dark
+                    v-on="on"
+                    @click.stop="editSecretSantaModal = true"
+                  >
+                    <v-icon>fas fa-edit</v-icon>
+                  </v-btn>
+                </template>
+                <span>Editar</span>
+              </v-tooltip>
+            </template>
 
-                  <!-- Disable Secret Santa Modal -->
-                  <ConfirmModal
-                    title="Desabilitar Amigo Secreto"
-                    description="Tem certeza que deseja deixar o Amigo Secreto do Discord inativo?"
-                    v-model="disableSecretSantaModal"
-                    @confirm="toggleSecretSantaStatus"
-                    @close="disableSecretSantaModal = false"
-                    :cancel-icon="false"
-                  />
-                </v-dialog>
+            <EditSecretSanta @close="editSecretSantaModal = false" @update="getSecretSantaStatus" />
+          </v-dialog>
+        </template>
+      </StatusCard>
 
-                <!-- Edit Secret Santa Modal -->
-                <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
-                  <template #activator="data">
-                    <v-tooltip bottom>
-                      <template #activator="{ on }">
-                        <v-btn
-                          icon
-                          fab
-                          small
-                          dark
-                          v-on="on"
-                          @click.stop="editSecretSantaModal = true"
-                        >
-                          <v-icon>fas fa-edit</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Editar</span>
-                    </v-tooltip>
-                  </template>
+      <!-- Amigo Secreto Inativo -->
+      <StatusCard :admin-actions="isAdmin" color="error" icon="fas fa-gifts" v-else-if="secretSanta && !secretSanta.activated && !errors.secretSanta">
+        <template #content>
+          Amigo Secreto Inativo
+        </template>
 
-                  <EditSecretSanta @close="editSecretSantaModal = false" @update="getSecretSantaStatus" />
-                </v-dialog>
-              </template>
-            </StatusCard>
+        <template #admin-actions>
+          <v-dialog v-model="enableSecretSantaModal" max-width="500">
+            <template #activator="data">
+              <v-tooltip bottom>
+                <template #activator="{ on }">
+                  <v-btn icon fab small dark v-on="on" @click.stop="enableSecretSantaModal = true">
+                    <v-icon>fas fa-check</v-icon>
+                  </v-btn>
+                </template>
+                <span>Habilitar</span>
+              </v-tooltip>
+            </template>
 
-            <!-- Amigo Secreto Inativo -->
-            <StatusCard :admin-actions="isAdmin" color="error" icon="fas fa-gifts" v-else-if="secretSanta && !secretSanta.activated && !errors.secretSanta">
-              <template #content>
-                Amigo Secreto Inativo
-              </template>
+            <ConfirmModal
+              title="Habilitar Amigo Secreto"
+              description="Tem certeza que deseja habilitar o Amigo Secreto do Discord?"
+              v-model="enableSecretSantaModal"
+              @confirm="toggleSecretSantaStatus"
+              @close="enableSecretSantaModal = false"
+              :cancel-icon="false"
+            />
+          </v-dialog>
+        </template>
+      </StatusCard>
 
-              <template #admin-actions>
-                <v-dialog v-model="enableSecretSantaModal" max-width="500">
-                  <template #activator="data">
-                    <v-tooltip bottom>
-                      <template #activator="{ on }">
-                        <v-btn icon fab small dark v-on="on" @click.stop="enableSecretSantaModal = true">
-                          <v-icon>fas fa-check</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Habilitar</span>
-                    </v-tooltip>
-                  </template>
-
-                  <ConfirmModal
-                    title="Habilitar Amigo Secreto"
-                    description="Tem certeza que deseja habilitar o Amigo Secreto do Discord?"
-                    v-model="enableSecretSantaModal"
-                    @confirm="toggleSecretSantaStatus"
-                    @close="enableSecretSantaModal = false"
-                    :cancel-icon="false"
-                  />
-                </v-dialog>
-              </template>
-            </StatusCard>
-
-            <!-- Erro Amigo Secreto -->
-            <StatusCard color="error" icon="fas fa-gifts" v-else>
-              <template #content>
-                Erro ao atualizar informações do Amigo Secreto
-              </template>
-            </StatusCard>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+      <!-- Erro Amigo Secreto -->
+      <StatusCard color="error" icon="fas fa-gifts" v-else>
+        <template #content>
+          Erro ao atualizar informações do Amigo Secreto
+        </template>
+      </StatusCard>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -443,6 +445,10 @@ export default class DiscordStatus extends Vue {
 
     get isAdmin() {
       return this.$store.getters.isAdmin
+    }
+
+    get isSuperUser() {
+      return this.$store.getters.isSuperUser
     }
 
     get isAuthenticated() {

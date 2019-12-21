@@ -76,3 +76,4 @@ class AmigoSecretoPersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.AmigoSecretoPerson
         fields = ('id', 'user', 'giving_to_user', 'receiving')
+        read_only_fields = ('id', 'user_ingame_name', 'user', 'user__discord_name', 'giving_to_user')

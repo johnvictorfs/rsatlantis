@@ -1,5 +1,6 @@
 <template>
   <v-row>
+    <!-- Desktop Card -->
     <v-col class="ml-2 mr-2 hidden-sm-and-down">
       <v-alert
         border="left"
@@ -27,6 +28,7 @@
       </v-alert>
     </v-col>
 
+    <!-- Mobile Card -->
     <v-col cols="12" class="hidden-md-and-up">
       <div class="ml-1 mr-1">
         <v-card small elevation="10" :color="color" shaped class="status-card">

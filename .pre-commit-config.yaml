@@ -5,6 +5,12 @@ repos:
       - id: flake8
         args: ['--config=backend/setup.cfg']
 
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: master
+    hooks:
+      - id: autopep8
+        args: ['--in-place','--global-config=backend/setup.cfg']
+
   - repo: https://github.com/timothycrosley/isort
     rev: 4.3.21
     hooks:

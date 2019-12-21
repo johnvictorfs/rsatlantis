@@ -89,6 +89,14 @@ class SecretSantaService extends Service {
     }
   }
 
+  public async users() {
+    /**
+     * Get currently registered Secret Santa Users
+     */
+    const { data } = await this.api.axios.get('discord/amigosecreto')
+    return data
+  }
+
   public async toggle(): Promise<void> {
     /**
      * Toggle status of Discord's Secret Santa
