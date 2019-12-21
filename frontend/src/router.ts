@@ -57,7 +57,7 @@ const router = new Router({
     {
       path: '/amigo_secreto/inscritos',
       name: 'amigo-secreto-users',
-      component: () => import(/* webpackChunkName: "amigo-secreto-users" */ './components/AmigoSecretoUsers.vue')
+      component: () => import(/* webpackChunkName: "amigo-secreto-users" */ './components/discord/AmigoSecretoUsers.vue')
     },
     {
       path: '/404',
