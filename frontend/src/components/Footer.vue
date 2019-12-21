@@ -55,7 +55,7 @@
 
 <script>
 import api from '@/api'
-import RunescapeIcon from '@/icons/Runescape'
+const RunescapeIcon = () => import('@/icons/Runescape.vue')
 
 export default {
   name: 'Footer',
