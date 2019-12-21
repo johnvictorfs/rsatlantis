@@ -109,7 +109,7 @@
       </StatusCard>
 
       <!-- Erro Notificações Raids -->
-      <StatusCard color="error" icon="mdi-sword-cross" v-else>
+      <StatusCard color="error" icon="mdi-sword-cross" v-else-if="errors.raidsStatus">
         <template #content>
           Erro ao atualizar informações de Notificações de Raids
         </template>
@@ -146,7 +146,7 @@
       </StatusCard>
 
       <!-- Erro Membros Autenticados -->
-      <StatusCard color="error" icon="fas fa-user" v-else>
+      <StatusCard color="error" icon="fas fa-user" v-else-if="errors.users">
         <template #content>
           Erro ao atualizar informações de Membros Autenticados
         </template>
@@ -217,6 +217,7 @@
             </template>
             <span>Ver Inscritos</span>
           </v-tooltip>
+
           <v-dialog v-model="disableSecretSantaModal" max-width="500px">
             <template #activator="data">
               <v-tooltip bottom>
@@ -280,6 +281,15 @@
         </template>
 
         <template #admin-actions>
+          <v-tooltip bottom v-if="isSuperUser">
+            <template #activator="{ on }">
+              <v-btn icon v-on="on" :to="{ name: 'amigo-secreto-users' }">
+                <v-icon>fas fa-list</v-icon>
+              </v-btn>
+            </template>
+            <span>Ver Inscritos</span>
+          </v-tooltip>
+
           <v-dialog v-model="enableSecretSantaModal" max-width="500">
             <template #activator="data">
               <v-tooltip bottom>
@@ -305,7 +315,7 @@
       </StatusCard>
 
       <!-- Erro Amigo Secreto -->
-      <StatusCard color="error" icon="fas fa-gifts" v-else>
+      <StatusCard color="error" icon="fas fa-gifts" v-else-if="errors.secretSanta">
         <template #content>
           Erro ao atualizar informações do Amigo Secreto
         </template>
