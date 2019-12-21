@@ -68,6 +68,21 @@ export interface DiscordApi {
     premio_maximo: number | null
   }
 
+  SecretSantaUser: {
+      id: number
+      user: {
+          id: number
+          ingame_name: string
+          discord_name: string
+      }
+      giving_to_user: {
+          id: number
+          ingame_name: string
+          discord_name: string
+      } | null
+      receiving: boolean
+  }
+
   Widget: {
     id: string
     name: string
