@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col xs="12" sm="8" md="8" lg="4" xl="4">
+      <v-col xs="12" sm="8" md="8" lg="10" xl="4">
         <v-card class="elevation-12">
           <v-toolbar dark color="#363636">
             <v-toolbar-title>
@@ -26,14 +26,12 @@
 
             <v-list v-else three-line>
               <v-list-item-group>
+                <v-subheader
+                  v-text="`${users.length} inscritos`"
+                />
                 <template v-for="(user, index) in users">
-                  <v-subheader
-                    v-if="index === 0"
-                    :key="user.id"
-                    v-text="`${users.length} inscritos`"
-                  />
-
                   <v-list-item
+                    @click.stop="event => openMenu(event, user.id)"
                     :key="user.id"
                   >
                     <v-list-item-avatar class="hidden-sm-and-down">
@@ -44,24 +42,34 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title v-text="user.user.ingame_name" />
+                      <!-- User Notes -->
+                      <v-menu :close-on-content-click="false" :position-x="coordX" :position-y="coordY" v-model="menus[user.id].menu">
+                        <UserAnnotation :user="user" @given="given => setGiven(user.id, given)" />
+                      </v-menu>
+
+                      <v-list-item-title>
+                        <RunescapeIcon class="rs-icon" />
+                        {{ user.user.ingame_name }}
+                      </v-list-item-title>
+
                       <v-list-item-subtitle>
                         <v-icon small color="#668fcb">
                           fab fa-discord
                         </v-icon>
                         {{ user.user.discord_name }}
+                      </v-list-item-subtitle>
 
+                      <v-list-item-subtitle v-if="user.giving_to_user">
                         <!-- Presenteando -->
-                        <span v-if="user.giving_to_user">
-                          <br>
-                          <v-tooltip bottom>
-                            <template #activator="{ on }">
-                              <v-icon v-on="on" color="#888" small>fas fa-gifts</v-icon>
-                            </template>
-                            <span>Presenteando</span>
-                          </v-tooltip>
-                          {{ user.giving_to_user.ingame_name }}
-                        </span>
+                        <v-tooltip bottom>
+                          <template #activator="{ on }">
+                            <v-icon v-on="on" color="#888" small>
+                              fas fa-gifts
+                            </v-icon>
+                          </template>
+                          <span>Presenteando</span>
+                        </v-tooltip>
+                        {{ user.giving_to_user.ingame_name }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
 
@@ -72,13 +80,27 @@
                             fas fa-gifts
                           </v-icon>
                         </template>
+
                         <span v-if="user.receiving">Recebendo Presente</span>
                         <span v-else>Não Recebendo Presente</span>
                       </v-tooltip>
                     </v-list-item-icon>
+
+                    <v-list-item-icon>
+                      <v-tooltip bottom>
+                        <template #activator="{ on }">
+                          <v-icon v-on="on" right :color="menus[user.id].given ? 'success accent-2' : 'error lighten-1'">
+                            fas fa-check
+                          </v-icon>
+                        </template>
+
+                        <span v-if="menus[user.id].given">Presente Entregue</span>
+                        <span v-else>Presente Não-entregue</span>
+                      </v-tooltip>
+                    </v-list-item-icon>
                   </v-list-item>
 
-                  <v-divider v-if="index + 1 < users.length" :key="user.id" />
+                  <v-divider v-if="index + 1 < users.length" :key="index" />
                 </template>
               </v-list-item-group>
             </v-list>
@@ -97,25 +119,66 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+const RunescapeIcon = () => import('@/icons/Runescape.vue')
 const DiscordStatus = () => import('@/components/discord/DiscordStatus.vue')
+const UserAnnotation = () => import('@/components/discord/UserAnnotation.vue')
+
 import api from '@/api'
 import { DiscordApi } from '@/types'
 
 @Component({
-  components: { DiscordStatus }
+  components: { DiscordStatus, RunescapeIcon, UserAnnotation }
 })
 export default class AmigoSecretoUsers extends Vue {
   private users: DiscordApi['SecretSantaUser'][] = []
+  private menus: Record<number, Object> = {}
+
+  private coordX: number = 0
+  private coordY: number = 0
+
   private apiError: boolean = false
   private apiErrorMessage: string = ''
 
-  async mounted() {
+  async mounted(): Promise<void> {
     this.getUsers()
   }
 
-  async getUsers() {
+  setGiven(id: number, given: boolean): void {
+    /**
+     * Marks an user as having given his Present already or not
+     */
+    this.$nextTick(() => this.$set(this.menus, id, { ...this.menus[id], given }))
+  }
+
+  openMenu(event: MouseEvent, id: number): void {
+    /**
+     * Open User Menu by ID and set Menu position the the current mouse pointer coords
+     */
+    event.preventDefault()
+
+    this.$set(this.menus, id, { ...this.menus[id], menu: false })
+
+    setTimeout(() => {
+      this.coordX = event.clientX
+      this.coordY = event.clientY
+
+      // Open the Menu only on the next tick to prevent changing the coords
+      // during its opening animation
+      this.$nextTick(() => this.$set(this.menus, id, { ...this.menus[id], menu: true }))
+    }, 100)
+  }
+
+  async getUsers(): Promise<void> {
+    /**
+     * Get data from registered Secret Santa Users
+     */
     try {
       this.users = await api.discord.secretSanta.users()
+
+      for (const user of this.users) {
+        this.$set(this.menus, user.id, { menu: false, annotation: '', given: false })
+      }
+
       this.apiError = false
     } catch (error) {
       this.apiError = true
@@ -124,3 +187,12 @@ export default class AmigoSecretoUsers extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+$rs-icon-size: 19px;
+
+.rs-icon {
+  height: $rs-icon-size;
+  width: $rs-icon-size;
+}
+</style>

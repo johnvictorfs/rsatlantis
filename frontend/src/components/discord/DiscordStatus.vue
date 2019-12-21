@@ -339,9 +339,9 @@ const ModalCard = () => import('@/components/ModalCard.vue')
 const EditSecretSanta = () => import('@/components/discord/EditSecretSanta.vue')
 
 
-  @Component({
-    components: { StatusCard, ConfirmModal, ModalCard, EditSecretSanta }
-  })
+@Component({
+  components: { StatusCard, ConfirmModal, ModalCard, EditSecretSanta }
+})
 export default class DiscordStatus extends Vue {
     raidsStatus: Discord['RaidsStatus'] | null = null
 
