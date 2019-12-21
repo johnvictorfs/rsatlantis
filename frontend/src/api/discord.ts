@@ -89,6 +89,7 @@ class SecretSantaService extends Service {
     }
   }
 
+
   public async users(): Promise<DiscordApi['SecretSantaUser'][]> {
     /**
      * Get currently registered Secret Santa Users
