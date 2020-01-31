@@ -37,6 +37,18 @@ class DisabledCommandSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name')
 
 
+class DoacaoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Doacao
+        fields = ('id', 'doador_name', 'date', 'ammount')
+
+
+class DoacaoGoalSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.DoacaoGoal
+        fields = ('id', 'goal', 'name', 'active')
+
+
 class AmigoSecretoStateSerializer(serializers.HyperlinkedModelSerializer):
     registered = serializers.SerializerMethodField()
 

@@ -56,6 +56,7 @@
                 <span>Desabilitar</span>
               </v-tooltip>
             </template>
+
             <ConfirmModal
               title="Desabilitar Notificações de Raids"
               description="Tem certeza que deseja desabilitar as Notificações de Raids do Discord?"
@@ -76,7 +77,6 @@
           </v-btn>
         </template>
       </StatusCard>
-
 
       <!-- Notificações Raids Desabilitadas -->
       <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="isAdmin" v-else-if="raidsStatus && !raidsStatus.notifications && !errors.raidsStatus">
@@ -404,13 +404,12 @@ export default class DiscordStatus extends Vue {
       this.loading = true
 
       // Get all data, then set loading to false
-      const promises = [
+      await Promise.all([
         new Promise(resolve => resolve(this.getRaidsStatus())),
         new Promise(resolve => resolve(this.getUsersData())),
         new Promise(resolve => resolve(this.getSecretSantaStatus()))
-      ]
+      ])
 
-      await Promise.all(promises)
       this.loading = false
     }
 

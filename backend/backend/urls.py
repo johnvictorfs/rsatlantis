@@ -37,6 +37,8 @@ router.register(r'discord/amigosecreto', discord_views.AmigoSecretoPersonViewSet
 router.register(r'discord/amigosecreto_status', discord_views.AmigoSecretoStatusViewSet)
 router.register(r'discord/disabled_commands', discord_views.DisabledCommandViewSet)
 router.register(r'discord/ingame_names', discord_views.DiscordIngameNameViewSet)
+router.register(r'discord/doacoes', discord_views.DoacaoViewSet)
+router.register(r'discord/doacoes_goals', discord_views.DoacaoGoalViewSet)
 
 # API Docs Schema
 schema_view = get_schema_view(
@@ -60,6 +62,8 @@ urlpatterns = [
 urlpatterns += [
     path('admin/', admin.site.urls),
     path('api/auth/', include('rest_auth.urls')),
+    path('api/discord_oauth/authorize/', discord_views.DiscordOauthAuthorizeView.as_view()),
+    path('api/discord_oauth/user/', discord_views.DiscordUserOauthView.as_view()),
     path('api/', include(router.urls))
 ]
 

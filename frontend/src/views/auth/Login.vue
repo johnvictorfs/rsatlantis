@@ -7,6 +7,16 @@
             <v-toolbar-title>
               Entre na sua Conta
             </v-toolbar-title>
+
+            <v-spacer />
+
+            <v-btn small color="#7289da" @click="loginWithDiscord">
+              <v-icon left>
+                fab fa-discord
+              </v-icon>
+              Entrar com Discord
+              <!-- <v-img height="28" width="128" src="@/assets/images/discord_logo.png" /> -->
+            </v-btn>
           </v-toolbar>
 
           <v-container fluid grid-list-md>
@@ -83,6 +93,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+import api from '@/api'
 import { formatError } from '@/helpers/errors'
 import { UserCredentials } from '@/store/types'
 
@@ -117,6 +128,13 @@ export default class Login extends Vue {
         this.$router.push(this.$route.query.next)
       }
     }
+  }
+
+  async loginWithDiscord() {
+    const data = await api.discord.discordOauth()
+    console.log(data.authorization_url)
+    console.log(data)
+    window.location.href = data.authorization_url
   }
 }
 </script>

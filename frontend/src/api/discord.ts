@@ -1,6 +1,6 @@
 import Service from '@/api/service'
 import { Api } from '@/api'
-import { IPlayer, Discord, DiscordApi } from '@/types'
+import { Discord, DiscordApi } from '@/types'
 
 export default class DiscordService extends Service {
   public raids: RaidsService
@@ -11,6 +11,40 @@ export default class DiscordService extends Service {
 
     this.raids = new RaidsService(api)
     this.secretSanta = new SecretSantaService(api)
+  }
+
+  public async doacoes(): Promise<any> {
+    const { data } = await this.api.axios.post('doacoes')
+
+    return data
+  }
+
+  public async doacoesGoal(): Promise<any> {
+    const { data } = await this.api.axios.post('doacoes_goals')
+
+    if (data) {
+      const activeDoacoesGoals = data.filter((goal: any) => goal.active)
+
+      if (activeDoacoesGoals.length > 0) {
+        return activeDoacoesGoals[0]
+      }
+    }
+  }
+
+  public async discordOauth(): Promise<any> {
+    const { data } = await this.api.axios.post('discord_oauth/authorize')
+
+    return data
+  }
+
+  public async discordOauthUser(code: string | null): Promise<any> {
+    if (code) {
+      const { data } = await this.api.axios.post('discord_oauth/user', { code })
+
+      return data
+    } else {
+      throw new Error('Código de acesso do Discord inválido')
+    }
   }
 
   public async users(): Promise<Discord['DiscordUser'][]> {

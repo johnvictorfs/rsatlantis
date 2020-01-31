@@ -1,9 +1,14 @@
 from discord import models
 from discord.api import permissions as discord_permissions
 from discord.api import serializers
+
+import requests
+from django.conf import settings
+from requests_oauthlib import OAuth2Session
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class StatusViewSet(viewsets.ModelViewSet):
@@ -46,6 +51,18 @@ class DisabledCommandViewSet(viewsets.ModelViewSet):
     """
     serializer_class = serializers.DisabledCommandSerializer
     queryset = models.DisabledCommand.objects.all()
+    permission_classes = (discord_permissions.AdminOrReadOnly,)
+
+
+class DoacaoViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DoacaoSerializer
+    queryset = models.Doacao.objects.all()
+    permission_classes = (discord_permissions.AdminOrReadOnly,)
+
+
+class DoacaoGoalViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.DoacaoGoalSerializer
+    queryset = models.DoacaoGoal.objects.all()
     permission_classes = (discord_permissions.AdminOrReadOnly,)
 
 
@@ -131,3 +148,56 @@ class DiscordIngameNameViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.DiscordIngameNameSerializer
     queryset = models.DiscordIngameName.objects.all()
     permission_classes = (discord_permissions.IsSuperUser,)
+
+
+class DiscordOauthAuthorizeView(APIView):
+    @staticmethod
+    def make_session(token=None, state=None, scope=None):
+        return OAuth2Session(
+            client_id=settings.DISCORD_OAUTH2_CLIENT_ID,
+            token=token,
+            state=state,
+            scope=scope,
+            redirect_uri=settings.DISCORD_OAUTH2_REDIRECT_URI,
+            auto_refresh_kwargs={
+                'client_id': settings.DISCORD_OAUTH2_CLIENT_ID,
+                'client_secret': settings.DISCORD_OAUTH2_CLIENT_SECRET,
+            },
+            auto_refresh_url=settings.DISCORD_TOKEN_URL
+        )
+
+    def post(self, request, format=None):
+        scope = ['identify', 'email', 'connections', 'guilds', 'guilds.join']
+
+        discord = self.make_session(scope=scope)
+
+        authorization_url, state = discord.authorization_url(settings.DISCORD_AUTHORIZATION_BASE_URL)
+
+        print(authorization_url)
+        print(state)
+
+        return Response(
+            {'state': state, 'authorization_url': authorization_url},
+            status=status.HTTP_200_OK
+        )
+
+
+class DiscordUserOauthView(APIView):
+    def post(self, request, format=None):
+        data = {
+            'client_id': settings.DISCORD_OAUTH2_CLIENT_ID,
+            'client_secret': settings.DISCORD_OAUTH2_CLIENT_SECRET,
+            'grant_type': 'authorization_code',
+            'code': request.data['code'],
+            'redirect_uri': settings.DISCORD_OAUTH2_REDIRECT_URI,
+            'scope': 'identify email connections'
+        }
+
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        r = requests.post(f'{settings.DISCORD_API_BASE_URL}/oauth2/token', data=data, headers=headers)
+
+        r.raise_for_status()
+        return Response(r.json(), status=status.HTTP_200_OK)

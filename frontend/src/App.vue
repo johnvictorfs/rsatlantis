@@ -1,14 +1,17 @@
 <template>
   <v-app>
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems" />
+
     <v-content>
       <v-container fluid class="mb-3">
         <Loading />
+
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
       </v-container>
     </v-content>
+
     <Footer />
   </v-app>
 </template>

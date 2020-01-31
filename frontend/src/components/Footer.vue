@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .wave {
-    background-color: rgb(48, 48, 48);
-  }
+.wave {
+  background-color: rgb(48, 48, 48);
+}
 </style>

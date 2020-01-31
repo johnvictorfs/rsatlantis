@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import store from '@/store'
+import api from '@/api'
 
 Vue.use(Router)
 
@@ -77,6 +78,16 @@ router.beforeEach((to, from, next) => {
   const requiresAdmin = to.matched.some(route => route.meta.admin)
   const requiresSuperUser = to.matched.some(route => route.meta.superUser)
 
+  if (to.query.code && to.query.state) {
+    api.discord.discordOauthUser(to.query.code as string).then(user => {
+      console.log(user)
+
+      Vue.toasted.global.success('Você entrou na sua conta com Sucesso!')
+    }).catch(() => {
+      Vue.toasted.global.error('Houve um erro ao tentar entrar na sua conta')
+    })
+  }
+
   // Redirects user to login page if the page they are trying to access requires authentication, and they
   // are not logged in
   if (!store.getters.isAuthenticated && requiresAuth) {
@@ -86,9 +97,9 @@ router.beforeEach((to, from, next) => {
     // Redirects User to hompage if page requires Admin or Superuser and he isn't
     Vue.toasted.global.error('Você não tem permissões para fazer isso')
     next('/')
-  } else {
-    next()
   }
+
+  next()
 })
 
 export default router

@@ -92,11 +92,15 @@ export default class UserService extends Service {
     }
   }
 
-  async current(): Promise<IUser> {
+  async current(): Promise<IUser | null> {
     /**
      * Get information about current logged in User
      */
-    const { data } = await this.api.axios.get('users/current')
-    return data
+    try {
+      const { data } = await this.api.axios.get('users/current')
+      return data
+    } catch (error) {
+      return null
+    }
   }
 }

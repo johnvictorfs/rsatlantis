@@ -5,23 +5,7 @@ from django.db.models.aggregates import Count
 from django.utils import timezone
 
 
-class DiscordManager(models.Manager):
-    def get_queryset(self):
-        """
-        Uuse the 'use_db' attribute from Model if it exists
-
-        Used to set the Db used to be the Discord one
-
-        https://stackoverflow.com/a/55754529/10416161
-        """
-        qs = super().get_queryset()
-
-        # if `use_db` is set on model use that for choosing the DB
-        if hasattr(self.model, 'use_db'):
-            qs = qs.using(self.model.use_db)
-
-        return qs
-
+class RandomManager(models.Manager):
     def random(self):
         """
         Get random object from database
@@ -34,23 +18,9 @@ class DiscordManager(models.Manager):
         return self.all()[random_index]
 
 
-class DiscordModel(models.Model):
-    """
-    Set up 'discord' DB to be used for Model
-    """
-    use_db = 'discord'
-    objects = DiscordManager()
-
-    class Meta:
-        abstract = True
-
-
-class RaidsState(DiscordModel):
+class RaidsState(models.Model):
     notifications = models.BooleanField(verbose_name='Notificações', default=False)
     time_to_next_message = models.TextField(verbose_name='Próxima Mensagem', null=True)
-
-    class Meta:
-        db_table = 'raidsstate'
 
     def toggle(self):
         self.notifications = not self.notifications
@@ -77,22 +47,16 @@ class RaidsState(DiscordModel):
         return super().save(*args, **kwargs)
 
 
-class DisabledCommand(DiscordModel):
+class DisabledCommand(models.Model):
     name = models.TextField(verbose_name='Nome', unique=True)
 
-    class Meta:
-        db_table = 'disabled_command'
 
-
-class AmigoSecretoState(DiscordModel):
+class AmigoSecretoState(models.Model):
     activated = models.BooleanField(default=False)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
     premio_minimo = models.BigIntegerField(null=True)
     premio_maximo = models.BigIntegerField(null=True)
-
-    class Meta:
-        db_table = 'amigosecretostate'
 
     def toggle(self):
         self.activated = not self.activated
@@ -119,7 +83,7 @@ class AmigoSecretoState(DiscordModel):
         return super().save(*args, **kwargs)
 
 
-class DiscordUser(DiscordModel):
+class DiscordUser(models.Model):
     updated = models.DateTimeField(default=timezone.now)
     warning_date = models.DateTimeField(null=True)
     disabled = models.BooleanField(default=False)
@@ -127,11 +91,10 @@ class DiscordUser(DiscordModel):
     discord_id = models.TextField()
     discord_name = models.TextField()
 
-    class Meta:
-        db_table = 'user'
 
+class AmigoSecretoPerson(models.Model):
+    objects = RandomManager()
 
-class AmigoSecretoPerson(DiscordModel):
     user = models.ForeignKey(
         to=DiscordUser,
         verbose_name='Usuário',
@@ -149,9 +112,6 @@ class AmigoSecretoPerson(DiscordModel):
 
     receiving = models.BooleanField(default=False)
 
-    class Meta:
-        db_table = 'amigosecreto'
-
     def save(self, *args, **kwargs):
         """
         Prevent user from rolling himself on Secret Santa
@@ -162,7 +122,7 @@ class AmigoSecretoPerson(DiscordModel):
         super(AmigoSecretoPerson, self).save(*args, **kwargs)
 
 
-class DiscordIngameName(DiscordModel):
+class DiscordIngameName(models.Model):
     name = models.TextField(verbose_name='Nome RuneScape')
     created_date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(
@@ -173,5 +133,14 @@ class DiscordIngameName(DiscordModel):
         on_delete=models.CASCADE
     )
 
-    class Meta:
-        db_table = 'ingame_name'
+
+class Doacao(models.Model):
+    doador_name = models.TextField(max_length=12)
+    date = models.DateTimeField(default=timezone.now)
+    ammount = models.BigIntegerField()
+
+
+class DoacaoGoal(models.Model):
+    goal = models.BigIntegerField()
+    active = models.BooleanField(default=False)
+    name = models.TextField()
