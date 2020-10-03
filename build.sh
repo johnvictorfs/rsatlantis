@@ -50,3 +50,4 @@ if ! poetry run python manage.py collectstatic --noinput ; then
   echo "${RED}Could not run collectstatic management command${NC}"
   exit 1
 fi
+
