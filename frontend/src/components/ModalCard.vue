@@ -18,12 +18,3 @@
     </v-card-actions>
   </v-card>
 </template>
-
-<script lang="ts">
-import { Vue, Prop } from 'vue-property-decorator'
-import Component from 'vue-class-component'
-
-
-@Component({})
-export default class ModalCard extends Vue {}
-</script>

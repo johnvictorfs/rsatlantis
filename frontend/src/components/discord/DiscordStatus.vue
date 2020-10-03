@@ -45,18 +45,16 @@
         </template>
 
         <template #admin-actions>
-          <v-dialog v-model="disableRaidsModal" max-width="500">
-            <template>
-              <v-tooltip bottom>
-                <template #activator="{ on }">
-                  <v-btn icon fab small dark v-on="on" @click.stop="disableRaidsModal = true">
-                    <v-icon>fas fa-times</v-icon>
-                  </v-btn>
-                </template>
-                <span>Desabilitar</span>
-              </v-tooltip>
+          <v-tooltip bottom>
+            <template #activator="{ on }">
+              <v-btn icon fab small dark v-on="on" @click.stop="disableRaidsModal = true">
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
             </template>
+            <span>Desabilitar</span>
+          </v-tooltip>
 
+          <v-dialog v-model="disableRaidsModal" max-width="500">
             <ConfirmModal
               title="Desabilitar Notificações de Raids"
               description="Tem certeza que deseja desabilitar as Notificações de Raids do Discord?"
@@ -69,7 +67,7 @@
         </template>
 
         <template #user-actions>
-          <v-btn outlined small>
+          <v-btn outlined small disabled>
             Aplicar
             <v-icon right small>
               fas fa-angle-right
@@ -85,17 +83,16 @@
         </template>
 
         <template #admin-actions>
-          <v-dialog v-model="enableRaidsModal" max-width="500">
-            <template>
-              <v-tooltip bottom>
-                <template #activator="{ on }">
-                  <v-btn icon fab small dark v-on="on" @click.stop="enableRaidsModal = true">
-                    <v-icon>fas fa-check</v-icon>
-                  </v-btn>
-                </template>
-                <span>Habilitar</span>
-              </v-tooltip>
+          <v-tooltip bottom v-if="isSuperUser">
+            <template #activator="{ on }">
+              <v-btn icon fab small dark v-on="on" @click.stop="enableRaidsModal = true">
+                <v-icon>fas fa-check</v-icon>
+              </v-btn>
             </template>
+            <span>Habilitar</span>
+          </v-tooltip>
+
+          <v-dialog v-model="enableRaidsModal" max-width="500">
             <ConfirmModal
               title="Habilitar Notificações de Raids"
               description="Tem certeza que deseja habilitar as Notificações de Raids do Discord?"
@@ -123,13 +120,13 @@
         v-if="users && users.length > 0 && !errors.users"
       >
         <template #content>
-          Membros Autenticados: {{ users.length }}
+          Membros Autenticados: {{ users.length }} ({{ activeUsers.length }} ativos)
         </template>
 
         <template #admin-actions>
           <v-tooltip bottom>
             <template #activator="{ on }">
-              <v-btn icon v-on="on">
+              <v-btn icon v-on="on" disabled>
                 <v-icon>fas fa-list</v-icon>
               </v-btn>
             </template>
@@ -218,26 +215,24 @@
             <span>Ver Inscritos</span>
           </v-tooltip>
 
-          <v-dialog v-model="disableSecretSantaModal" max-width="500px">
-            <template>
-              <v-tooltip bottom>
-                <template #activator="{ on }">
-                  <v-btn
-                    class="mb-2"
-                    icon
-                    fab
-                    small
-                    dark
-                    v-on="on"
-                    @click.stop="disableSecretSantaModal = true"
-                  >
-                    <v-icon>fas fa-times</v-icon>
-                  </v-btn>
-                </template>
-                <span>Desabilitar</span>
-              </v-tooltip>
+          <v-tooltip bottom>
+            <template #activator="{ on }">
+              <v-btn
+                class="mb-2"
+                icon
+                fab
+                small
+                dark
+                v-on="on"
+                @click.stop="disableSecretSantaModal = true"
+              >
+                <v-icon>fas fa-times</v-icon>
+              </v-btn>
             </template>
+            <span>Desabilitar</span>
+          </v-tooltip>
 
+          <v-dialog v-model="disableSecretSantaModal" max-width="500px">
             <!-- Disable Secret Santa Modal -->
             <ConfirmModal
               title="Desabilitar Amigo Secreto"
@@ -250,25 +245,23 @@
           </v-dialog>
 
           <!-- Edit Secret Santa Modal -->
-          <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
-            <template>
-              <v-tooltip bottom>
-                <template #activator="{ on }">
-                  <v-btn
-                    icon
-                    fab
-                    small
-                    dark
-                    v-on="on"
-                    @click.stop="editSecretSantaModal = true"
-                  >
-                    <v-icon>fas fa-edit</v-icon>
-                  </v-btn>
-                </template>
-                <span>Editar</span>
-              </v-tooltip>
+          <v-tooltip bottom>
+            <template #activator="{ on }">
+              <v-btn
+                icon
+                fab
+                small
+                dark
+                v-on="on"
+                @click.stop="editSecretSantaModal = true"
+              >
+                <v-icon>fas fa-edit</v-icon>
+              </v-btn>
             </template>
+            <span>Editar</span>
+          </v-tooltip>
 
+          <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
             <EditSecretSanta @close="editSecretSantaModal = false" @update="getSecretSantaStatus" />
           </v-dialog>
         </template>
@@ -290,18 +283,16 @@
             <span>Ver Inscritos</span>
           </v-tooltip>
 
-          <v-dialog v-model="enableSecretSantaModal" max-width="500">
-            <template>
-              <v-tooltip bottom>
-                <template #activator="{ on }">
-                  <v-btn icon fab small dark v-on="on" @click.stop="enableSecretSantaModal = true">
-                    <v-icon>fas fa-check</v-icon>
-                  </v-btn>
-                </template>
-                <span>Habilitar</span>
-              </v-tooltip>
+          <v-tooltip bottom>
+            <template #activator="{ on }">
+              <v-btn icon fab small dark v-on="on" @click.stop="enableSecretSantaModal = true">
+                <v-icon>fas fa-check</v-icon>
+              </v-btn>
             </template>
+            <span>Habilitar</span>
+          </v-tooltip>
 
+          <v-dialog v-model="enableSecretSantaModal" max-width="500">
             <ConfirmModal
               title="Habilitar Amigo Secreto"
               description="Tem certeza que deseja habilitar o Amigo Secreto do Discord?"
@@ -346,6 +337,7 @@ export default class DiscordStatus extends Vue {
     raidsStatus: Discord['RaidsStatus'] | null = null
 
     users: Discord['DiscordUser'][] | null = null
+    activeUsers: Discord['DiscordUser'][] | null = null
 
     secretSanta: Discord['SecretSantaStatus'] | null = null
 
@@ -382,6 +374,7 @@ export default class DiscordStatus extends Vue {
     async getUsersData() {
       try {
         this.users = await api.discord.users()
+        this.activeUsers = this.users.filter(user => !user.disabled)
         this.errors.users = false
       } catch (error) {
         this.errors.users = true
@@ -447,7 +440,7 @@ export default class DiscordStatus extends Vue {
 
       const formattedDate = new Date(date)
 
-      return 'formattedDate'
+      return 'N/A'
 
       // const timeLeft = moment(formattedDate, '', 'pt').fromNow()
 

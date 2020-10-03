@@ -45,7 +45,7 @@
                   v-model="startTime"
                   :rules="rules.startTime"
                   :disabled="!startDate"
-                  label="Tempo de Ínicio das Inscrições"
+                  label="Horário de Ínicio das Inscrições"
                   prepend-icon="access_time"
                   readonly
                   v-on="on"
@@ -105,7 +105,7 @@
                   v-model="endTime"
                   :rules="rules.endTime"
                   :disabled="!endDate"
-                  label="Tempo do Sorteio"
+                  label="Horário do Sorteio"
                   prepend-icon="access_time"
                   readonly
                   v-on="on"
@@ -216,14 +216,14 @@ export default class EditSecretSanta extends Vue {
       if (this.secretSantaStatus.startDate) {
         const startDate = new Date(this.secretSantaStatus.startDate)
         // this.startTime = moment(startDate, '', 'pt').format('HH:mm')
-        this.startTime = 'startTime'
+        this.startTime = 'N/A'
         this.startDate = startDate.toISOString().substr(0, 10)
       }
 
       if (this.secretSantaStatus.endDate) {
         const endDate = new Date(this.secretSantaStatus.endDate)
         // this.endTime = moment(endDate, '', 'pt').format('HH:mm')
-        this.endTime = 'endTime'
+        this.endTime = 'N/A'
         this.endDate = endDate.toISOString().substr(0, 10)
       }
 
