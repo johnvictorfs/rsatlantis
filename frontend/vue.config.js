@@ -7,11 +7,6 @@ module.exports = {
         data: '@import "@/scss/main.scss";'
       }
     }
-  },
-  devServer: {
-    watchOptions: {
-      poll: true
-    }
   }
 }
 
