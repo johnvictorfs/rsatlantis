@@ -120,7 +120,7 @@
         :admin-actions="isAdmin"
         color="primary"
         icon="fas fa-user"
-        v-if="users.length > 0 && !errors.users"
+        v-if="users && users.length > 0 && !errors.users"
       >
         <template #content>
           Membros Autenticados: {{ users.length }}
@@ -138,17 +138,17 @@
         </template>
       </StatusCard>
 
-      <!-- Nenhum Membro Autenticado -->
-      <StatusCard color="error" icon="fas fa-user" v-else-if="users.length === 0 && !errors.users">
-        <template #content>
-          Nenhum Membro Autenticado
-        </template>
-      </StatusCard>
-
       <!-- Erro Membros Autenticados -->
       <StatusCard color="error" icon="fas fa-user" v-else-if="errors.users">
         <template #content>
           Erro ao atualizar informações de Membros Autenticados
+        </template>
+      </StatusCard>
+
+      <!-- Nenhum Membro Autenticado -->
+      <StatusCard color="error" icon="fas fa-user" v-else-if="users && users.length === 0 && !errors.users">
+        <template #content>
+          Nenhum Membro Autenticado
         </template>
       </StatusCard>
 
@@ -188,7 +188,7 @@
 
         <template #user-actions>
           <v-row justify="center">
-            <v-btn outlined small class="mb-2 mr-2">
+            <v-btn outlined small class="mb-2 mr-2" disabled>
               Entrar
               <v-icon right small>
                 fas fa-plus
@@ -197,7 +197,7 @@
 
             <v-tooltip bottom>
               <template #activator="{ on }">
-                <v-btn rounded outlined small v-on="on">
+                <v-btn rounded outlined small v-on="on" disabled>
                   <v-icon small>
                     fas fa-info
                   </v-icon>
@@ -327,8 +327,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import moment from 'moment'
-import 'moment/locale/pt-br'
+// import moment from 'moment'
+// import 'moment/locale/pt-br'
 
 import { Discord } from '@/types'
 import api from '@/api'
@@ -345,7 +345,7 @@ const EditSecretSanta = () => import('@/components/discord/EditSecretSanta.vue')
 export default class DiscordStatus extends Vue {
     raidsStatus: Discord['RaidsStatus'] | null = null
 
-    users: Discord['DiscordUser'][] = []
+    users: Discord['DiscordUser'][] | null = null
 
     secretSanta: Discord['SecretSantaStatus'] | null = null
 
@@ -447,9 +447,11 @@ export default class DiscordStatus extends Vue {
 
       const formattedDate = new Date(date)
 
-      const timeLeft = moment(formattedDate, '', 'pt').fromNow()
+      return 'formattedDate'
 
-      return moment(formattedDate, '', 'pt').format('D [de] MMMM [às] HH:mm') + ', ' + timeLeft
+      // const timeLeft = moment(formattedDate, '', 'pt').fromNow()
+
+      // return moment(formattedDate, '', 'pt').format('D [de] MMMM [às] HH:mm') + ', ' + timeLeft
     }
 
     get isAdmin() {

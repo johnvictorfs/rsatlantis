@@ -1,7 +1,7 @@
 <template>
   <v-container fluid fill-height>
     <v-row justify="center">
-      <v-col xs="12" sm="8" md="8" lg="6" xl="6">
+      <v-col xs="12" sm="8" md="8" lg="8" xl="8">
         <v-card class="elevation-12 register-card">
           <v-toolbar dark color="primary">
             <v-toolbar-title>Crie sua conta</v-toolbar-title>
@@ -165,7 +165,7 @@ import { formatError } from '@/helpers/errors'
 
 @Component({})
 export default class Register extends Vue {
-  registerStep: number = 0
+  registerStep: number = 1
   credentials: UserCredentials = { username: '', password: '' }
   userFormValid: boolean = false
   ingameFormValid: boolean = false

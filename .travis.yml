@@ -31,4 +31,7 @@ script:
   - isort -sp setup.cfg -rc --atomic backend
   - flake8 --config=setup.cfg
   - cd ../frontend
-  - yarn install && yarn lint && yarn test
+  - yarn config set ignore-engines true
+  - yarn install
+  - yarn lint
+  - yarn test

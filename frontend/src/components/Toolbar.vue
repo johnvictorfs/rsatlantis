@@ -4,15 +4,34 @@
 
     <v-toolbar-title>
       <router-link :to="{name: 'home'}">
-        <v-img src="@/assets/images/atlantis_logo.png" class="mt-1" />
+        <v-img src="@/assets/images/atlantis_logo.png" />
       </router-link>
     </v-toolbar-title>
 
-    <v-btn outlined v-for="item in sidebarItems" :key="item.text" class="hidden-sm-and-down ml-2" :color="item.color" :to="item.path">
+    <v-btn
+      outlined
+      v-for="item in sidebarItems"
+      :key="item.text"
+      :disabled="item.disabled"
+      class="hidden-sm-and-down ml-2"
+      :color="item.color"
+      :to="item.path"
+    >
       <v-icon left :color="item.color">
         {{ item.icon }}
       </v-icon>
       {{ item.text }}
+
+      <v-chip
+        disabled
+        v-if="item.beta"
+        color="success"
+        outlined
+        x-small
+        class="ml-2"
+      >
+        Beta
+      </v-chip>
     </v-btn>
 
     <v-spacer />

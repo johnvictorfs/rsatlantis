@@ -1,5 +1,4 @@
 import Service from '@/api/service'
-import { Api } from '@/api'
 import { IPlayer } from '@/types'
 
 export default class PlayerService extends Service {

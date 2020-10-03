@@ -199,5 +199,7 @@ class DiscordUserOauthView(APIView):
 
         r = requests.post(f'{settings.DISCORD_API_BASE_URL}/oauth2/token', data=data, headers=headers)
 
+        print(data, f'{settings.DISCORD_API_BASE_URL}/oauth2/token', headers)
+
         r.raise_for_status()
         return Response(r.json(), status=status.HTTP_200_OK)

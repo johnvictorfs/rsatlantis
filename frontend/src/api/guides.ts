@@ -1,5 +1,4 @@
 import Service from '@/api/service'
-import { Api } from '@/api'
 import { IGuide, IGuideWithAuthor, IUser } from '@/types'
 
 export default class GuideService extends Service {

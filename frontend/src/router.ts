@@ -34,6 +34,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "auth-register" */ './views/auth/Register.vue')
     },
     {
+      path: '/rankings',
+      name: 'hiscores',
+      component: () => import(/* webpackChunkName: "hiscores" */ './views/Hiscores.vue')
+    },
+    {
       path: '/guias',
       name: 'guides.list',
       component: () => import(/* webpackChunkName: "guides-guidelist" */ './views/guides/GuideList.vue')
@@ -85,6 +90,7 @@ router.beforeEach((to, from, next) => {
       Vue.toasted.global.success('Você entrou na sua conta com Sucesso!')
     }).catch(() => {
       Vue.toasted.global.error('Houve um erro ao tentar entrar na sua conta')
+      localStorage.removeItem('TOKEN')
     })
   }
 

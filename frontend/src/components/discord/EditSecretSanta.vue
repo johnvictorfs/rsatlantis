@@ -153,8 +153,8 @@
 <script lang="ts">
 import { Vue, Prop } from 'vue-property-decorator'
 import Component from 'vue-class-component'
-import moment from 'moment'
-import 'moment/locale/pt-br'
+// import moment from 'moment'
+// import 'moment/locale/pt-br'
 
 import { Discord } from '@/types'
 import api from '@/api'
@@ -215,13 +215,15 @@ export default class EditSecretSanta extends Vue {
 
       if (this.secretSantaStatus.startDate) {
         const startDate = new Date(this.secretSantaStatus.startDate)
-        this.startTime = moment(startDate, '', 'pt').format('HH:mm')
+        // this.startTime = moment(startDate, '', 'pt').format('HH:mm')
+        this.startTime = 'startTime'
         this.startDate = startDate.toISOString().substr(0, 10)
       }
 
       if (this.secretSantaStatus.endDate) {
         const endDate = new Date(this.secretSantaStatus.endDate)
-        this.endTime = moment(endDate, '', 'pt').format('HH:mm')
+        // this.endTime = moment(endDate, '', 'pt').format('HH:mm')
+        this.endTime = 'endTime'
         this.endDate = endDate.toISOString().substr(0, 10)
       }
 

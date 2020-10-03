@@ -29,7 +29,7 @@ class CreateClanMemberTestCase(APITestCase):
     def test_add_member_no_auth(self):
         self.client.logout()
         response = self.client.post(reverse('clanmember-list'), data=self.data)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_add_member_auth(self):
         self.client.login(username='user', password='password')
@@ -138,7 +138,7 @@ class UpdateClanMemberTestCase(APITestCase):
     def test_update_member_no_auth(self):
         self.client.logout()
         response = self.client.patch(reverse('clanmember-detail', kwargs={'name': 'NRiver'}), self.details)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_member_auth(self):
         self.client.login(username='user', password='password')
@@ -173,7 +173,7 @@ class DeleteClanMemberTestCase(APITestCase):
     def test_update_member_no_auth(self):
         self.client.logout()
         response = self.client.delete(reverse('clanmember-detail', kwargs={'name': 'NRiver'}))
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_member_auth(self):
         self.client.login(username='user', password='password')

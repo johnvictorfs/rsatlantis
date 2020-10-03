@@ -9,12 +9,12 @@
         transition="scale-transition"
         class="mb-3"
       >
-        Não foi possível acessar o Banco de Dados de Membros do Clã. Tente
+        Não foi possível acessar os dados de Membros do Clã. Tente
         novamente mais tarde :(
       </v-alert>
 
       <v-card class="clan-list-card" v-if="!apiError">
-        <v-toolbar dark color="grey darken-2">
+        <v-toolbar dark color="grey darken-3">
           <v-toolbar-title class="clan-list-title">
             <h2 class="clan-list-title hidden-sm-and-down">
               Membros do Clã
@@ -27,8 +27,8 @@
           <v-spacer />
 
           <!-- Desktop Update Clans button -->
-          <v-btn small :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
-            <v-icon color="white" left small>
+          <v-btn :loading="loading" :disabled="loading" class="update-btn hidden-sm-and-down" @click="updateClanList" color="blue-grey darken-4">
+            <v-icon color="white" left>
               fa-sync-alt
             </v-icon>Atualizar
           </v-btn>
@@ -78,11 +78,8 @@
           <template v-slot:item.name="{ item }">
             <v-layout row class="text-xs-center">
               <v-flex xs1>
-                <v-avatar class="mt-2 mb-2 hidden-sm-and-down" tile>
-                  <v-img
-                    :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
-                    :alt="`avatar${item.name}`"
-                  />
+                <v-avatar class="hidden-sm-and-down ml-2" tile>
+                  <RunescapeChatHead :player-name="item.name" />
                 </v-avatar>
               </v-flex>
               <v-flex xs10 class="mt-3 mr-5">
@@ -92,8 +89,10 @@
           </template>
           <template v-slot:item.translated_rank="{ item }">
             <div class="mr-4">
-              <img :src="getRankIcon(item.rank)" :alt="`rank_${item.rank}`">
-              {{ item.translated_rank }}
+              <img style="vertical-align: middle;" :src="getRankIcon(item.rank)" :alt="`rank_${item.rank}`">
+              <span>
+                {{ item.translated_rank }}
+              </span>
             </div>
           </template>
           <template v-slot:progress>
@@ -121,7 +120,11 @@ import Component from 'vue-class-component'
 import api from '@/api'
 import { IPlayer } from '@/types'
 
-@Component({})
+const RunescapeChatHead = () => import('@/components/RunescapeChatHead.vue')
+
+@Component({
+  components: { RunescapeChatHead }
+})
 export default class ClanList extends Vue {
   loading = false
   apiError = false
@@ -247,7 +250,7 @@ export default class ClanList extends Vue {
 }
 
 .light-grey-background {
-  background: #757575;
+  background: #3a3939;
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
 }
