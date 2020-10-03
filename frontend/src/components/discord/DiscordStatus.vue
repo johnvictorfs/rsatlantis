@@ -46,7 +46,7 @@
 
         <template #admin-actions>
           <v-dialog v-model="disableRaidsModal" max-width="500">
-            <template #activator="data">
+            <template>
               <v-tooltip bottom>
                 <template #activator="{ on }">
                   <v-btn icon fab small dark v-on="on" @click.stop="disableRaidsModal = true">
@@ -86,7 +86,7 @@
 
         <template #admin-actions>
           <v-dialog v-model="enableRaidsModal" max-width="500">
-            <template #activator="data">
+            <template>
               <v-tooltip bottom>
                 <template #activator="{ on }">
                   <v-btn icon fab small dark v-on="on" @click.stop="enableRaidsModal = true">
@@ -219,7 +219,7 @@
           </v-tooltip>
 
           <v-dialog v-model="disableSecretSantaModal" max-width="500px">
-            <template #activator="data">
+            <template>
               <v-tooltip bottom>
                 <template #activator="{ on }">
                   <v-btn
@@ -251,7 +251,7 @@
 
           <!-- Edit Secret Santa Modal -->
           <v-dialog v-model="editSecretSantaModal" scrollable max-width="500">
-            <template #activator="data">
+            <template>
               <v-tooltip bottom>
                 <template #activator="{ on }">
                   <v-btn
@@ -291,7 +291,7 @@
           </v-tooltip>
 
           <v-dialog v-model="enableSecretSantaModal" max-width="500">
-            <template #activator="data">
+            <template>
               <v-tooltip bottom>
                 <template #activator="{ on }">
                   <v-btn icon fab small dark v-on="on" @click.stop="enableSecretSantaModal = true">
