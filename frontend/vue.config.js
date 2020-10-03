@@ -19,7 +19,3 @@ module.rules = {
   test: /\.styl(us)?$/,
   use: ['vue-style-loader', 'css-loader', 'stylus-loader']
 }
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports.publicPath = '/static/'
-}
