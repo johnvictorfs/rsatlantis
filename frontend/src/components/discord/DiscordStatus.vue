@@ -327,8 +327,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import moment from 'moment'
-import 'moment/locale/pt-br'
+// import moment from 'moment'
+// import 'moment/locale/pt-br'
 
 import { Discord } from '@/types'
 import api from '@/api'
@@ -447,9 +447,11 @@ export default class DiscordStatus extends Vue {
 
       const formattedDate = new Date(date)
 
-      const timeLeft = moment(formattedDate, '', 'pt').fromNow()
+      return 'formattedDate'
 
-      return moment(formattedDate, '', 'pt').format('D [de] MMMM [às] HH:mm') + ', ' + timeLeft
+      // const timeLeft = moment(formattedDate, '', 'pt').fromNow()
+
+      // return moment(formattedDate, '', 'pt').format('D [de] MMMM [às] HH:mm') + ', ' + timeLeft
     }
 
     get isAdmin() {

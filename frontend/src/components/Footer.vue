@@ -1,15 +1,16 @@
 <template>
   <v-footer dark padless>
-    <v-card class="flex" text tile>
+    <v-card class="flex" text tile style="border: none;">
       <v-sparkline
         fill
         class="wave"
         :smooth="25"
-        :gradient="['#424242']"
+        :gradient="['#1e1e1e']"
         :line-width="4"
         :padding="0"
         :height="7"
         :value="[4, 3, 4, 5, 4, 5, 3, 4, 5, 4]"
+        style="background-color: #121212; border: none;"
       />
       <v-card-title>
         <v-row align="center" justify="center">
@@ -28,15 +29,15 @@
               {{ item.icon }}
             </v-icon>
           </v-btn>
-          <v-btn icon>
-            <a :href="clanUrl" target="_blank" style="text-decoration: none;">
+          <!-- <v-btn icon :ref="clanUrl"> -->
+          <!-- <a :href="clanUrl" target="_blank" style="text-decoration: none;">
               <RunescapeIcon />
-            </a>
-          </v-btn>
+            </a> -->
+          <!-- </v-btn> -->
         </v-row>
       </v-card-title>
       <v-card-actions class="blue darken-1 justify-center">
-        <strong>&copy;{{ new Date().getFullYear() }} — Atlantis</strong>
+        <strong>&copy; {{ new Date().getFullYear() }} — Atlantis</strong>
         <v-btn icon>
           <a href="https://github.com/johnvictorfs/rsatlantis" target="_blank" style="text-decoration: none;">
             <v-icon color="white">fab fa-github</v-icon>
@@ -55,11 +56,11 @@
 
 <script>
 import api from '@/api'
-const RunescapeIcon = () => import('@/icons/Runescape.vue')
+// const RunescapeIcon = () => import('@/icons/Runescape.vue')
 
 export default {
   name: 'Footer',
-  components: { RunescapeIcon },
+  // components: { RunescapeIcon },
   data: () => ({
     apiDocsUrl: api.docs.redoc(),
     clanUrl: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
@@ -78,7 +79,7 @@ export default {
       },
       {
         icon: 'fab fa-whatsapp',
-        path: 'https://chat.whatsapp.com/DlsVHmXyrS49z823VJTtOT',
+        path: 'https://chat.whatsapp.com/H9EnoOCot8dG1hv5f5f6cP',
         color: '#4fce5d',
         colorUse: ''
       },
@@ -86,6 +87,12 @@ export default {
         icon: 'fab fa-youtube',
         path: 'https://www.youtube.com/channel/UCecHF0mm4_wxlF-Ef_NWClQ/',
         color: '#ef4c4c',
+        colorUse: ''
+      },
+      {
+        icon: '$runescape',
+        path: 'http://services.runescape.com/m=clan-home/clan/Atlantis',
+        color: '#38738f',
         colorUse: ''
       }
     ]

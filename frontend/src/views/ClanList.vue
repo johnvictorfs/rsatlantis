@@ -9,7 +9,7 @@
         transition="scale-transition"
         class="mb-3"
       >
-        Não foi possível acessar o Banco de Dados de Membros do Clã. Tente
+        Não foi possível acessar os dados de Membros do Clã. Tente
         novamente mais tarde :(
       </v-alert>
 

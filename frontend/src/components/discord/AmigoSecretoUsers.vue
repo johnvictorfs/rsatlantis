@@ -192,7 +192,14 @@ export default class AmigoSecretoUsers extends Vue {
 $rs-icon-size: 19px;
 
 .rs-icon {
-  height: $rs-icon-size;
-  width: $rs-icon-size;
+  svg {
+    &:hover {
+      .background {
+        transition: 0.3s;
+
+        fill: #38738f !important;
+      }
+    }
+  }
 }
 </style>
