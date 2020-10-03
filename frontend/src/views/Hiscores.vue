@@ -1,9 +1,9 @@
 <template>
   <v-layout>
     <v-container>
-      <v-row justify="end">
+      <v-row justify="center">
         <v-col xs="12" sm="10" md="8" lg="8" xl="6">
-          <DiscordStatus />
+          <ClueHiscores />
         </v-col>
       </v-row>
     </v-container>
@@ -14,11 +14,10 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
-const DiscordStatus = () => import('@/components/discord/DiscordStatus.vue')
 const ClueHiscores = () => import('@/components/hiscores/ClueHiscores.vue')
 
 @Component({
-  components: { DiscordStatus, ClueHiscores }
+  components: { ClueHiscores }
 })
-export default class HomePage extends Vue {}
+export default class Hiscores extends Vue {}
 </script>

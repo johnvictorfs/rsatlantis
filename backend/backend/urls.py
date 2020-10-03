@@ -14,11 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from discord.api import views as discord_views
-from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
-from django.urls import path, re_path
-from django.views.generic import TemplateView
+from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from guides.api import views as guide_views
@@ -66,10 +64,3 @@ urlpatterns += [
     path('api/discord_oauth/user/', discord_views.DiscordUserOauthView.as_view()),
     path('api/', include(router.urls))
 ]
-
-if settings.DEBUG:
-    import debug_toolbar
-
-    urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
-
-urlpatterns += [re_path(r'^.*$', TemplateView.as_view(template_name='application.html'), name='app')]

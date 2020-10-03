@@ -5,6 +5,8 @@ import UserService from '@/api/users'
 import PlayerService from '@/api/players'
 import DiscordService from '@/api/discord'
 
+import store from '../store'
+
 class ApiDocs {
   baseURL: string
 
@@ -42,6 +44,12 @@ export class Api {
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFToken'
     })
+
+    const token = localStorage.getItem('TOKEN')
+
+    if (token) {
+      this.axios.defaults.headers.common['Authorization'] = `Token ${token}`
+    }
 
     // API Routes Services
     this.guides = new GuideService(this)

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import Service from '@/api/service'
-import { Api } from '@/api'
 import { IUser, IGuide } from '@/types'
 import { formatError } from '@/helpers/errors'
 
@@ -71,6 +70,7 @@ export default class UserService extends Service {
       const { data } = await this.api.axios.post('auth/login', { username, password })
 
       localStorage.setItem('TOKEN', data.key)
+      this.api.axios.defaults.headers.common['Authorization'] = `Token ${data.key}`
       Vue.toasted.global.success('Você entrou na sua conta com sucesso!')
 
       return data.key
@@ -89,6 +89,9 @@ export default class UserService extends Service {
       Vue.toasted.global.success('Você saiu da sua conta com sucesso')
     } catch (error) {
       Vue.toasted.global.error(formatError(error))
+    } finally {
+      localStorage.removeItem('TOKEN')
+      this.api.axios.defaults.headers.common['Authorization'] = null
     }
   }
 
