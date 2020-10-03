@@ -188,7 +188,7 @@
 
         <template #user-actions>
           <v-row justify="center">
-            <v-btn outlined small class="mb-2 mr-2">
+            <v-btn outlined small class="mb-2 mr-2" disabled>
               Entrar
               <v-icon right small>
                 fas fa-plus
@@ -197,7 +197,7 @@
 
             <v-tooltip bottom>
               <template #activator="{ on }">
-                <v-btn rounded outlined small v-on="on">
+                <v-btn rounded outlined small v-on="on" disabled>
                   <v-icon small>
                     fas fa-info
                   </v-icon>
