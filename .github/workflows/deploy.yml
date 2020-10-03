@@ -23,7 +23,6 @@ jobs:
           VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
 
       - name: Deploy to Firebase
-        working-directory: ./frontend
         uses: w9jds/firebase-action@master
         with:
           args: deploy
