@@ -110,10 +110,6 @@ export default class Toolbar extends Vue {
   font-family: "Roboto Condensed", "Courier New", Courier, monospace;
 }
 
-.app-bar {
-  z-index: 999 !important;
-}
-
 .shadow-hover:hover {
   box-shadow: 0 7px 10px rgba(0,0,0,0.25), 0 7px 7px rgba(0,0,0,0.22);
 }
