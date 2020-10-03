@@ -2,7 +2,7 @@
   <v-app>
     <Toolbar :toolbar-items="filteredToolbarItems" :sidebar-items="filteredSidebarItems" />
 
-    <v-content>
+    <v-main>
       <v-container fluid class="mb-3">
         <Loading />
 
@@ -10,7 +10,7 @@
           <router-view />
         </transition>
       </v-container>
-    </v-content>
+    </v-main>
 
     <Footer />
   </v-app>

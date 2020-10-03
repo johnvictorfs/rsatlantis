@@ -120,7 +120,7 @@
         :admin-actions="isAdmin"
         color="primary"
         icon="fas fa-user"
-        v-if="users.length > 0 && !errors.users"
+        v-if="users && user.length > 0 && !errors.users"
       >
         <template #content>
           Membros Autenticados: {{ users.length }}
@@ -138,17 +138,17 @@
         </template>
       </StatusCard>
 
-      <!-- Nenhum Membro Autenticado -->
-      <StatusCard color="error" icon="fas fa-user" v-else-if="users.length === 0 && !errors.users">
-        <template #content>
-          Nenhum Membro Autenticado
-        </template>
-      </StatusCard>
-
       <!-- Erro Membros Autenticados -->
       <StatusCard color="error" icon="fas fa-user" v-else-if="errors.users">
         <template #content>
           Erro ao atualizar informações de Membros Autenticados
+        </template>
+      </StatusCard>
+
+      <!-- Nenhum Membro Autenticado -->
+      <StatusCard color="error" icon="fas fa-user" v-else-if="users && users.length === 0 && !errors.users">
+        <template #content>
+          Nenhum Membro Autenticado
         </template>
       </StatusCard>
 
@@ -345,7 +345,7 @@ const EditSecretSanta = () => import('@/components/discord/EditSecretSanta.vue')
 export default class DiscordStatus extends Vue {
     raidsStatus: Discord['RaidsStatus'] | null = null
 
-    users: Discord['DiscordUser'][] = []
+    users: Discord['DiscordUser'][] = null
 
     secretSanta: Discord['SecretSantaStatus'] | null = null
 

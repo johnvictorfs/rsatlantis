@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col xs="12" sm="8" md="8" lg="5" xl="5">
+      <v-col xs="12" sm="8" md="8" lg="8" xl="8">
         <v-card class="elevation-12 login-card">
           <v-toolbar dark color="green">
             <v-toolbar-title>
@@ -10,12 +10,11 @@
 
             <v-spacer />
 
-            <v-btn small color="#7289da" @click="loginWithDiscord">
+            <v-btn color="#7289da" @click="loginWithDiscord">
               <v-icon left>
                 fab fa-discord
               </v-icon>
               Entrar com Discord
-              <!-- <v-img height="28" width="128" src="@/assets/images/discord_logo.png" /> -->
             </v-btn>
           </v-toolbar>
 
@@ -46,7 +45,7 @@
                 required
               />
 
-              <v-container>
+              <v-container class="mt-4">
                 <v-toolbar color="#2d2e2d" class="atl-round-toolbar hidden-sm-and-down">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
@@ -72,6 +71,7 @@
                     </v-btn>
                   </v-flex>
                 </v-layout>
+
                 <v-layout row class="hidden-md-and-up">
                   <v-btn color="primary" text small :to="{name: 'register'}">
                     Não tenho uma Conta
