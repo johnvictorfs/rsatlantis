@@ -8,7 +8,15 @@
       </router-link>
     </v-toolbar-title>
 
-    <v-btn outlined v-for="item in sidebarItems" :key="item.text" class="hidden-sm-and-down ml-2" :color="item.color" :to="item.path">
+    <v-btn
+      outlined
+      v-for="item in sidebarItems"
+      :key="item.text"
+      :disabled="item.disabled"
+      class="hidden-sm-and-down ml-2"
+      :color="item.color"
+      :to="item.path"
+    >
       <v-icon left :color="item.color">
         {{ item.icon }}
       </v-icon>

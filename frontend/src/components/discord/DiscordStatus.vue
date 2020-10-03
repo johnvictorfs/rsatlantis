@@ -120,7 +120,7 @@
         :admin-actions="isAdmin"
         color="primary"
         icon="fas fa-user"
-        v-if="users && user.length > 0 && !errors.users"
+        v-if="users && users.length > 0 && !errors.users"
       >
         <template #content>
           Membros Autenticados: {{ users.length }}
@@ -345,7 +345,7 @@ const EditSecretSanta = () => import('@/components/discord/EditSecretSanta.vue')
 export default class DiscordStatus extends Vue {
     raidsStatus: Discord['RaidsStatus'] | null = null
 
-    users: Discord['DiscordUser'][] = null
+    users: Discord['DiscordUser'][] | null = null
 
     secretSanta: Discord['SecretSantaStatus'] | null = null
 

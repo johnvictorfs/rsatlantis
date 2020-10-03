@@ -13,50 +13,48 @@
           fa-sync-alt
         </v-icon>
       </v-btn>
+
+      <template v-slot:extension>
+        <v-tabs v-model="tab" align-with-title>
+          <v-tabs-slider color="success" />
+
+          <v-tab v-for="clueType in data" :key="clueType.type">
+            <v-img class="mr-1" height="24" width="24" :src="clueType.image" />
+            {{ clueType.type }}
+          </v-tab>
+        </v-tabs>
+      </template>
     </v-toolbar>
 
-    <v-card-text>
-      <v-btn
-        small
-        v-for="(clueType, clueTypeIndex) in data"
-        :key="clueType.type"
-        :disabled="typeSelected === clueTypeIndex"
-        @click="typeSelected = clueTypeIndex"
-        class="mr-1"
-        :color="clueType.color"
-      >
-        <v-img class="mr-1" height="24" width="24" :src="clueType.image" />
-        {{ clueType.type }}
-      </v-btn>
-      <v-list>
-        <v-list-item-group color="primary">
-          <v-subheader>Ranking de Pergaminhos de Dica {{ data[typeSelected].type }}</v-subheader>
-          <v-list-item
-            v-for="(player, i) in data[typeSelected].players"
-            :key="i"
-          >
-            <v-list-item-avatar>
-              <v-avatar size="28" color="success">
-                <span class="white--text">{{ player.clan_rank }}</span>
-              </v-avatar>
-              <v-img class="ml-2" :src="`https://secure.runescape.com/m=avatar-rs/${player.name.replace(/\s/g, '_')}/chat.png`" />
-            </v-list-item-avatar>
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="clueType in data" :key="clueType.type">
+        <v-card flat>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item v-for="(player, i) in clueType.players" :key="i">
+                <v-list-item-avatar>
+                  <v-avatar size="48" color="primary darken-2">
+                    <v-img max-width="80%" max-height="80%" :src="`https://secure.runescape.com/m=avatar-rs/${player.name.replace(/\s/g, '_')}/chat.png`" />
+                  </v-avatar>
+                </v-list-item-avatar>
 
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ player.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                <strong>Quantidade:</strong> {{ player.count }}
-              </v-list-item-subtitle>
-              <v-list-item-subtitle>
-                <strong>Ranking Global:</strong> {{ player.global_rank }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card-text>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ player.name }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    <strong>Quantidade:</strong> {{ commaSeparatedVal(player.count) }}
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle>
+                    <strong>Ranking Global:</strong> {{ commaSeparatedVal(player.global_rank) }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
   </v-card>
 </template>
 
@@ -166,13 +164,26 @@ const lastUpdated = new Date()
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+import { Nullable } from '@/types'
+
 @Component({})
 export default class ClueHiscores extends Vue {
   data = mockData;
   typeSelected = 0;
+  tab: Nullable<number> = null;
 
   mounted() {
     console.log(this.data)
+  }
+
+  commaSeparatedVal(num: number | string): string {
+    /**
+     * Formats numbers into Comma-separated numbers (as a string)
+     *
+     * 123456789 -> '123,456,789'
+     * '123456789' -> '123,456,789'
+     */
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 }
 </script>

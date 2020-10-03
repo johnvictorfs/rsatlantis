@@ -8,4 +8,5 @@ export interface ToolbarItem {
   color: string
   auth: boolean | 'any'
   icon: string
+  disabled?: boolean
 }

@@ -34,6 +34,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "auth-register" */ './views/auth/Register.vue')
     },
     {
+      path: '/rankings',
+      name: 'hiscores',
+      component: () => import(/* webpackChunkName: "hiscores" */ './views/Hiscores.vue')
+    },
+    {
       path: '/guias',
       name: 'guides.list',
       component: () => import(/* webpackChunkName: "guides-guidelist" */ './views/guides/GuideList.vue')
