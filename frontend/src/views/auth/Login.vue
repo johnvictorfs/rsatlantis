@@ -10,7 +10,7 @@
 
             <v-spacer />
 
-            <v-btn color="#7289da" @click="loginWithDiscord">
+            <v-btn color="#7289da" @click="loginWithDiscord" disabled>
               <v-icon left>
                 fab fa-discord
               </v-icon>

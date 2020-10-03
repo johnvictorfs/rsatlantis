@@ -9,4 +9,5 @@ export interface ToolbarItem {
   auth: boolean | 'any'
   icon: string
   disabled?: boolean
+  beta?: boolean
 }

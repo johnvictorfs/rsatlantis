@@ -4,7 +4,7 @@
 
     <v-toolbar-title>
       <router-link :to="{name: 'home'}">
-        <v-img src="@/assets/images/atlantis_logo.png" class="mt-1" />
+        <v-img src="@/assets/images/atlantis_logo.png" />
       </router-link>
     </v-toolbar-title>
 
@@ -21,6 +21,17 @@
         {{ item.icon }}
       </v-icon>
       {{ item.text }}
+
+      <v-chip
+        disabled
+        v-if="item.beta"
+        color="success"
+        outlined
+        x-small
+        class="ml-2"
+      >
+        Beta
+      </v-chip>
     </v-btn>
 
     <v-spacer />

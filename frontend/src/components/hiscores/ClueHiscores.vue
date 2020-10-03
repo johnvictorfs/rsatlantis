@@ -8,7 +8,7 @@
         Pergaminhos de Dicas
       </v-toolbar-title>
 
-      <v-btn icon class="ml-2 mb-2">
+      <v-btn icon class="ml-2 mb-2" disabled>
         <v-icon height="18" width="18">
           fa-sync-alt
         </v-icon>
@@ -18,7 +18,7 @@
         <v-tabs v-model="tab" align-with-title>
           <v-tabs-slider color="success" />
 
-          <v-tab v-for="clueType in data" :key="clueType.type">
+          <v-tab v-for="clueType in data" :key="clueType.type" :disabled="clueType.disabled">
             <v-img class="mr-1" height="24" width="24" :src="clueType.image" />
             {{ clueType.type }}
           </v-tab>
@@ -34,7 +34,7 @@
               <v-list-item v-for="(player, i) in clueType.players" :key="i">
                 <v-list-item-avatar>
                   <v-avatar size="48" color="primary darken-2">
-                    <v-img max-width="80%" max-height="80%" :src="`https://secure.runescape.com/m=avatar-rs/${player.name.replace(/\s/g, '_')}/chat.png`" />
+                    <RunescapeChatHead :player-name="player.name" />
                   </v-avatar>
                 </v-list-item-avatar>
 
@@ -59,6 +59,8 @@
 </template>
 
 <script lang="ts">
+const RunescapeChatHead = () => import('@/components/RunescapeChatHead.vue')
+
 const mockData = [
   {
     type: 'Mestres',
@@ -141,21 +143,24 @@ const mockData = [
     name: 'hard',
     image: 'https://runescape.wiki/images/7/7a/Sealed_clue_scroll_%28hard%29.png?64dd1',
     color: '#d19630',
-    players: []
+    players: [],
+    disabled: true
   },
   {
     type: 'Médios',
     name: 'medium',
     image: 'https://runescape.wiki/images/5/5d/Sealed_clue_scroll_%28medium%29.png?577ea',
     color: '#c7bf20',
-    players: []
+    players: [],
+    disabled: true
   },
   {
     type: 'Facéis',
     name: 'easy',
     image: 'https://runescape.wiki/images/1/1c/Sealed_clue_scroll_%28easy%29.png?c6759',
     color: '#2ac938',
-    players: []
+    players: [],
+    disabled: true
   }
 ]
 
@@ -166,7 +171,9 @@ import Component from 'vue-class-component'
 
 import { Nullable } from '@/types'
 
-@Component({})
+@Component({
+  components: { RunescapeChatHead }
+})
 export default class ClueHiscores extends Vue {
   data = mockData;
   typeSelected = 0;

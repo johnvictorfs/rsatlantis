@@ -90,6 +90,7 @@ router.beforeEach((to, from, next) => {
       Vue.toasted.global.success('Você entrou na sua conta com Sucesso!')
     }).catch(() => {
       Vue.toasted.global.error('Houve um erro ao tentar entrar na sua conta')
+      localStorage.removeItem('TOKEN')
     })
   }
 

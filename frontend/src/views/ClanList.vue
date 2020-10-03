@@ -79,12 +79,7 @@
             <v-layout row class="text-xs-center">
               <v-flex xs1>
                 <v-avatar class="hidden-sm-and-down ml-2" tile>
-                  <v-img
-                    :aspect-ratio="1/2"
-                    :width="48"
-                    :src="`https://secure.runescape.com/m=avatar-rs/${item.name.replace(/\s/g, '_')}/chat.png`"
-                    :alt="`avatar${item.name}`"
-                  />
+                  <RunescapeChatHead :player-name="item.name" />
                 </v-avatar>
               </v-flex>
               <v-flex xs10 class="mt-3 mr-5">
@@ -125,7 +120,11 @@ import Component from 'vue-class-component'
 import api from '@/api'
 import { IPlayer } from '@/types'
 
-@Component({})
+const RunescapeChatHead = () => import('@/components/RunescapeChatHead.vue')
+
+@Component({
+  components: { RunescapeChatHead }
+})
 export default class ClanList extends Vue {
   loading = false
   apiError = false

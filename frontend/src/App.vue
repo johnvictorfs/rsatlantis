@@ -36,9 +36,9 @@ export default class App extends Vue {
   ]
   sidebarItems: Array<ToolbarItem> = [
     { text: 'Novo Guia', path: { name: 'guides.new' }, color: 'success', auth: true, icon: 'fa-plus-square' },
-    { text: 'Guias', path: { name: 'guides.list' }, color: '#7ba658', auth: 'any', icon: 'fa-list', disabled: true },
+    { text: 'Guias', path: { name: 'guides.list' }, color: '#7ba658', auth: 'any', icon: 'fa-list' },
     { text: 'Membros', path: { name: 'clan-list' }, color: 'primary', auth: 'any', icon: 'fa-users' },
-    { text: 'Rankings', path: { name: 'hiscores' }, color: 'purple darken-1', auth: 'any', icon: 'fa-chart-bar' }
+    { text: 'Rankings', path: { name: 'hiscores' }, color: 'purple darken-1', auth: 'any', icon: 'fa-chart-bar', beta: true }
   ]
 
   async created() {
