@@ -1,0 +1,31 @@
+name: deploy_to_firebase_hosting
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+ deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: cd to Frontend directory
+        run: cd frontend
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build for Production
+        run: npm run build
+        env:
+          VUE_APP_API_URL: ${{ secrets.VUE_APP_API_URL }}
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
