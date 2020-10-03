@@ -4,6 +4,9 @@ sudo: required
 
 dist: xenial
 
+node_js:
+  - 10
+
 services:
   - postgresql
 
