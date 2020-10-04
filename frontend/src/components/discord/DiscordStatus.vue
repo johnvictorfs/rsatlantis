@@ -41,7 +41,7 @@
         v-if="raidsStatus && raidsStatus.notifications && !errors.raidsStatus"
       >
         <template #content>
-          Notificações de Raids Ativas
+          Times de Raids Ativos
         </template>
 
         <template #admin-actions>
@@ -79,7 +79,7 @@
       <!-- Notificações Raids Desabilitadas -->
       <StatusCard color="error" icon="mdi-sword-cross" :admin-actions="isAdmin" v-else-if="raidsStatus && !raidsStatus.notifications && !errors.raidsStatus">
         <template #content>
-          Notificações de Raids Desabilitadas
+          Times de Raids desabilitados
         </template>
 
         <template #admin-actions>
