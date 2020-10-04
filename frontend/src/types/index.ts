@@ -6,13 +6,15 @@ export * from './discord'
 
 export type Nullable<T> = T | null;
 
+type ClanType = 'off-game' | 'in-game'
+
 export interface ClanEvent {
   id: number
   title: string
-  type: 'off-game' | 'in-game'
-  image: string
+  type: ClanType | string
+  image?: string | null
   beneficiente: boolean
-  description?: string
-  date: Date
-  organizer?: string
+  description?: string | null
+  date: string
+  organizer?: string | null
 }

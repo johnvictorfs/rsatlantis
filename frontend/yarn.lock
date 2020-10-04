@@ -9491,6 +9491,13 @@ vue-cli-plugin-vuetify@~2.0.7:
     semver "^7.1.2"
     shelljs "^0.8.3"
 
+vue-cli-plugin-webpack-bundle-analyzer@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-cli-plugin-webpack-bundle-analyzer/-/vue-cli-plugin-webpack-bundle-analyzer-2.0.0.tgz#160fbd492a673bae1be3a9f714db12218678fa01"
+  integrity sha512-zOsxSaJC0+yYqnJNsxvGJOgtso8kL2ejlsx3p614LTNFSzaxc+KJ8AsBb712Yw19eVzhCXZrCpnhRad3kRa+aw==
+  dependencies:
+    webpack-bundle-analyzer "^3.6.0"
+
 vue-clipboard2@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/vue-clipboard2/-/vue-clipboard2-0.3.1.tgz#6e551fb7bd384889b28b0da3b12289ed6bca4894"
@@ -9643,7 +9650,7 @@ webidl-conversions@^2.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-2.0.1.tgz#3bf8258f7d318c7443c36f2e169402a1a6703506"
   integrity sha1-O/glj30xjHRDw28uFpQCoaZwNQY=
 
-webpack-bundle-analyzer@^3.8.0:
+webpack-bundle-analyzer@^3.6.0, webpack-bundle-analyzer@^3.8.0, webpack-bundle-analyzer@^3.9.0:
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-3.9.0.tgz#f6f94db108fb574e415ad313de41a2707d33ef3c"
   integrity sha512-Ob8amZfCm3rMB1ScjQVlbYYUEJyEjdEtQ92jqiFUYt5VkEeO2v5UMbv49P/gnmCZm3A6yaFQzCBvpZqN4MUsdA==

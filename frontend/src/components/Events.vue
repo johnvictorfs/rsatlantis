@@ -71,9 +71,10 @@ export default class Events extends Vue {
   eventos: ClanEvent[] = mockEventos
 
   get formattedEvents() {
+    const now = new Date()
+
     // @ts-ignore  
     return this.eventos.sort((a, b) => new Date(a.date) - new Date(b.date)).filter(evento => {
-      const now = new Date()
       const eventoDate = new Date(evento.date)
 
       return !isAfter(now, eventoDate)
@@ -93,12 +94,7 @@ export default class Events extends Vue {
   formattedDate(dateStr: string) {
     const date = new Date(dateStr)
 
-    const distance = formatDistance(
-      date,
-      new Date(),
-      { addSuffix: true, locale: ptBR }
-    )
-
+    const distance = formatDistance(date, new Date(), { addSuffix: true, locale: ptBR })
     const dateFormatted = format(date, 'dd/MM - HH:mm', { locale: ptBR })
 
     return `${dateFormatted}, ${distance}`

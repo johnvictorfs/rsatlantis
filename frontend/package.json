@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "report": "vue-cli-service build --report --modern",
     "test": "echo \"No tests to run.\""
@@ -51,8 +51,10 @@
     "vue-class-component": "^7.1.0",
     "vue-cli-plugin-axios": "^0.0.4",
     "vue-cli-plugin-vuetify": "~2.0.7",
+    "vue-cli-plugin-webpack-bundle-analyzer": "~2.0.0",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.2.2",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-bundle-tracker": "^0.4.3"
   },
   "gitHooks": {

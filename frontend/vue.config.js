@@ -1,11 +1,14 @@
-const BundleTracker = require('webpack-bundle-tracker')
-
 module.exports = {
   css: {
     loaderOptions: {
       scss: {
         data: '@import "@/scss/main.scss";'
       }
+    }
+  },
+  pluginOptions: {
+    webpackBundleAnalyzer: {
+      openAnalyzer: false
     }
   }
 }
