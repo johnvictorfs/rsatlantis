@@ -1,4 +1,4 @@
-name: deploy_to_firebase_hosting
+name: Firebase Deploy
 
 on:
   push:
@@ -28,4 +28,3 @@ jobs:
           args: deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-

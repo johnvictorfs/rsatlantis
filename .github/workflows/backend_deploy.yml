@@ -1,0 +1,25 @@
+name: Backend Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+ deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Gunicorn + Nginx Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd rsatlantis/backend
+            git pull origin master
+            poetry install
+            poetry run python manage.py migrate
+            sudo service gunicorn restart
+            sudo service nginx restart
