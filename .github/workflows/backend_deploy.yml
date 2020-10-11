@@ -19,7 +19,7 @@ jobs:
           script: |
             cd rsatlantis/backend
             git pull origin master
-            poetry install
-            poetry run python manage.py migrate
-            sudo service gunicorn restart
-            sudo service nginx restart
+            ~/.poetry/bin/poetry install
+            ~/.poetry/bin/poetry run python manage.py migrate
+            sudo /usr/sbin/service gunicorn restart
+            sudo /usr/sbin/service nginx restart
