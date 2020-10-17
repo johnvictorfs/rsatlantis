@@ -1,6 +1,0 @@
-# https://help.github.com/en/articles/about-code-owners
-
-* @johnvictorfs
-
-backend/* @johnvictorfs @Guilherme-Vasconcelos
-frontend/* @johnvictorfs @Coguu 

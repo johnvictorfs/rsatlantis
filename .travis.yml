@@ -18,7 +18,6 @@ before_script:
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=backend.settings
-  - cd backend/
   - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_PREVIEW=1 python
   - source $HOME/.poetry/env
   - poetry --version
@@ -30,8 +29,3 @@ script:
   - poetry run python manage.py test
   - isort -sp setup.cfg -rc --atomic backend
   - flake8 --config=setup.cfg
-  - cd ../frontend
-  - yarn config set ignore-engines true
-  - yarn install
-  - yarn lint
-  - yarn test
