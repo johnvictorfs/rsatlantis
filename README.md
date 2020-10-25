@@ -19,6 +19,7 @@ Continuous Integration with [Travis-CI](https://travis-ci.com/) and GitHub Actio
 ---
 
 ![image](https://user-images.githubusercontent.com/37747572/95692336-70142f80-0bfb-11eb-9b24-ab79fa1169b5.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjohnvictorfs%2Frsatlantis.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjohnvictorfs%2Frsatlantis?ref=badge_shield)
 
 ![image](https://user-images.githubusercontent.com/37747572/95692118-7e158080-0bfa-11eb-95fb-829428ba0357.png)
 
@@ -33,3 +34,6 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md)
 ## License
 
 Refer to [LICENSE](LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjohnvictorfs%2Frsatlantis.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjohnvictorfs%2Frsatlantis?ref=badge_large)
