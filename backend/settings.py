@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'guides',
     'users',
     'runescape',
-    'discord',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -51,7 +50,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'drf_yasg',
     'dynamic_preferences',
-    'dynamic_preferences.users.apps.UserPreferencesConfig'
+    'dynamic_preferences.users.apps.UserPreferencesConfig',
+    'atlantisbot_api'
 ]
 
 MIDDLEWARE = [
