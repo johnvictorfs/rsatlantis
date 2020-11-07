@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'guides',
     'users',
     'runescape',
-    'discord',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -51,10 +50,13 @@ INSTALLED_APPS = [
     'django_extensions',
     'drf_yasg',
     'dynamic_preferences',
-    'dynamic_preferences.users.apps.UserPreferencesConfig'
+    'dynamic_preferences.users.apps.UserPreferencesConfig',
+    'atlantisbot_api'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -64,8 +66,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
