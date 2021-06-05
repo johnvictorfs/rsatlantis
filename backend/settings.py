@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Travis-ci Database
 # https://docs.travis-ci.com/user/database-setup/#postgresql
-if 'TRAVIS' in os.environ:
+if 'CI' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'travis_ci_test',
+            'NAME': 'runner',
             'USER': 'postgres',
             'PASSWORD': '',
             'HOST': 'localhost',
