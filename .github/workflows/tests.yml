@@ -34,6 +34,8 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Poetry Config
         run: poetry config virtualenvs.in-project true
 
       - uses: actions/cache@v2
@@ -42,7 +44,14 @@ jobs:
           key: poetry-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install
+        run: |
+          poetry --version
+          poetry install
 
       - name: Run tests
         run: poetry run python manage.py test
+
+      - name: Lint
+        run: |
+          isort -sp setup.cfg -rc --atomic backend
+          flake8 --config=setup.cfg
