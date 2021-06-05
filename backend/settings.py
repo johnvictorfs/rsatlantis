@@ -98,8 +98,8 @@ if 'CI' in os.environ:
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'postgres',
-            'USER': 'runner',
-            'PASSWORD': '',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
             'HOST': 'localhost',
             'PORT': '',
         }
