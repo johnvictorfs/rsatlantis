@@ -9,7 +9,6 @@ from rest_framework.response import Response
 class GuideViewSet(viewsets.ModelViewSet):
     """
     # Guias
-    Another **test**
     """
     serializer_class = GuideSerializer
     lookup_field = 'slug'
