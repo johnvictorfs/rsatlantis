@@ -14,7 +14,7 @@ Back-end REST API made in Python with [Django](https://www.djangoproject.com) th
 
 Front-end SPA made with [Vue.js](https://vuejs.org/) and [Vuetify.js](https://github.com/vuetifyjs/vuetify).
 
-Continuous Integration with [Travis-CI](https://travis-ci.com/) and GitHub Actions.
+Continuous Integration with GitHub Actions.
 
 ---
 
