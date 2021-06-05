@@ -1,0 +1,62 @@
+name: Run Tests 
+
+on:
+  pull_request:
+    branches: [dev, master]
+
+jobs:
+ tests:
+    runs-on: ubuntu-latest
+    env:
+      RSATLANTIS_DJANGO_KEY: 'test_key'
+      CI: 'true'
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      max-parallel: 4
+      matrix:
+        db: [postgres]
+        python-version: [3.7]
+        poetry-version: [1.1.6]
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Poetry Config
+        run: poetry config virtualenvs.in-project true
+
+      - uses: actions/cache@v2
+        with:
+          path: .venv
+          key: poetry-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        run: |
+          poetry --version
+          poetry install
+
+      - name: Run tests
+        run: poetry run python manage.py test
+
+      - name: Lint
+        run: |
+          poetry run flake8 --config=setup.cfg
