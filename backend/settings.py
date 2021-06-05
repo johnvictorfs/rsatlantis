@@ -91,17 +91,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# Travis-ci Database
-# https://docs.travis-ci.com/user/database-setup/#postgresql
-if 'CI' in os.environ:
+# CI Database
+# https://docs.github.com/en/actions/guides/creating-postgresql-service-containers
+if os.environ.get('CI'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
+            'NAME': 'github_actions',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
             'HOST': 'localhost',
-            'PORT': '',
+            'PORT': '5432',
         }
     }
 
