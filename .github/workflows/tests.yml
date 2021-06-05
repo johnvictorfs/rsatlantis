@@ -59,5 +59,4 @@ jobs:
 
       - name: Lint
         run: |
-          isort -sp setup.cfg -rc --atomic backend
-          flake8 --config=setup.cfg
+          poetry run flake8 --config=setup.cfg
