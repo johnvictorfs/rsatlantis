@@ -16,7 +16,7 @@
   poetry install
   ```
 
-- Make sure you have two [PostgresQL databases](https://www.postgresql.org/docs/9.1/app-createdb.html) created and running locally
+- Make sure you have two [PostgreSQL databases](https://www.postgresql.org/docs/9.1/app-createdb.html) created and running locally
 
 - Create a settings file `/backend/local_settings.py` (git ignored file), make sure it is in the same directory as the already existing `settings.py` file (`/backend/settings.py`)
 
