@@ -4,7 +4,7 @@
 
   - [Frontend Repository](https://github.com/johnvictorfs/rsatlantis-client)
 - [Website](https://rsatlantis-9cd8a.web.app)
-- [API Docs](https://rsatlantis.tk/api/docs/redoc)
+- [API Docs](https://atlantis.jvfs.dev/api/docs/redoc)
 
 ---
 
