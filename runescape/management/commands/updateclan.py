@@ -12,7 +12,7 @@ class Command(BaseCommand):
         clan_list = self.parsed_clan_list(self.grab_clan_list())
 
         # Updating the details of every clan member in the database, or creating new entries for new Clan Members
-        for member_name, member_rank, member_exp in clan_list[1:]:
+        for member_name, member_rank, member_exp, _kills in clan_list[1:]:
             # Format of 'member': ['Clanmate', 'Clan Rank', 'Total XP', 'Kills']
             ClanMember.objects.update_or_create(
                 player_name=member_name,
