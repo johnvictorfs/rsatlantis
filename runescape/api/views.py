@@ -7,5 +7,5 @@ from runescape.models import ClanMember
 class ClanMemberViewSet(viewsets.ModelViewSet):
     serializer_class = ClanMemberSerializer
     lookup_field = 'name'
-    queryset = ClanMember.objects.all()
+    queryset = ClanMember.objects.filter(active=True)
     permission_classes = (ReadOnly,)
