@@ -25,6 +25,6 @@ class ClanMemberSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ClanMember
-        fields = ('url', 'name', 'exp', 'rank', 'translated_rank')
-        read_only_fields = ('url', 'name', 'exp', 'rank')
-        extra_kwargs = {'url': {'lookup_field': 'name'}}
+        fields = ('url', 'player_name', 'exp', 'rank', 'translated_rank')
+        read_only_fields = ('url', 'player_name', 'exp', 'rank')
+        extra_kwargs = {'url': {'lookup_field': 'player_name'}}

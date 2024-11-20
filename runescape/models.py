@@ -21,7 +21,8 @@ class ClanMember(models.Model):
         ('Owner', 'Líder')
     )
 
-    name = models.TextField(verbose_name='Nome', max_length=12, unique=True)
+    name = models.TextField(verbose_name='Nome', max_length=12, null=True)
+    player_name = models.CharField(verbose_name='Nome', max_length=12, unique=True, null=True)
     exp = models.FloatField()
     rank = models.TextField(choices=rank_choices)
     active = models.BooleanField(verbose_name='Ativo no Clã', default=True)

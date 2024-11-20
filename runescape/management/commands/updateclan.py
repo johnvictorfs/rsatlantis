@@ -15,7 +15,7 @@ class Command(BaseCommand):
         for member_name, member_rank, member_exp in clan_list[1:]:
             # Format of 'member': ['Clanmate', 'Clan Rank', 'Total XP', 'Kills']
             ClanMember.objects.update_or_create(
-                name=member_name,
+                player_name=member_name,
                 defaults={
                     'exp': member_exp,
                     'rank': member_rank,
@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
         # Setting clan members no longer in the clan (or changed names) as inactive
         for member in ClanMember.objects.all():
-            if member.name not in clan_name_list:
+            if member.player_name not in clan_name_list:
                 member.active = False
                 member.save()
 
