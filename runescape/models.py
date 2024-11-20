@@ -28,7 +28,7 @@ class ClanMember(models.Model):
     active = models.BooleanField(verbose_name='Ativo no Clã', default=True)
 
     def __str__(self):
-        return self.name
+        return self.player_name
 
     def is_in_clan(self) -> bool:
         """
@@ -99,7 +99,7 @@ class ClanMember(models.Model):
         Has to be parsed before usage with ClanMember.parse_player_details()
         """
         base_url = 'http://services.runescape.com/m=website-data/'
-        url = f'{base_url}playerDetails.ws?names=%5B%22{self.name}%22%5D&callback=jQuery000000000000000_0000000000&_=0'
+        url = f'{base_url}playerDetails.ws?names=%5B%22{self.player_name}%22%5D&callback=jQuery000000000000000_0000000000&_=0'
         r = requests.get(url)
 
         if r.status_code == 200:
